@@ -1,58 +1,58 @@
- <div class="topbar-custom">
-                <div class="container-fluid">
-                    <div class="d-flex justify-content-between">
-                        <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
-                            <li>
-                                <button class="button-toggle-menu nav-link">
-                                    <i data-feather="menu" class="noti-icon"></i>
-                                </button>
-                            </li>
-                            <li class="d-none d-lg-block">
-                                <h5 class="mb-0">Good Morning, Alex</h5>
-                            </li>
-                        </ul>
+<div class="topbar-custom">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between">
+            <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
+                <li>
+                    <button class="button-toggle-menu nav-link">
+                        <i data-feather="menu" class="noti-icon"></i>
+                    </button>
+                </li>
+                <li class="d-none d-lg-block">
+                    <h5 class="mb-0">Good Morning, Alex</h5>
+                </li>
+            </ul>
 
-                        <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
-                            <li class="d-none d-lg-block">
+            <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
+                <!-- <li class="d-none d-lg-block">
                                 <form class="app-search d-none d-md-block me-auto">
                                     <div class="position-relative topbar-search">
                                         <input type="text" class="form-control ps-4" placeholder="Search..." />
                                         <i class="mdi mdi-magnify fs-16 position-absolute text-muted top-50 translate-middle-y ms-2"></i>
                                     </div>
                                 </form>
-                            </li>
+                            </li> -->
 
-                            <!-- Button Trigger Customizer Offcanvas -->
-                            <li class="d-none d-sm-flex">
-                                <button type="button" class="btn nav-link" data-toggle="fullscreen">
-                                    <i data-feather="maximize" class="align-middle fullscreen noti-icon"></i>
-                                </button>
-                            </li>
+                <!-- Button Trigger Customizer Offcanvas -->
+                <li class="d-none d-sm-flex">
+                    <button type="button" class="btn nav-link" data-toggle="fullscreen">
+                        <i data-feather="maximize" class="align-middle fullscreen noti-icon"></i>
+                    </button>
+                </li>
 
-                            <!-- Light/Dark Mode Button Themes -->
-                            <li class="d-none d-sm-flex">
-                                <button type="button" class="btn nav-link" id="light-dark-mode">
-                                    <i data-feather="moon" class="align-middle dark-mode"></i>
-                                    <i data-feather="sun" class="align-middle light-mode"></i>
-                                </button>
-                            </li>
+                <!-- Light/Dark Mode Button Themes -->
+                <li class="d-none d-sm-flex">
+                    <button type="button" class="btn nav-link" id="light-dark-mode">
+                        <i data-feather="moon" class="align-middle dark-mode"></i>
+                        <i data-feather="sun" class="align-middle light-mode"></i>
+                    </button>
+                </li>
 
-                            <li class="dropdown notification-list topbar-dropdown">
+                <!-- <li class="dropdown notification-list topbar-dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                     <i data-feather="bell" class="noti-icon"></i>
                                     <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-lg">
-                                    <!-- item-->
-                                    <div class="dropdown-item noti-title">
+                                </a> -->
+                <!-- <div class="dropdown-menu dropdown-menu-end dropdown-lg"> -->
+                <!-- item-->
+                <!-- <div class="dropdown-item noti-title">
                                         <h5 class="m-0">
                                             <span class="float-end"><a href="" class="text-dark"><small>Clear All</small></a></span>Notification
                                         </h5>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="noti-scroll" data-simplebar>
-                                        <!-- item-->
-                                        <a href="javascript:void(0);"
+                <!-- <div class="noti-scroll" data-simplebar> -->
+                <!-- item-->
+                <!-- <a href="javascript:void(0);"
                                             class="dropdown-item notify-item text-muted link-primary active">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-12.jpg" class="img-fluid rounded-circle" alt="" />
@@ -64,10 +64,10 @@
                                             <p class="mb-0 user-msg">
                                                 <small class="fs-14">Completed <span class="text-reset">Improve workflow in Figma</span></small>
                                             </p>
-                                        </a>
+                                        </a> -->
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                <!-- item-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-2.jpg" class="img-fluid rounded-circle" alt="" />
                                             </div>
@@ -88,10 +88,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </a> -->
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                <!-- item-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-3.jpg" class="img-fluid rounded-circle" alt="" />
                                             </div>
@@ -104,10 +104,10 @@
                                                     <span class="text-primary">@Patryk</span> Please make sure that you're....
                                                 </p>
                                             </div>
-                                        </a>
+                                        </a> -->
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                <!-- item-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-8.jpg" class="img-fluid rounded-circle" alt="" />
                                             </div>
@@ -118,10 +118,10 @@
                                             <p class="mb-0 user-msg">
                                                 <small class="fs-14">Completed <span class="text-reset">Create new components</span></small>
                                             </p>
-                                        </a>
+                                        </a> -->
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                <!-- item-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-5.jpg" class="img-fluid rounded-circle" alt="" />
                                             </div>
@@ -132,10 +132,10 @@
                                             <p class="mb-0 user-msg">
                                                 <small class="fs-14">Completed<span class="text-reset">Improve workflow in React</span></small>
                                             </p>
-                                        </a>
+                                        </a> -->
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
+                <!-- item-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                             <div class="notify-icon">
                                                 <img src="assets/images/users/user-6.jpg" class="img-fluid rounded-circle" alt="" />
                                             </div>
@@ -149,49 +149,50 @@
                                                 </p>
                                             </div>
                                         </a>
-                                    </div>
+                                    </div> -->
 
-                                    <!-- All-->
-                                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">View all
+                <!-- All-->
+                <!-- <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">View all
                                         <i class="fe-arrow-right"></i>
                                     </a>
                                 </div>
-                            </li>
+                            </li> -->
 
-                            <!-- User Dropdown -->
-                            <li class="dropdown notification-list topbar-dropdown">
-                                <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <img src="assets/images/users/user-13.jpg" alt="user-image" class="rounded-circle" />
-                                    <span class="pro-user-name ms-1">Alex <i class="mdi mdi-chevron-down"></i></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end profile-dropdown">
-                                    <!-- item-->
-                                    <div class="dropdown-header noti-title">
-                                        <h6 class="text-overflow m-0">Welcome !</h6>
-                                    </div>
+                <!-- User Dropdown -->
+                <li class="dropdown notification-list topbar-dropdown">
+                    <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="false" aria-expanded="false">
+                        <img src="assets/images/users/user-13.jpg" alt="user-image" class="rounded-circle" />
+                        <span class="pro-user-name ms-1">Alex <i class="mdi mdi-chevron-down"></i></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end profile-dropdown">
+                        <!-- item-->
+                        <div class="dropdown-header noti-title">
+                            <h6 class="text-overflow m-0">Welcome !</h6>
+                        </div>
 
-                                    <!-- item-->
-                                    <a href="pages-profile.html" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
-                                        <span>My Account</span>
-                                    </a>
+                        <!-- item-->
+                        <a href="pages-profile.html" class="dropdown-item notify-item">
+                            <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
+                            <span>My Account</span>
+                        </a>
 
-                                    <!-- item-->
-                                    <a href="auth-lock-screen.html" class="dropdown-item notify-item">
+                        <!-- item-->
+                        <!-- <a href="auth-lock-screen.html" class="dropdown-item notify-item">
                                         <i class="mdi mdi-lock-outline fs-16 align-middle"></i>
                                         <span>Lock Screen</span>
-                                    </a>
+                                    </a> -->
 
-                                    <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                                    <!-- item-->
-                                    <a href="auth-logout.html" class="dropdown-item notify-item">
-                                        <i class="mdi mdi-location-exit fs-16 align-middle"></i>
-                                        <span>Logout</span>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
+                        <!-- item-->
+                        <a href="index.php" class="dropdown-item notify-item">
+                            <i class="mdi mdi-location-exit fs-16 align-middle"></i>
+                            <span>Logout</span>
+                        </a>
                     </div>
-                </div>
-            </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

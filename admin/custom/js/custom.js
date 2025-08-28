@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#datatable').DataTable();
+    $('#contact-table1').DataTable();
 });
 
  function deleteButton() {

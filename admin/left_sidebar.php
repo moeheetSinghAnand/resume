@@ -1,93 +1,111 @@
 <div class="app-sidebar-menu">
-        <div class="h-100" data-simplebar>
-            <!--- Sidemenu -->
-            <div id="sidebar-menu">
+    <div class="h-100" data-simplebar>
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
 
-                <div class="logo-box">
-                    <a href="index.php" class="logo logo-light">
-                        <span class="logo-sm">
-                            <img src="assets/images/logo-sm.png" alt="" height="22">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="assets/images/logo-light.png" alt="" height="24">
-                        </span>
+            <div class="logo-box">
+                <a href="index.php" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-light.png" alt="" height="24">
+                    </span>
+                </a>
+                <a href="index.php" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="assets/images/logo-dark.png" alt="" height="24">
+                    </span>
+                </a>
+            </div>
+            <ul id="side-menu" style="--bs-sidebar-item-hover: var(--bs-sidebar-item); 
+    --bs-sidebar-item-active: var(--bs-sidebar-item);">
+                <li class="menu-title">Menu</li>
+                <li>
+                    <a href="#categories" data-bs-toggle="collapse">
+                        <i data-feather="home"></i>
+                        <span> Master </span>
+                        <span class="menu-arrow"></span>
                     </a>
-                    <a href="index.php" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <img src="assets/images/logo-sm.png" alt="" height="22">
-                        </span>
-                        <span class="logo-lg">
-                            <img src="assets/images/logo-dark.png" alt="" height="24">
-                        </span>
+                    <div class="collapse" id="categories">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="user_categories.php" class="tp-link">Categories</a>
+                            </li>
+                            <li>
+                                <a href="user_designations.php" class="tp-link">Designations</a>
+                            </li>
+                            <li>
+                                <a href="user_plans.php" class="tp-link">Plans</a>
+                            </li>
+                            <li>
+                                <a href="user_programming_langs.php" class="tp-link">Programming Skills</a>
+                            </li>
+                            <li>
+                                <a href="user_langs.php" class="tp-link">Languages</a>
+                            </li>
+                            <li>
+                                <a href="user_addons.php" class="tp-link">Additional Skills</a>
+                            </li>
+                            <li>
+                                <a href="user_qualifications.php" class="tp-link">Qualifications</a>
+                            </li>
+                            <li>
+                                <a href="user_services.php" class="tp-link">Services</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <a href="#users" data-bs-toggle="collapse">
+                        <i data-feather="home"></i>
+                        <span> Resume </span>
+                        <span class="menu-arrow"></span>
                     </a>
-                </div>
-                <ul id="side-menu">
-                    <li class="menu-title">Menu</li>
-                    <li>
-                        <a href="#categories" data-bs-toggle="collapse">
-                            <i data-feather="home"></i>
-                            <span> Master </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="categories">
-                            <ul class="nav-second-level">
-                                <li>
-                                    <a href="user_categories.php" class="tp-link">Categories</a>
-                                </li>
-                                <li>
-                                    <a href="user_designations.php" class="tp-link">Designations</a>
-                                </li>
-                                <li>
-                                    <a href="user_plans.php" class="tp-link">Plans</a>
-                                </li>
-                                <li>
-                                    <a href="user_programming_langs.php" class="tp-link">Programming Skills</a>
-                                </li>
-                                <li>
-                                    <a href="user_langs.php" class="tp-link">Languages</a>
-                                </li>
-                                <li>
-                                    <a href="user_addons.php" class="tp-link">Additional Skills</a>
-                                </li>
-                                <li>
-                                    <a href="user_qualifications.php" class="tp-link">Qualifications</a>
-                                </li>
-                                <li>
-                                    <a href="user_services.php" class="tp-link">Services</a>
-                                </li>
+                    <div class="collapse" id="users">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="registered_users.php" class="tp-link">Users</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                            </ul>
-                        </div>
+                    <a href="#profiles" data-bs-toggle="collapse">
+                        <i data-feather="home"></i>
+                        <span>My Profiles</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="profiles">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="user_profiles.php" class="tp-link">Profiles</a>
+                            </li>
+                            <li>
+                                <a href="user_contacts.php" class="tp-link">Contacts</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                          <a href="#users" data-bs-toggle="collapse">
-                            <i data-feather="home"></i>
-                            <span> Resume </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                         <div class="collapse" id="users">
-                            <ul class="nav-second-level">
-                                <li>
-                                    <a href="registered_users.php" class="tp-link">Users</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                            <a href="#profiles" data-bs-toggle="collapse">
-                            <i data-feather="home"></i>
-                            <span>My Profiles</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                         <div class="collapse" id="profiles">
-                            <ul class="nav-second-level">
-                                <li>
-                                    <a href="user_profiles.php" class="tp-link">Profiles</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <a href="index.php" >
+                        <i data-feather="home"></i>
+                        <span>Logout</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <!-- <div class="collapse" id="logout">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="index" class="tp-link">Profiles</a>
+                            </li>
+                        </ul>
+                    </div> -->
 
 
 
-                        <!-- <a href="#plans" data-bs-toggle="collapse">
+
+                    <!-- <a href="#plans" data-bs-toggle="collapse">
                             <i data-feather="home"></i>
                             <span> Plans </span>
                             <span class="menu-arrow"></span>
@@ -252,10 +270,10 @@
                                 </li>
                             </ul>
                         </div> -->
-                     
-                    </li>
 
-                    <!-- <li class="menu-title">Pages</li>
+                </li>
+
+                <!-- <li class="menu-title">Pages</li>
 
                     <li>
                         <a href="#sidebarAuth" data-bs-toggle="collapse">
@@ -635,11 +653,11 @@
                     </li>
 
                 </ul> -->
-    
-            </div>
-            <!-- End Sidebar -->
-
-            <!-- <div class="clearfix"></div> -->
 
         </div>
+        <!-- End Sidebar -->
+
+        <!-- <div class="clearfix"></div> -->
+
     </div>
+</div>

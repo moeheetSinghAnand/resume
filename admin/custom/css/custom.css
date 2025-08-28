@@ -4,10 +4,16 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.user-signup{
-  max-height: 100vh;   
-  overflow-y: auto;    
+.user-signup {
+  max-height: 100vh;
+  overflow-y: auto;
 }
+
 /* .modal .modal-header {
   padding: 9px 9px !important;
 } */
+
+:root {
+    --bs-sidebar-item-hover: transparent; 
+    --bs-sidebar-item-active: transparent;
+}
