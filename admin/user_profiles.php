@@ -119,7 +119,7 @@
                                     <div class="col-4">
                                         <label for="country" class="form-label">Country</label>
                                         <select class="form-select" id="country" name="country" required>
-                                            <option selected disabled value="">Choose...</option>
+                                            <option value="" selected disabled>-- Select Country --</option>
                                             <option>India</option>
                                             <option>USA</option>
                                             <option>China</option>
@@ -169,10 +169,10 @@
                                             placeholder="Enter Award Count">
                                     </div>
 
-                                    <div class="mt-4 d-flex justify-content-end gap-2">
-                                        <!-- <button type="button" class="btn btn-danger">Close</button> -->
-                                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                    <!-- <div class="mt-4 d-flex justify-content-end gap-2"> -->
+                                    <!-- <button type="button" class="btn btn-danger">Close</button> -->
+                                    <!-- <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                    </div> -->
                                 </div>
                             </form>
                         </div>
@@ -364,7 +364,7 @@
                                     <div class="col-md-3">
                                         <label for="skill-type" class="form-label">Service Type</label>
                                         <select id="skill-type" class="form-select" aria-label="Skills Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Service Type --</option>
                                             <option value="Design">web Development</option>
                                             <option value="Soft-Skills">Ui/UX Design</option>
                                         </select>
@@ -373,7 +373,7 @@
                                     <div class="col-md-3">
                                         <label for="skill-name" class="form-label">Service Name</label>
                                         <select id="skill-name" class="form-select" aria-label="Skill Type Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Service Name--</option>
                                             <option value="HTML5">HTML5</option>
 
                                         </select>
@@ -440,7 +440,7 @@
                                     <div class="col-md-3">
                                         <label for="skill-type" class="form-label">Skill Type</label>
                                         <select id="skill-type" class="form-select" aria-label="Skills Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Skill Type --</option>
                                             <option value="Design">web Development</option>
                                             <option value="Soft-Skills">Ui/UX Design</option>
                                         </select>
@@ -449,7 +449,7 @@
                                     <div class="col-md-3">
                                         <label for="skill-name" class="form-label">Skill Name</label>
                                         <select id="skill-name" class="form-select" aria-label="Skill Type Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Skill Name --</option>
                                             <option value="HTML5">HTML5</option>
 
                                         </select>
@@ -687,8 +687,13 @@
                                         <input type="file" class="form-control" id="file_name" name="file_name"
                                             accept="image/*" required>
                                     </div>
-
-                                    <div class="col-md-3 mt-3">
+                                    <!-- <div class="col-md-3 d-flex flex-column justify-content-end">
+                                        <button type="submit" class="btn btn-success">Add</button>
+                                    </div> -->
+                                    <!-- <div class="col-md-3 d-flex align-items-end"  style="margin-top: 2.9rem;">
+                                        <button type="submit" class="btn btn-success">Add</button>
+                                    </div>   -->
+                                    <div class="col-3"  style="margin-top: 3rem;">
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>
                                 </div>
@@ -866,7 +871,7 @@
                                     <div class="col-md-3">
                                         <label for="plan-type" class="form-label">Plan Type ID</label>
                                         <select id="plan-type" class="form-select" aria-label="Plan Type Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Plan Type --</option>
                                             <option value="1">Free</option>
                                             <option value="2">Hourly</option>
                                             <option value="3">Monthly</option>
@@ -882,7 +887,7 @@
                                     <div class="col-md-3">
                                         <label for="skill-types" class="form-label">Skill Type</label>
                                         <select id="skill-types" class="form-select" aria-label="Skill Type Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Skill type --</option>
                                             <option value="design">Design</option>
                                             <option value="development">Development</option>
                                             <option value="marketing">Marketing</option>
@@ -893,7 +898,8 @@
                                         <label for="popularity-type" class="form-label">Popularity Type</label>
                                         <select id="popularity-type" class="form-select"
                                             aria-label="Popularity Selection">
-                                            <option value="" selected></option>
+                                            <option value="" selected disabled>-- Select Popularity --</option>
+
                                             <option value="low">0</option>
                                         </select>
                                     </div>
@@ -1228,6 +1234,20 @@
                         </div>
                     </div>
                     <!-- Skill Card End-->
+
+
+
+                    <div class="card mt-3 skill-card">
+                        <!-- <div class="card-header">
+                            <h5 class="card-title mb-0">User Icons</h5>
+                        </div> -->
+                        <div class="card-body">
+                            <div class="mt-4 d-flex justify-content-end gap-2"> -->
+                                <!-- <button type="button" class="btn btn-danger">Close</button> -->
+                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
 
                     <footer class="footer">
                         <div class="container-fluid">

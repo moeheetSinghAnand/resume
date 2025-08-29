@@ -14,7 +14,7 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <!-- Icons -->
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="custom/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/head.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
     <!-- DataTables Bootstrap 5 CSS -->

@@ -30,5 +30,5 @@
         <!-- dataTables.select -->
         <script src="assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
         <script src="assets/libs/datatables.net-select-bs5/js/select.bootstrap5.min.js"></script>
-        <script src="custom/js/custom.js"></script>
+        <script src="assets/js/custom.js"></script>
 <script src="assets/js/app.js"></script>

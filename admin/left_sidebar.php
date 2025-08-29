@@ -81,7 +81,7 @@
                     <div class="collapse" id="profiles">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="user_profiles.php" class="tp-link">Profiles</a>
+                                <a href="user_profiles.php" class="tp-link">Profile</a>
                             </li>
                             <li>
                                 <a href="user_contacts.php" class="tp-link">Contacts</a>
@@ -92,7 +92,7 @@
                     <a href="index.php" >
                         <i data-feather="home"></i>
                         <span>Logout</span>
-                        <span class="menu-arrow"></span>
+                        <!-- <span class="menu-arrow"></span> -->
                     </a>
                     <!-- <div class="collapse" id="logout">
                         <ul class="nav-second-level">

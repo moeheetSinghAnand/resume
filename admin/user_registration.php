@@ -18,7 +18,7 @@
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="custom/css/custom.css" rel="stylesheet" type="text/css">
     <script src="assets/js/head.js"></script>
-
+    <?php include 'dbconfig.php'; ?>
 </head>
 
 <body>
@@ -81,7 +81,7 @@
                                             <!-- <div class="saprator my-4"><span>or continue with email</span></div> -->
 
                                             <div class="pt-0">
-                                                <form action="index.php" class="my-4">
+                                                <form action="index.php" id="user-registration" class="my-4">
                                                     <div class="form-group mb-3">
                                                         <label for="firstname" class="form-label">First Name</label>
                                                         <input class="form-control" type="text" id="firstname"
@@ -95,12 +95,12 @@
                                                             name="lastname" placeholder="Enter your first name"
                                                             required>
                                                     </div>
-
+                                                    <!-- 
                                                     <div class="form-group mb-3">
                                                         <label for="username" class="form-label">Username</label>
                                                         <input class="form-control" type="text" id="username"
                                                             name="username" placeholder="Enter Username" required>
-                                                    </div>
+                                                    </div> -->
 
                                                     <div class="form-group mb-3">
                                                         <label for="email" class="form-label">Email</label>
