@@ -1,6 +1,7 @@
 <?php
 require_once 'header.php';
 require_once 'dbconfig.php';
+$id = 1;
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -97,18 +98,23 @@ require_once 'dbconfig.php';
 
                                                             ?>
                                                             <tr>
-                                                                <th scope="row"><?php echo $row['id']; ?></th>
+                                                                <th scope="row"><?php echo $id; ?></th>
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editButton"><i
+                                                                    <button
+                                                                        class="edit-designation-btn btn btn-outline-primary btn-sm me-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-designation-id="<?php echo $row['id']; ?>"
+                                                                        data-bs-target="#editDesignationModal" d><i
                                                                             class="ri-pencil-line"></i></button>
+
                                                                     <button class="btn  btn-outline-danger btn-sm"
                                                                         onclick="deleteButton()"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
-                                                                </tr>
-                                                                <?php
+                                                            </tr>
+                                                            <?php
+                                                            $id++;
                                                         }
                                                     }
                                                     ?>
@@ -136,11 +142,11 @@ require_once 'dbconfig.php';
                     <form id="designationForm">
                         <div class="modal-body">
                             <label for="designationName" class="mb-2">Designation</label>
-                            <input class="form-control mb-3" type="text" placeholder="designation" id="designationName"
+                            <input class="form-control mb-3" type="text" placeholder="Designation" id="designationName"
                                 name="designationName" required>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
@@ -149,7 +155,7 @@ require_once 'dbconfig.php';
         </div>
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="editDesignationModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:9px 9px;">
@@ -157,15 +163,17 @@ require_once 'dbconfig.php';
                         <button class="btn-close" data-bs-dismiss="modal"></button>
 
                     </div>
-                    <form method="post">
+                    <form method="post" id="editDesignationForm">
                         <div class="modal-body">
                             <label for="editDesignationName" class="mb-2">Designation</label>
-                            <input class="form-control mb-3" type="text" placeholder="designation"
+                            <input class="form-control mb-3" type="text" placeholder="Designation"
                                 id="editDesignationName" name="editDesignationName" required>
+                            <input type="hidden" id="editDesignationId">
+
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
                 </div>

@@ -1,6 +1,7 @@
 <?php
 require_once 'header.php';
 require_once 'dbconfig.php';
+$id = 1;
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -90,25 +91,27 @@ require_once 'dbconfig.php';
                                                         </td>
                                                     </tr> -->
                                                     <?php
-                                                        $select = "SELECT * FROM `categories`";
-                                                        $result = mysqli_query($conn, $select);
-                                                        if ($result && $result->num_rows > 0) {
-                                                            while ($row = $result->fetch_assoc()) {
-
-                                                    ?>
+                                                    $select = "SELECT * FROM `categories`";
+                                                    $result = mysqli_query($conn, $select);
+                                                    if ($result && $result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            ?>
                                                             <tr>
-                                                                <th scope="row"><?php echo $row['id']; ?></th>
+                                                                <th scope="row"><?php echo $id; ?></th>
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editButton"><i
+                                                                    <button
+                                                                        class="edit-category-btn btn btn-outline-primary btn-sm me-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-category-id="<?php echo $row['id']; ?>"
+                                                                        data-bs-target="#editCategoryModal"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
                                                                         onclick="deleteButton()"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
-                                                            </tr>
-                                                            <?php
+                                                                <?php
+                                                                $id++;
                                                         }
                                                     }
                                                     ?>
@@ -137,11 +140,11 @@ require_once 'dbconfig.php';
                     <form id="categoryForm">
                         <div class="modal-body">
                             <label for="categoryName" class="mb-2">Category</label>
-                            <input class="form-control mb-3" type="text" placeholder="category" id="categoryName"
+                            <input class="form-control mb-3" type="text" placeholder="Category" id="categoryName"
                                 name="categoryName" required>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
@@ -150,23 +153,23 @@ require_once 'dbconfig.php';
         </div>
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:9px 9px;">
                         <h5 class="modal-title">Edit</h5>
                         <button class="btn-close" data-bs-dismiss="modal"></button>
-
                     </div>
-                    <form method="post">
+                    <form method="post" id="editCategoryForm">
                         <div class="modal-body">
-                            <label for="categoryName" class="mb-2">Category</label>
-                            <input class="form-control mb-3" type="text" placeholder="category" id="editcategoryName"
-                                name="editcategoryName" required>
+                            <label for="editCategoryName" class="mb-2">Category</label>
+                            <input class="form-control mb-3" type="text" placeholder="Category" id="editCategoryName"
+                                name="editCategoryName" required>
+                            <input type="hidden" name="editCategoryId" id="editCategoryId">
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
                 </div>

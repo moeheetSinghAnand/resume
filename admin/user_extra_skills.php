@@ -1,8 +1,9 @@
 <?php
 require_once 'header.php';
-require_once 'dbconfig.php'
+require_once 'dbconfig.php';
+$id = 1;
 ?>
-;
+
 <body data-menu-color="light" data-sidebar="default">
     <div id="app-layout">
         <?php include 'topbar.php'; ?>
@@ -125,11 +126,13 @@ require_once 'dbconfig.php'
 
                                                             ?>
                                                             <tr>
-                                                                <th scope="row"><?php echo $row['id']; ?></th>
+                                                                <th scope="row"><?php echo $id; ?></th>
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editButton"><i
+                                                                    <button
+                                                                        class="edit-extraskill-btn btn-outline-primary btn-sm me-2"
+                                                                        data-bs-toggle="modal" data-bs-target="#editExtraSkillModal"
+                                                                        data-extra-skill-id="<?php echo $row['id']; ?>"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
                                                                         onclick="deleteButton()"><i
@@ -137,6 +140,7 @@ require_once 'dbconfig.php'
                                                                 </td>
                                                             </tr>
                                                             <?php
+                                                            $id++;
                                                         }
                                                     }
                                                     ?>
@@ -165,12 +169,14 @@ require_once 'dbconfig.php'
                     </div>
                     <form id="addonForm">
                         <div class="modal-body">
-                            <label for="addonName" class="mb-2">Additional Skill</label>
-                            <input class="form-control mb-3" type="text" placeholder="additional skill" id="addonName"
+                            <label for="addonName" class="mb-2">Extra Skill</label>
+                            <input class="form-control mb-3" type="text" placeholder="Extra Skill" id="addonName"
                                 name="addonName" required>
+                                <input  type="hidden" id="editExtraSkillId">
+                            <!-- <div id="alertContainer"></div> -->
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
@@ -179,23 +185,23 @@ require_once 'dbconfig.php'
         </div>
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="editExtraSkillModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:9px 9px;">
                         <h5 class="modal-title">Edit</h5>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 
                     </div>
-                    <form method="post">
+                    <form method="post" id="editExtraSkillForm">
                         <div class="modal-body">
-                            <label for="editAdditionalSkillName" class="mb-2">Additional Skill</label>
-                            <input class="form-control mb-3" type="text" placeholder="additional skill"
-                                id="editAdditionalSkillName" name="editAdditionalSkillName" required>
+                            <label for="editExtraSkillName" class="mb-2">Extra Skill</label>
+                            <input class="form-control mb-3" type="text" placeholder="Extra Skill"
+                                id="editExtraSkillName" name="editExtraSkillName" required>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -211,7 +217,7 @@ require_once 'dbconfig.php'
                     </div>
                     <form method="post">
                         <div class="modal-body">
-                            <label for="deleteAdditionalSkillName" class="mb-2">Additional Skill</label>
+                            <label for="deleteAdditionalSkillName" class="mb-2">Extra Skill</label>
                             <input class="form-control mb-3" type="text" placeholder="additional skill name"
                                 id="deleteAdditionalSkillName" name="deleteAdditionalSkillName" required>
                         </div>

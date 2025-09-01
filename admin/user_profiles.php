@@ -352,7 +352,7 @@
                             </form>
                         </div>
                     </div>  -->
-
+<!-- 
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">User Services</h5>
@@ -427,11 +427,11 @@
                             </form>
 
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Programming Skills</h5>
+                            <h5 class="card-title mb-0">Programming Skill</h5>
                         </div>
                         <div class="card-body">
                             <form id="select-form" action="skill_viewer.php" method="POST">
@@ -506,7 +506,7 @@
                     <!-- User Languages -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Languages</h5>
+                            <h5 class="card-title mb-0">Language</h5>
                         </div>
                         <div class="card-body">
                             <form id="" method="POST">
@@ -644,7 +644,7 @@
                     <!-- Project Card -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Projects</h5>
+                            <h5 class="card-title mb-0">Project</h5>
                         </div>
                         <div class="card-body">
                             <form id="user-form" action="user_viewer.php" method="POST">
@@ -731,7 +731,7 @@
                     <!-- Extra Skills Card-->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Extra Skills</h5>
+                            <h5 class="card-title mb-0">Extra Skill</h5>
                         </div>
                         <div class="card-body">
                             <form id="extra-skill-form" action="extra_skill_viewer.php" method="POST">
@@ -862,7 +862,7 @@
 
                     <div class="card mt-3 plan-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Plans</h5>
+                            <h5 class="card-title mb-0">Plan</h5>
                         </div>
                         <div class="card-body">
                             <form id="plan-form" action="plan_viewer.php" method="POST">
@@ -949,14 +949,10 @@
 
                     <!-- Plan Card end-->
 
-
-
-
-
                     <!-- Qualification Card -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Qualifications</h5>
+                            <h5 class="card-title mb-0">Qualification</h5>
                         </div>
                         <div class="card-body">
                             <form id="qualification-form" action="qualification_viewer.php" method="POST">
@@ -1126,7 +1122,7 @@
                     <!-- Social Icons Card -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Icons</h5>
+                            <h5 class="card-title mb-0">Icon</h5>
                         </div>
                         <div class="card-body">
                             <form id="user-file-form" action="user_file_viewer.php" method="POST">
@@ -1180,7 +1176,7 @@
                     <!-- Skills To Show Card -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Skill Lists</h5>
+                            <h5 class="card-title mb-0">Skill List</h5>
                         </div>
                         <div class="card-body">
                             <form id="user-file-form" action="" method="POST">
@@ -1242,7 +1238,7 @@
                             <h5 class="card-title mb-0">User Icons</h5>
                         </div> -->
                         <div class="card-body">
-                            <div class="mt-4 d-flex justify-content-end gap-2"> -->
+                            <div class="mt-4 d-flex justify-content-end gap-2">
                                 <!-- <button type="button" class="btn btn-danger">Close</button> -->
                                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                             </div>

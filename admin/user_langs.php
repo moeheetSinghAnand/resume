@@ -1,6 +1,7 @@
 <?php
 require_once 'header.php';
 require_once 'dbconfig.php';
+$id = 1;
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -79,20 +80,21 @@ require_once 'dbconfig.php';
 
                               ?>
                               <tr>
-                                <th scope="row"><?php echo $row['id']; ?></th>
+                                <th scope="row"><?php echo $id; ?></th>
                                 <td><?php echo $row['name']; ?></td>
                                 <td>
-                                  <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
-                                    data-bs-target="#editButton"><i class="ri-pencil-line"></i></button>
-                                  <button class="btn  btn-outline-danger btn-sm" onclick="deleteButton()"><i
+                                  <button class="edit-lang-btn btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
+                                    data-bs-target="#editLangModal" data-lang-id="<?php echo $row['id']; ?>"><i
+                                      class="ri-pencil-line"></i></button>
+                                  <button class="btn btn-outline-danger btn-sm" onclick="deleteButton()"><i
                                       class="ri-delete-bin-6-line"></i></button>
                                 </td>
                               </tr>
                               <?php
+                              $id++;
                             }
                           }
                           ?>
-
 
                         </tbody>
                       </table>
@@ -119,11 +121,11 @@ require_once 'dbconfig.php';
           <form id="languageForm">
             <div class="modal-body">
               <label for="languageName" class="mb-2">Language</label>
-              <input class="form-control mb-3" type="text" placeholder="language" id="languageName" name="languageName"
+              <input class="form-control mb-3" type="text" placeholder="Language" id="languageName" name="languageName"
                 required>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
               <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
             </div>
           </form>
@@ -132,7 +134,7 @@ require_once 'dbconfig.php';
     </div>
 
     <!-- Edit Modal -->
-    <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="editLangModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header" style="padding:9px 9px;">
@@ -140,15 +142,16 @@ require_once 'dbconfig.php';
             <button class="btn-close" data-bs-dismiss="modal"></button>
 
           </div>
-          <form method="post">
+          <form method="post" id="editLangForm">
             <div class="modal-body">
-              <label for="editLanguageName" class="mb-2">Language</label>
-              <input class="form-control mb-3" type="text" placeholder="language" id="editLanguageName"
+              <label for="editLangName" class="mb-2">Language</label>
+              <input class="form-control mb-3" type="text" placeholder="Language" id="editLangName"
                 name="editLanguageName" required>
+              <input type="hidden" id="editLangId">
             </div>
             <div class="modal-footer">
-              <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-              <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
             </div>
           </form>
         </div>

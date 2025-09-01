@@ -1,6 +1,7 @@
 <?php
 require_once 'header.php';
 require_once 'dbconfig.php';
+$id = 1;
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -147,11 +148,14 @@ require_once 'dbconfig.php';
 
                                                             ?>
                                                             <tr>
-                                                                <th scope="row"><?php echo $row['id']; ?></th>
+                                                                <th scope="row"><?php echo $id; ?></th>
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editButton"><i
+                                                                    <button
+                                                                        class="edit-qualification-btn btn btn-outline-primary btn-sm me-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-qualification-id="<?php echo $row['id']; ?>"
+                                                                        data-bs-target="#editQualificationModal" d><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
                                                                         onclick="deleteButton()"><i
@@ -159,6 +163,7 @@ require_once 'dbconfig.php';
                                                                 </td>
                                                             </tr>
                                                             <?php
+                                                            $id++;
                                                         }
                                                     }
                                                     ?>
@@ -189,11 +194,11 @@ require_once 'dbconfig.php';
                     <form id="qualificationForm">
                         <div class="modal-body">
                             <label for="qualificationName" class="mb-2">Qualification</label>
-                            <input class="form-control mb-3" type="text" placeholder="qualification"
+                            <input class="form-control mb-3" type="text" placeholder="Qualification"
                                 id="qualificationName" name="qualificationName" required>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
@@ -202,7 +207,7 @@ require_once 'dbconfig.php';
         </div>
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="editQualificationModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:9px 9px;">
@@ -210,15 +215,16 @@ require_once 'dbconfig.php';
                         <button class="btn-close" data-bs-dismiss="modal"></button>
 
                     </div>
-                    <form method="post">
+                    <form method="post" id="editQualificationForm">
                         <div class="modal-body">
                             <label for="editQualificationName" class="mb-2">Qualification</label>
-                            <input class="form-control mb-3" type="text" placeholder="qualification"
+                            <input class="form-control mb-3" type="text" placeholder="Qualification"
                                 id="editQualificationName" name="editQualificationName" required>
+                            <input type="hidden" name="editQualificationId" id="editQualificationId">
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -246,7 +252,6 @@ require_once 'dbconfig.php';
                 </div>
             </div>
         </div>
-
         <?php
         require_once 'footer.php';
         ?>

@@ -36,27 +36,26 @@
                                 <a href="user_categories.php" class="tp-link">Categories</a>
                             </li>
                             <li>
-                                <a href="user_designations.php" class="tp-link">Designations</a>
+                                <a href="user_designations.php" class="tp-link">Designation Types</a>
                             </li>
                             <li>
-                                <a href="user_plans.php" class="tp-link">Plans</a>
+                                <a href="user_plans.php" class="tp-link">Plan Types</a>
                             </li>
                             <li>
-                                <a href="user_programming_langs.php" class="tp-link">Programming Skills</a>
+                                <a href="user_programming_skills.php" class="tp-link">Programming Skill Types</a>
                             </li>
                             <li>
-                                <a href="user_langs.php" class="tp-link">Languages</a>
+                                <a href="user_langs.php" class="tp-link">Language Types</a>
                             </li>
                             <li>
-                                <a href="user_addons.php" class="tp-link">Additional Skills</a>
+                                <a href="user_extra_skills.php" class="tp-link">Extra Skill Types</a>
                             </li>
                             <li>
-                                <a href="user_qualifications.php" class="tp-link">Qualifications</a>
+                                <a href="user_qualifications.php" class="tp-link">Qualification Types</a>
                             </li>
                             <li>
-                                <a href="user_services.php" class="tp-link">Services</a>
+                                <a href="user_skill_lists.php" class="tp-link">Skill List Types</a>
                             </li>
-
                         </ul>
                     </div>
 

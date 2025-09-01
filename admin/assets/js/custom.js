@@ -49,7 +49,7 @@ $(document).on('submit', '#categoryForm', function (e) {
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/categories.php",
+            url: "crud/master/category_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
@@ -76,7 +76,7 @@ $(document).on('submit', '#designationForm', function (e) {
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/designations.php",
+            url: "crud/master/designation_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
@@ -102,7 +102,7 @@ $(document).on('submit', '#planForm', function (e) {
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/plans.php",
+            url: "crud/master/plan_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
@@ -128,7 +128,7 @@ $(document).on('submit', '#programmingSkillsForm', function (e) {
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/programming_skills.php",
+            url: "crud/master/programming_skill_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
@@ -149,12 +149,11 @@ $(document).on('submit', '#programmingSkillsForm', function (e) {
 
 $(document).on('submit', '#languageForm', function (e) {
     e.preventDefault();
-
     let name = $('#languageName').val();
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/languages.php",
+            url: "crud/master/language_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
@@ -176,18 +175,18 @@ $(document).on('submit', '#languageForm', function (e) {
 
 $(document).on('submit', '#addonForm', function (e) {
     e.preventDefault();
-
     let name = $('#addonName').val();
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/addons.php",
+            url: "crud/master/extra_skill_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
             success: function (response) {
                 if (response.status === "success") {
-                    alert("Addon added!");
+                    alert("Extra Skill added!");
+                    //  toastr.success('Operation completed successfully!', 'Success');
                     location.reload();
                     // $('#categoryModal').modal('hide'); 
                     // $('#categoryModal')[0].reset();
@@ -234,13 +233,13 @@ $(document).on('submit', '#serviceForm', function (e) {
 
     if (name !== "") {
         $.ajax({
-            url: "crud/master/services.php",
+            url: "crud/master/skill_list_types.php",
             type: "POST",
             dataType: "json",
             data: { name: name },
             success: function (response) {
                 if (response.status === "success") {
-                    alert("Services added!");
+                    alert("Skill List added!");
                     location.reload();
                     // $('#categoryModal').modal('hide'); 
                     // $('#categoryModal')[0].reset();
@@ -255,34 +254,64 @@ $(document).on('submit', '#serviceForm', function (e) {
 
 
 $(document).ready(function () {
+    $('#datatable').DataTable();
     $('#datatable1').DataTable();
     $('#contact-table1').DataTable();
-
     $(document).on('submit', '#qualificationForm', function (e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    let name = $('#qualificationName').val();
+        let name = $('#qualificationName').val();
 
-    if (name !== "") {
-        $.ajax({
-            url: "crud/master/qualifications.php",
-            type: "POST",
-            dataType: "json",
-            data: { name: name },
-            success: function (response) {
-                if (response.status === "success") {
-                    alert("Qualification added!");
-                    location.reload();
-                    // $('#categoryModal').modal('hide'); 
-                    // $('#categoryModal')[0].reset();
+        if (name !== "") {
+            $.ajax({
+                url: "crud/master/qualification_types.php",
+                type: "POST",
+                dataType: "json",
+                data: { name: name },
+                success: function (response) {
+                    if (response.status === "success") {
+                        alert("Qualification added!");
+                        location.reload();
+                        // $('#categoryModal').modal('hide'); 
+                        // $('#categoryModal')[0].reset();
+                    }
+                    else {
+                        alert("Error: " + response.error);
+                    }
                 }
-                else {
-                    alert("Error: " + response.error);
+            });
+        }
+    });
+
+    $(document).on('submit', '#editqualificationModal', function (e) {
+        e.preventDefault();
+
+        let name = $('#editQualificationName')
+
+        if (name !== "") {
+            $.ajax({
+                url: "crud/master/qualification_types.php",
+                type: "POST",
+                dataType: "json",
+                data: { name: name },
+                success: function (response) {
+                    if (response.status === "success") {
+                        //alert("Qualification edited!");
+                        //  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        //                     A simple primary alert—check it out!
+                        //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">  
+                        //                     </button>
+                        //                 </div>
+                        location.reload();
+                    }
+                    else {
+                        alert("Error: " + response.error);
+                    }
                 }
-            }
-        });
-    }
-});
+            })
+        }
+    });
+
 });
 
 function deleteButton() {
@@ -304,3 +333,268 @@ function deleteButton() {
         }
     });
 }
+
+
+// function editButton(id, url) {
+//     $.ajax({
+//         url: url,
+//         type: "POST",
+//         dataType: "json",
+//         data: { id: id },
+//         success: function (response) {
+//             if (response.status === "success") {
+//                 alert("Edited Successfully!");
+//                 location.reload();
+//             }
+//             else {
+//                 alert("Error: " + response.error);
+//             }
+//         }
+//     })
+// }
+
+$(document).on('click', '.edit-category-btn', function () {
+    let categoryId = $(this).data('category-id');
+    $("#editCategoryId").val(categoryId);
+});
+
+$(document).on('submit', '#editCategoryForm', function (e) {
+    e.preventDefault();
+    let name = $('#editCategoryName').val();
+    let id = $('#editCategoryId').val();
+    $.ajax({
+        url: "crud/master/category_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Category Edited!");
+                location.reload();
+                // $('#categoryModal').modal('hide'); 
+                // $('#categoryModal')[0].reset();
+            }
+            else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+
+});
+
+
+$(document).on('click', '.edit-extraskill-btn', function () {
+    let extraSkillId = $(this).data('extra-skil-id');
+    $("#editExtraSkillId").val(extraSkillId);
+});
+
+
+$(document).on('submit', '#editExtraSkillForm', function (e) {
+    e.preventDefault();
+    let name = $('#editExtraSkillName').val();
+    let id = $('#editExtraSkillId').val();
+    $.ajax({
+        url: "crud/master/extra_skill_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Extra Skill Edited!");
+                location.reload();
+                // $('#categoryModal').modal('hide'); 
+                // $('#categoryModal')[0].reset();
+            }
+            else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+
+$(document).on('click', '.edit-plan-btn', function () {
+    let planId = $(this).data('plan-id');
+    $("#editPlanId").val(planId);
+});
+
+$(document).on('submit', '#editPlanForm', function (e) {
+    e.preventDefault();
+    let name = $('#editPlanName').val();
+    let id = $('#editPlanId').val();
+    $.ajax({
+        url: "crud/master/plan_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Plan Edited!");
+                location.reload();
+                // $('#categoryModal').modal('hide'); 
+                // $('#categoryModal')[0].reset();
+            }
+            else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+
+$(document).on('click', '.edit-lang-btn', function () {
+    let langId = $(this).data('lang-id');
+    $("#editLangId").val(langId);
+});
+
+$(document).on('submit', '#editLangForm', function (e) {
+    e.preventDefault();
+    let name = $('#editLangName').val();
+    let id = $('#editLangId').val();
+    $.ajax({
+        url: "crud/master/language_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Language Edited!");
+                location.reload();
+                // $('#categoryModal').modal('hide'); 
+                // $('#categoryModal')[0].reset();
+            }
+            else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+$(document).on('click', '.edit-qualification-btn', function () {
+    let qualificationId = $(this).data('qualification-id'); // Changed from lang-id
+    $("#editQualificationId").val(qualificationId);
+});
+
+$(document).on('submit', '#editQualificationForm', function (e) {
+    e.preventDefault();
+    let name = $('#editQualificationName').val();
+    let id = $('#editQualificationId').val();
+    $.ajax({
+        url: "crud/master/qualification_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name,
+
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Qualification Edited!");
+                location.reload();
+            } else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+
+$(document).on('click', '.skill-list-btn', function () {
+    let skillListId = $(this).data('skilllist-id'); // Changed from lang-id
+    $("#editSkillListId").val(skillListId);
+});
+
+$(document).on('submit', '#editSkillListForm', function (e) {
+    e.preventDefault();
+    let name = $('#editSkillListName').val();
+    let id = $('#editSkillListId').val();
+    $.ajax({
+        url: "crud/master/skill_list_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name,
+
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Skilllist Edited!");
+                location.reload();
+            } else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+$(document).on('click', '.programming-skill-btn', function () {
+    let programmingSkillId = $(this).data('programmingskill-id'); // Changed from lang-id
+    $("#editProgrammingSkillId").val(programmingSkillId);
+});
+
+$(document).on('submit', '#editProgrammingSkillForm', function (e) {
+    e.preventDefault();
+    let name = $('#editProgrammingSkillName').val();
+    let id = $('#editProgrammingSkillId').val();
+    $.ajax({
+        url: "crud/master/programming_skill_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name,
+
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Programming Skill Edited!");
+                location.reload();
+            } else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});
+
+$(document).on('click', '.edit-designation-btn', function () {
+    let designationId = $(this).data('designation-id'); // Changed from lang-id
+    $("#editDesignationId").val(designationId);
+});
+
+$(document).on('submit', '#editDesignationForm', function (e) {
+    e.preventDefault();
+    let name = $('#editDesignationName').val();
+    let id = $('#editDesignationId').val();
+    $.ajax({
+        url: "crud/master/designation_types.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: id,
+            name: name,
+
+        },
+        success: function (response) {
+            if (response.status === "success") {
+                alert("Designation Edited!");
+                location.reload();
+            } else {
+                alert("Error: " + response.error);
+            }
+        }
+    });
+});

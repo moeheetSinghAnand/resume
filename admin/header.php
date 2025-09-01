@@ -14,6 +14,7 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <!-- Icons -->
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" /> -->
     <link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/head.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
@@ -22,4 +23,5 @@
     <link href="assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet"
         type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Sweet Alert Notification-->
+    <!-- Toastr JS -->
 </head>

@@ -1,6 +1,7 @@
 <?php
 require_once 'header.php';
 require_once 'dbconfig.php';
+$id = 1;
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -105,18 +106,19 @@ require_once 'dbconfig.php';
                                                     </tr> -->
 
                                                     <?php
-                                                    $select = "SELECT * FROM `programming_language_types`";
+                                                    $select = "SELECT * FROM `programming_skill_types`";
                                                     $result = mysqli_query($conn, $select);
                                                     if ($result && $result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) {
 
                                                             ?>
                                                             <tr>
-                                                                <th scope="row"><?php echo $row['id']; ?></th>
+                                                                <th scope="row"><?php echo $id; ?></th>
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editButton"><i
+                                                                    <button class="programming-skill-btn btn btn-outline-primary btn-sm me-2"
+                                                                     data-programmingskill-id="<?php echo $row['id']; ?>"
+                                                                        data-bs-toggle="modal" data-bs-target="#editProgrammingSkillModal"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
                                                                         onclick="deleteButton()"><i
@@ -124,6 +126,7 @@ require_once 'dbconfig.php';
                                                                 </td>
                                                             </tr>
                                                             <?php
+                                                            $id++;
                                                         }
                                                     }
                                                     ?>
@@ -153,11 +156,11 @@ require_once 'dbconfig.php';
                     <form id="programmingSkillsForm">
                         <div class="modal-body">
                             <label for="programmingSkillName" class="mb-2">Programming Skill</label>
-                            <input class="form-control mb-3" type="text" placeholder="programming skill"
+                            <input class="form-control mb-3" type="text" placeholder="Programming Skill"
                                 id="programmingSkillName" name="programmingSkillName" required>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
@@ -166,7 +169,7 @@ require_once 'dbconfig.php';
         </div>
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="editButton" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="editProgrammingSkillModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="padding:9px 9px;">
@@ -174,16 +177,17 @@ require_once 'dbconfig.php';
                         <button class="btn-close" data-bs-dismiss="modal"></button>
 
                     </div>
-                    <form method="post">
+                    <form method="post" id="editProgrammingSkillForm">
                         <div class="modal-body">
-                            <label for="editProgrammingLanguageName" class="mb-2">Programming Skill</label>
-                            <input class="form-control mb-3" type="text" placeholder="programming Skill"
-                                id="editProgrammingLanguageName" name="editProgrammingLanguageNametcategoryName"
+                            <label for="editProgrammingSkillName" class="mb-2">Programming Skill</label>
+                            <input class="form-control mb-3" type="text" placeholder="Programming Skill"
+                                id="editProgrammingSkillName" name="editProgrammingSkillName"
                                 required>
+                            <input type="hidden" id="editProgrammingSkillId">
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" type="button" value="submit" name="submit">Submit</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" value="submit" name="submit">Submit</button>
                         </div>
                     </form>
                 </div>
