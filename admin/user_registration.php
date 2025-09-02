@@ -81,7 +81,7 @@
                                             <!-- <div class="saprator my-4"><span>or continue with email</span></div> -->
 
                                             <div class="pt-0">
-                                                <form action="index.php" id="user-registration" class="my-4">
+                                                <form  id="user-registration" class="my-4">
                                                     <div class="form-group mb-3">
                                                         <label for="firstname" class="form-label">First Name</label>
                                                         <input class="form-control" type="text" id="firstname"
@@ -272,10 +272,8 @@
     <script src="assets/libs/waypoints/lib/jquery.waypoints.min.js"></script>
     <script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
-
     <!-- App js-->
     <script src="assets/js/app.js"></script>
-
 </body>
 
 </html>

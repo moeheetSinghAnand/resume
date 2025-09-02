@@ -1,47 +1,4 @@
-$(document).on('submit', '#user-registration', function (e) {
-    e.preventDefault();
 
-    let first_name = $('#firstname').val();
-    let last_name = $('#lastname').val();
-    let email = $('#email').val();
-    let password = $('#password').val();
-    let confirmation = $('#confirm-password').val();
-
-    if (first_name !== "" && last_name !== "" && email !== "" && password !== "" && confirmation !== "") {
-        if (password === confirmation) {
-
-            $.ajax({
-                type: 'POST',
-                url: 'insert_registration.php',
-                dataType: "json",
-                data: {
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    password: password
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response.status == 'success') {
-                        alert("Login successful");
-                        console.log('check');
-                    }
-                    else {
-                        alert("Error" + response.error);
-                    }
-                },
-
-            });
-        }
-        else {
-            alert("Passwords don't match");
-        }
-    }
-    else {
-        alert("Please Fill in all the fields");
-    }
-
-});
 
 $(document).on('submit', '#categoryForm', function (e) {
     e.preventDefault();
@@ -312,6 +269,56 @@ $(document).ready(function () {
         }
     });
 
+    // registration 
+    $(document).on('submit', '#user-registration', function (e) {
+        e.preventDefault();
+
+        let first_name = $('#firstname').val();
+        let last_name = $('#lastname').val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let confirmation = $('#confirm-password').val();
+
+        if (first_name !== "" && last_name !== "" && email !== "" && password !== "" && confirmation !== "") {
+            if (password === confirmation) {
+                if (password.length < 8 || password.length > 32) {
+                    alert("Password must be between 8 and 32 characters.");
+
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'crud/auth/registration.php',
+                    dataType: "json",
+                    data: {
+                        first_name: first_name,
+                        last_name: last_name,
+                        email: email,
+                        password: password
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == 'success') {
+                            alert("Registration successful");
+                            console.log('check');
+                        }
+                        else {
+                            alert("Error" + response.error);
+                        }
+                    },
+
+                });
+            }
+            else {
+                alert("Passwords don't match");
+            }
+        }
+        else {
+            alert("Please Fill in all the fields");
+        }
+
+    });
+
 });
 
 // function deleteButton() {
@@ -334,10 +341,11 @@ $(document).ready(function () {
 //     });
 // }
 
-function deleteButton(id, table) {
+function deleteButton(id, table, name) {
+    let type = table.split('_')[0];
     Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: "You won't be able to revert this " + type + "! : " + name,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -367,10 +375,6 @@ function deleteButton(id, table) {
         }
     });
 }
-
-
-
-
 
 $(document).on('click', '.edit-category-btn', function () {
     let categoryId = $(this).data('category-id');
@@ -641,3 +645,101 @@ $(document).on('submit', '#editDesignationForm', function (e) {
         }
     });
 });
+
+// profiles form
+$(document).on('submit', '#profile-reg', function (e) {
+    e.preventDefault();
+    let form = $(this)[0];
+    let formData = new FormData(form);
+    $.ajax({
+        url: 'crud/profile/registration.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.status === 'success') {
+                alert("Registration successful!");
+                form.reset();
+            } else {
+                alert("Error: " + error);
+            }
+        },
+        // error: function (xhr, status, error) {
+        //     // console.error("AJAX error:", error);
+        //     alert("Error: " + response.error);
+        // }
+    });
+});
+
+// function addRowProgrammingSkill() {
+
+//     let skillNameSelect = document.getElementById('programming-skill-name');
+//     let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
+//     let skillName = selectedOption.text;
+//     let skillMeasure = document.getElementById('programming-skill-measure').value;
+
+//     // if (!skillName || !skillMeasure) {
+//     //     alert("Please select a Programming Skill and enter efficiency.");
+//     //     return;
+//     // }
+//     let tableBody = document.querySelector('#profile-prog tbody');
+//     let rowCount = tableBody.rows.length + 1;
+//     let tr = tableBody.insertRow();
+//     tr.innerHTML = `
+//         <td scope="row">${rowCount}</td>
+//         <td>${skillName}</td>
+//         <td>${skillMeasure}</td>
+//     `;
+//     skillNameSelect.value = '';
+//     document.getElementById('programming-skill-measure').value = '';
+// }
+function addRowProgrammingSkill() {
+
+    let skillNameSelect = document.getElementById('programming-skill-name');
+    let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
+    let skillName = selectedOption.text;      
+    let optionId = selectedOption.id;         
+    let skillMeasure = document.getElementById('programming-skill-measure').value;
+
+    if (!selectedOption.value || !skillMeasure) {
+        alert("Please select a Programming Skill and enter efficiency.");
+        return;
+    }
+
+    let tableBody = document.querySelector('#profile-prog tbody');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+    tr.innerHTML = `
+        <td scope="row">${rowCount}</td>
+        <td data-id="${optionId}">${skillName}</td>
+        <td>${skillMeasure}</td>
+    `;
+    skillNameSelect.value = '';
+    document.getElementById('programming-skill-measure').value = '';
+}
+
+function addRowLanguage() {
+
+    let skillNameSelect = document.getElementById('language-name');
+    let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
+    let skillName = selectedOption.text;      
+    let optionId = selectedOption.id;         
+    let skillMeasure = document.getElementById('language-measure').value;
+    // if (!skillName || !skillMeasure) {
+    //     alert("Please select a Programming Skill and enter efficiency.");
+    //     return;
+    // }
+    let tableBody = document.querySelector('#profile-lang tbody');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+    tr.innerHTML = `
+        <td scope="row">${rowCount}</td>
+        <td data-id="${optionId}">${skillName}</td>
+        <td>${skillMeasure}</td>
+    `;
+    skillNameSelect.value = '';
+    document.getElementById('language-measure').value = '';
+}

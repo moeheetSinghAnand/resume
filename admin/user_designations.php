@@ -15,7 +15,7 @@ $id = 1;
                 <div class="container-fluid">
                     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-18 fw-semibold m-0">Designations</h4>
+                            <h4 class="fs-18 fw-semibold m-0">Designation Types</h4>
                         </div>
                         <div class="text-end">
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryForm">
@@ -109,7 +109,7 @@ $id = 1;
                                                                             class="ri-pencil-line"></i></button>
 
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'designation_types')"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'designation_types', '<?= $row['name'] ?>')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
                                                             </tr>

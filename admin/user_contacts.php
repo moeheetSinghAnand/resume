@@ -1,4 +1,7 @@
-<?php require_once 'header.php'; ?> 
+<?php require_once 'header.php';
+      require_once 'dbconfig.php';
+      $id = 1;
+?>
 <!-- body start -->
 
 <body data-menu-color="light" data-sidebar="default">
@@ -28,12 +31,12 @@
 
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">User Contacts</h5>
+                            <h5 class="card-title mb-0">Contacts</h5>
                         </div>
                         <div class="card-body">
-                           
+
                             <div class="table-responsive">
-                                <table class="table mb-0 table-bordered nowrap" id="contact-table1">
+                                <table class="table mb-0 table-bordered nowrap" id="datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -44,14 +47,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <!-- <tr>
                                             <td>1</td>
                                             <td>John Doe</td>
                                             <td>john@example.com</td>
                                             <td>9876543210</td>
                                             <td>Hello, I want to know more.</td>
                                         </tr>
-                                    </tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td>john@example.com</td>
+                                            <td>9876543210</td>
+                                            <td>Hello, I want to know more.</td> -->
+                                        </tr> <?php
+                                        $select = "SELECT * FROM `user_contacts`";
+                                        $result = mysqli_query($conn, $select);
+                                        if ($result && $result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                ?>
+                                                <tr>
+                                                    <td><?= $id ?></td>
+                                                    <td><?= $row['name'] ?></td>
+                                                    <td><?= $row['email'] ?></td>
+                                                    <td><?= $row['phone_no'] ?></td>
+                                                    <td><?= $row['message'] ?></td>
+                                            </tr> <?php
+                                            }
+                                        }
+                                        ?> </tbody>
                                 </table>
                             </div>
 
@@ -87,4 +111,5 @@
 
     <?php require_once 'footer.php'; ?>
 </body>
+
 </html>

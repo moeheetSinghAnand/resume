@@ -107,7 +107,7 @@ $id = 1;
                                                                         data-bs-target="#editCategoryModal"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'categories')"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'categories', '<?= $row['name'] ?>')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
 
 

@@ -15,7 +15,7 @@ $id = 1;
         <div class="container-fluid">
           <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-              <h4 class="fs-18 fw-semibold m-0">Languages</h4>
+              <h4 class="fs-18 fw-semibold m-0">Language Types</h4>
             </div>
             <div class="text-end">
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#languageModal">
@@ -86,7 +86,7 @@ $id = 1;
                                   <button class="edit-lang-btn btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
                                     data-bs-target="#editLangModal" data-lang-id="<?php echo $row['id']; ?>"><i
                                       class="ri-pencil-line"></i></button>
-                                  <button class="btn btn-outline-danger btn-sm" onclick="deleteButton(<?= $row['id'] ?>, 'language_types')"><i
+                                  <button class="btn btn-outline-danger btn-sm" onclick="deleteButton(<?= $row['id'] ?>, 'language_types', '<?= $row['name'] ?>')"><i
                                       class="ri-delete-bin-6-line"></i></button>
                                 </td>
                               </tr>

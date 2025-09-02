@@ -1,4 +1,8 @@
-<?php require_once 'header.php'; ?>
+<?php require_once 'header.php';
+require_once 'dbconfig.php';
+$id = 1;
+
+?>
 
 <body data-menu-color="light" data-sidebar="default">
     <div id="app-layout">
@@ -16,10 +20,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="mb-0">User Registration</h5>
+                            <h5 class="mb-0">Update Profile</h5>
                         </div>
                         <div class="card-body">
-                            <form method="post">
+                            <form id="profile-reg" method="POST">
                                 <div class="row g-3">
 
                                     <div class="col-4">
@@ -34,11 +38,11 @@
                                             placeholder="Enter your last name" required>
                                     </div>
 
-                                    <div class="col-4">
+                                    <!-- <div class="col-4">
                                         <label for="full-name" class="form-label">Full Name</label>
                                         <input type="text" class="form-control" id="full-name" name="full-name"
                                             placeholder="Enter your full name" required>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-4">
                                         <label for="user-name" class="form-label">Username</label>
@@ -52,7 +56,7 @@
 
                                     <div class="col-4">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
+                                        <input type="password" class="form-control" id="password1" name="password1"
                                             placeholder="Enter your password" required>
                                     </div>
 
@@ -70,19 +74,19 @@
 
                                     <div class="col-4">
                                         <label for="contact_no" class="form-label">Personal No</label>
-                                        <input type="number" class="form-control" id="contact_no" name="contact_no"
+                                        <input type="number" class="form-control" id="personal_no" name="personal_no"
                                             placeholder="Enter your Personal Number" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="contact_no" class="form-label">Support No</label>
-                                        <input type="number" class="form-control" id="contact_no" name="contact_no"
+                                        <input type="number" class="form-control" id="support_no" name="support_no"
                                             placeholder="Enter your Support Number" required>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="contact_no" class="form-label">Office No</label>
-                                        <input type="number" class="form-control" id="contact_no" name="contact_no"
+                                        <input type="number" class="form-control" id="office_no" name="office_no"
                                             placeholder="Enter your Office Numer" required>
                                     </div>
 
@@ -143,11 +147,11 @@
                                         <input type="date" class="form-control" id="age" name="age"
                                             placeholder="Enter Dob">
                                     </div>
-                                    <div class="col-4">
+                                    <!-- <div class="col-4">
                                         <label for="punchline" class="form-label">Punchline</label>
                                         <input type="text" class="form-control" id="punchline" name="punchline"
                                             placeholder="Enter Punchline">
-                                    </div>
+                                    </div> -->
                                     <div class="col-4">
                                         <label for="experience" class="form-label">Experience</label>
                                         <input type="text" class="form-control" id="experience" name="experience"
@@ -167,6 +171,11 @@
                                         <label for="award_count" class="form-label">Award Count</label>
                                         <input type="number" class="form-control" id="award_count" name="award_count"
                                             placeholder="Enter Award Count">
+                                    </div>
+
+                                    <!-- Reusable Submit Section -->
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
                                     </div>
 
                                     <!-- <div class="mt-4 d-flex justify-content-end gap-2"> -->
@@ -352,7 +361,7 @@
                             </form>
                         </div>
                     </div>  -->
-<!-- 
+                    <!-- 
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">User Services</h5>
@@ -429,36 +438,48 @@
                         </div>
                     </div> -->
 
+                    <!-- Programming Cardd -->
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Programming Skill</h5>
                         </div>
                         <div class="card-body">
                             <form id="select-form" action="skill_viewer.php" method="POST">
+                                <?php
 
+                                ?>
                                 <div class="row mb-5">
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <label for="skill-type" class="form-label">Skill Type</label>
                                         <select id="skill-type" class="form-select" aria-label="Skills Selection">
                                             <option value="" selected disabled>-- Select Skill Type --</option>
                                             <option value="Design">web Development</option>
                                             <option value="Soft-Skills">Ui/UX Design</option>
                                         </select>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-md-3">
                                         <label for="skill-name" class="form-label">Skill Name</label>
-                                        <select id="skill-name" class="form-select" aria-label="Skill Type Selection">
+                                        <select id="programming-skill-name" class="form-select" aria-label="Skill Type Selection">
                                             <option value="" selected disabled>-- Select Skill Name --</option>
-                                            <option value="HTML5">HTML5</option>
+                                            <?php $select = "SELECT * FROM `programming_skill_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option id="<?=  $row['id'] ?>" value="<?=  $row['name'] ?>"><?= $row['name'] ?></option>
+                                                    <?php
+                                                }
+                                            }
 
+                                            ?>
                                         </select>
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label class=" form-label" for="skill-measure">Efficiency</label>
+                                        <label class=" form-label" for="programming-skill-measure">Efficiency</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="skill-measure" min="0"
+                                            <input type="number" class="form-control" id="programming-skill-measure" min="0"
                                                 max="100" placeholder="Percentage">
                                             <div class="input-group-text">%</div>
                                         </div>
@@ -466,28 +487,29 @@
 
                                     <div class="col-md-3 mt-4">
                                         <button type="button" class="btn btn-success" id="addButton"
-                                            onclick="addRow()">Add</button>
+                                            onclick="addRowProgrammingSkill()">Add</button>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="table-responsive col-md-6">
-                                        <table class="table mb-0" id="skill-table">
+                                        <table class="table mb-0" id="profile-prog">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Skill Type</th>
+                                                    <!-- <th scope="col">Skill Type</th> -->
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Skill Measure</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td scope="row">1</td>
-                                                    <td scope="row">Web Development</td>
+                                                   
                                                     <td scope="row">Html</th>
                                                     <td scope="row">100</td>
                                                 </tr>
+                                               -->
 
                                             </tbody>
                                         </table>
@@ -495,13 +517,17 @@
                                 </div>
 
                                 <div class="alert-container col-md-12"></div>
-                                <div class="col-md-12 mt-3 text-end">
+                                <!-- <div class="col-md-12 mt-3 text-end">
                                     <button type="submit" class="btn btn-primary" style="display: none;"
                                         id="invisibleButton">Submit</button>
+                                </div> -->
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    <!-- Programming Card end -->
 
                     <!-- User Languages -->
                     <div class="card mt-3 skill-card">
@@ -509,7 +535,7 @@
                             <h5 class="card-title mb-0">Language</h5>
                         </div>
                         <div class="card-body">
-                            <form id="" method="POST">
+                            <form id="profile-lang" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -525,24 +551,34 @@
                                     </div> -->
 
                                     <div class="col-md-3">
-                                        <label for="" class="form-label">Language Id</label>
-                                        <select class="form-select" id="l" name="" required>
+                                        <label for="language-name" class="form-label">Language Id</label>
+                                        <select class="form-select" id="language-name" name="language-name" required>
                                             <option value="" selected disabled>-- Select Language --</option>
-                                            <option value="">English</option>
-                                            <option value="">Spanish</option>
+                                            <?php 
+                                                $select = "SELECT * FROM `language_types`";
+                                                $result = mysqli_query($conn, $select);
+                                                if ($result && $result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                            ?>
+                                                    <option id="<?= $row['id'] ?>" value="<?=  $row['name'] ?>"><?= $row['name'] ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                           
                                         </select>
                                     </div>
 
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
                                         <label class="visually-hidden form-label" for="skill-measure">Efficiency</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="skill-measure" min="0"
+                                            <input type="number" class="form-control" id="language-measure" name="language-measure" min="0"
                                                 max="100" placeholder="Percentage">
                                             <div class="input-group-text">%</div>
                                         </div>
                                     </div>
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="submit" onclick="addRowLanguage()" class="btn btn-success">Add</button>
                                     </div>
                                 </div>
 
@@ -564,8 +600,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -647,7 +685,7 @@
                             <h5 class="card-title mb-0">Project</h5>
                         </div>
                         <div class="card-body">
-                            <form id="user-form" action="user_viewer.php" method="POST">
+                            <form id="profile-proj"  method="POST" enctype="multipart/form-data">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -693,9 +731,10 @@
                                     <!-- <div class="col-md-3 d-flex align-items-end"  style="margin-top: 2.9rem;">
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>   -->
-                                    <div class="col-3"  style="margin-top: 3rem;">
+                                    <div class="col-3" style="margin-top: 3rem;">
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>
+
                                 </div>
 
                                 <div class="table-responsive">
@@ -723,6 +762,9 @@
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -761,6 +803,7 @@
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>
+
                                 </div>
 
                                 <div class="table-responsive">
@@ -780,6 +823,9 @@
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -936,13 +982,9 @@
                                 </div>
 
                                 <div class="alert-container col-md-12"></div>
-                                <div class="col-md-12 mt-3 text-end">
-                                    <button type="submit" class="btn btn-primary" style="display: none;"
-                                        id="invisiblePlanButton">
-                                        Submit
-                                    </button>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
                                 </div>
-
                             </form>
                         </div>
                     </div>
@@ -1039,6 +1081,9 @@
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1168,6 +1213,9 @@
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -1198,14 +1246,23 @@
                                         <label for="" class="form-label">Skill List</label>
                                         <select class="form-select" id="" name="" required>
                                             <option value="" selected disabled>-- Select Skill List --</option>
-                                            <option value="">Seo Optimization</option>
+                                            <?php $select = "SELECT * FROM `skill_list_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value=""><?= $row['name'] ?></option>
+                                                    <?php
+                                                    }
+                                                }
 
+                                            ?>
                                         </select>
                                     </div>
 
 
                                     <div class="col-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="submit" class="btn btn-success" onlick="">Add</button>
                                     </div>
                                 </div>
 
@@ -1226,24 +1283,25 @@
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
                         </div>
                     </div>
                     <!-- Skill Card End-->
 
-
-
-                    <div class="card mt-3 skill-card">
-                        <!-- <div class="card-header">
+                    <!-- <div class="card mt-3 skill-card">
+                         <div class="card-header">
                             <h5 class="card-title mb-0">User Icons</h5>
                         </div> -->
-                        <div class="card-body">
-                            <div class="mt-4 d-flex justify-content-end gap-2">
-                                <!-- <button type="button" class="btn btn-danger">Close</button> -->
+                    <!-- <div class="card-body">
+                            <div class="mt-4 d-flex justify-content-end gap-2"> -->
+                    <!-- <button type="button" class="btn btn-danger">Close</button> 
                                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <footer class="footer">
                         <div class="container-fluid">
