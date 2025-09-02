@@ -109,7 +109,7 @@ $id = 1;
                                                                             class="ri-pencil-line"></i></button>
 
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton()"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'designation_types')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
                                                             </tr>

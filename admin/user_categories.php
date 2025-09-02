@@ -107,8 +107,11 @@ $id = 1;
                                                                         data-bs-target="#editCategoryModal"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton()"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'categories')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
+
+
+
                                                                 </td>
                                                                 <?php
                                                                 $id++;
@@ -162,10 +165,12 @@ $id = 1;
                     </div>
                     <form method="post" id="editCategoryForm">
                         <div class="modal-body">
-                            <label for="editCategoryName" class="mb-2">Category</label>
-                            <input class="form-control mb-3" type="text" placeholder="Category" id="editCategoryName"
-                                name="editCategoryName" required>
                             <input type="hidden" name="editCategoryId" id="editCategoryId">
+                            <label for="editCategoryName" class="mb-2">Category</label>
+                            <input class="form-control mb-3" type="text" placeholder="" id="editCategoryName"
+                                name="editCategoryName" required>
+
+                            <!-- <input type="hidden" name="editCategoryId" id="editCategoryId"> -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -177,13 +182,13 @@ $id = 1;
         </div>
 
         <!-- Delete Modal -->
-        <div class="modal fade" id="deleteButton" tabindex="-1" aria-hidden="true">
+        <!-- <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Delete</h5>
                     </div>
-                    <form method="post">
+                    <form method="post" id="deleteCategoryForm">
                         <div class="modal-body">
                             <label for="categoryName" class="mb-2">Category Name</label>
                             <input class="form-control mb-3" type="text" placeholder="category name"
@@ -196,7 +201,7 @@ $id = 1;
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <?php
         require_once 'footer.php';

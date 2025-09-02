@@ -86,7 +86,7 @@ $id = 1;
                                   <button class="edit-lang-btn btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
                                     data-bs-target="#editLangModal" data-lang-id="<?php echo $row['id']; ?>"><i
                                       class="ri-pencil-line"></i></button>
-                                  <button class="btn btn-outline-danger btn-sm" onclick="deleteButton()"><i
+                                  <button class="btn btn-outline-danger btn-sm" onclick="deleteButton(<?= $row['id'] ?>, 'language_types')"><i
                                       class="ri-delete-bin-6-line"></i></button>
                                 </td>
                               </tr>

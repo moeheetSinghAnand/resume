@@ -121,7 +121,7 @@ $id = 1;
                                                                         data-bs-toggle="modal" data-bs-target="#editProgrammingSkillModal"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton()"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'programming_skill_types')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
                                                             </tr>

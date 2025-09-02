@@ -15,7 +15,7 @@ $id = 1;
                 <div class="container-fluid">
                     <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-18 fw-semibold m-0">Additional Skills</h4>
+                            <h4 class="fs-18 fw-semibold m-0">Extra Skills</h4>
                         </div>
                         <div class="text-end">
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addonModal">
@@ -130,12 +130,13 @@ $id = 1;
                                                                 <td><?php echo $row['name']; ?></td>
                                                                 <td>
                                                                     <button
-                                                                        class="edit-extraskill-btn btn-outline-primary btn-sm me-2"
-                                                                        data-bs-toggle="modal" data-bs-target="#editExtraSkillModal"
+                                                                        class="edit-extraskill-btn btn btn-outline-primary btn-sm me-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editExtraSkillModal"
                                                                         data-extra-skill-id="<?php echo $row['id']; ?>"><i
                                                                             class="ri-pencil-line"></i></button>
                                                                     <button class="btn  btn-outline-danger btn-sm"
-                                                                        onclick="deleteButton()"><i
+                                                                        onclick="deleteButton(<?= $row['id'] ?>, 'extra_skill_types')"><i
                                                                             class="ri-delete-bin-6-line"></i></button>
                                                                 </td>
                                                             </tr>
@@ -172,7 +173,6 @@ $id = 1;
                             <label for="addonName" class="mb-2">Extra Skill</label>
                             <input class="form-control mb-3" type="text" placeholder="Extra Skill" id="addonName"
                                 name="addonName" required>
-                                <input  type="hidden" id="editExtraSkillId">
                             <!-- <div id="alertContainer"></div> -->
                         </div>
                         <div class="modal-footer">
@@ -198,6 +198,8 @@ $id = 1;
                             <label for="editExtraSkillName" class="mb-2">Extra Skill</label>
                             <input class="form-control mb-3" type="text" placeholder="Extra Skill"
                                 id="editExtraSkillName" name="editExtraSkillName" required>
+                            <input type="hidden" id="editExtraSkillId">
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

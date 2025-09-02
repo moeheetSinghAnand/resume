@@ -15,7 +15,7 @@ $id = 1;
         <div class="container-fluid">
           <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-              <h4 class="fs-18 fw-semibold m-0">Plan Types</h4>
+              <h4 class="fs-18 fw-semibold m-0">Plans</h4>
             </div>
             <div class="text-end">
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#planModal">
@@ -87,7 +87,7 @@ $id = 1;
                                   <button class="edit-plan-btn btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
                                     data-bs-target="#editPlanModal" data-plan-id="<?php echo $row['id']; ?>"><i
                                       class="ri-pencil-line"></i></button>
-                                  <button class="btn  btn-outline-danger btn-sm" onclick="deleteButton()"><i
+                                  <button class="btn  btn-outline-danger btn-sm" onclick="deleteButton(<?= $row['id'] ?>, 'plan_types')"><i
                                       class="ri-delete-bin-6-line"></i></button>
                                 </td>
                               </tr>

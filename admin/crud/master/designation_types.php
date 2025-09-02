@@ -5,17 +5,32 @@ if (isset($_POST['id']) && isset($_POST['name'])) {
     // EDIT
     $id = (int) $_POST['id'];
     $name = $_POST['name'];
-    $update = "UPDATE `designation_types` SET `name` = '$name' WHERE `id` = $id";
-    $result = mysqli_query($conn, $update);
-    if ($result) {
-        echo json_encode(['status' => 'success']);
+
+    // Check if another record already has this name
+    $check = "SELECT * FROM `designation_types` WHERE name = '$name' AND id != $id";
+    $check_result = mysqli_query($conn, $check);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        echo json_encode([
+            "status" => "error",
+            "error" => "Designation already exists"
+        ]);
     } else {
-        echo json_encode(['status' => 'error', 'error' => mysqli_error($conn)]);
+        $update = "UPDATE `designation_types` SET `name` = '$name' WHERE `id` = $id";
+        $result = mysqli_query($conn, $update);
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'error' => mysqli_error($conn)]);
+        }
     }
+
 } elseif (isset($_POST['name'])) {
+    // ADD
     $name = $_POST['name'];
     $select = "SELECT * FROM `designation_types` WHERE name = '$name'";
     $result = mysqli_query($conn, $select);
+
     if (mysqli_num_rows($result) != 0) {
         echo json_encode([
             "status" => "error",
@@ -33,4 +48,5 @@ if (isset($_POST['id']) && isset($_POST['name'])) {
 } else {
     echo json_encode(['status' => 'error', 'error' => 'Invalid request']);
 }
+
 ?>

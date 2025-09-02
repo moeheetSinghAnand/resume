@@ -255,8 +255,8 @@ $(document).on('submit', '#serviceForm', function (e) {
 
 $(document).ready(function () {
     $('#datatable').DataTable();
-    $('#datatable1').DataTable();
-    $('#contact-table1').DataTable();
+    // $('#datatable1').DataTable();
+    // $('#contact-table1').DataTable();
     $(document).on('submit', '#qualificationForm', function (e) {
         e.preventDefault();
 
@@ -314,7 +314,27 @@ $(document).ready(function () {
 
 });
 
-function deleteButton() {
+// function deleteButton() {
+//     Swal.fire({
+//         title: "Are you sure?",
+//         text: "You won't be able to revert this!",
+//         icon: "warning",
+//         showCancelButton: true,
+//         confirmButtonColor: "#3085d6",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: "Yes, delete it!"
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire({
+//                 title: "Deleted!",
+//                 text: "This record has been deleted",
+//                 icon: "success"
+//             });
+//         }
+//     });
+// }
+
+function deleteButton(id, table) {
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -325,37 +345,39 @@ function deleteButton() {
         confirmButtonText: "Yes, delete it!"
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                title: "Deleted!",
-                text: "This record has been deleted",
-                icon: "success"
+            $.ajax({
+                url: "crud/master/delete.php",   // 👈 PHP script for delete
+                type: "POST",
+                data: { id: id, table: table },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "success") {
+                        Swal.fire("Deleted!", "This record has been deleted", "success");
+                        // reload table or remove row
+                        // $("#row" + id).remove();
+                        location.reload();
+                    } else {
+                        Swal.fire("Error!", response.error, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error!", "Something went wrong.", "error");
+                }
             });
         }
     });
 }
 
 
-// function editButton(id, url) {
-//     $.ajax({
-//         url: url,
-//         type: "POST",
-//         dataType: "json",
-//         data: { id: id },
-//         success: function (response) {
-//             if (response.status === "success") {
-//                 alert("Edited Successfully!");
-//                 location.reload();
-//             }
-//             else {
-//                 alert("Error: " + response.error);
-//             }
-//         }
-//     })
-// }
+
+
 
 $(document).on('click', '.edit-category-btn', function () {
     let categoryId = $(this).data('category-id');
     $("#editCategoryId").val(categoryId);
+    let categoryName = $(this).closest('tr').children().eq(1).text();
+    $("#editCategoryName").val(categoryName);
+    $('#editCategoryModal').modal('show');
 });
 
 $(document).on('submit', '#editCategoryForm', function (e) {
@@ -387,8 +409,11 @@ $(document).on('submit', '#editCategoryForm', function (e) {
 
 
 $(document).on('click', '.edit-extraskill-btn', function () {
-    let extraSkillId = $(this).data('extra-skil-id');
+    let extraSkillId = $(this).data('extra-skill-id');
     $("#editExtraSkillId").val(extraSkillId);
+    let extraSkillname = $(this).closest('tr').children().eq(1).text();
+    $("#editExtraSkillName").val(extraSkillname);
+    $('#editExtraSkillModal').modal('show');
 });
 
 
@@ -422,6 +447,9 @@ $(document).on('submit', '#editExtraSkillForm', function (e) {
 $(document).on('click', '.edit-plan-btn', function () {
     let planId = $(this).data('plan-id');
     $("#editPlanId").val(planId);
+    let planName = $(this).closest('tr').children().eq(1).text();
+    $("#editPlanName").val(planName);
+    $('#editPlanModal').modal('show');
 });
 
 $(document).on('submit', '#editPlanForm', function (e) {
@@ -454,6 +482,9 @@ $(document).on('submit', '#editPlanForm', function (e) {
 $(document).on('click', '.edit-lang-btn', function () {
     let langId = $(this).data('lang-id');
     $("#editLangId").val(langId);
+    let langName = $(this).closest('tr').children().eq(1).text();
+    $("#editLangName").val(langName);
+    $('#editLangModal').modal('show');
 });
 
 $(document).on('submit', '#editLangForm', function (e) {
@@ -485,6 +516,9 @@ $(document).on('submit', '#editLangForm', function (e) {
 $(document).on('click', '.edit-qualification-btn', function () {
     let qualificationId = $(this).data('qualification-id'); // Changed from lang-id
     $("#editQualificationId").val(qualificationId);
+    let qualificationName = $(this).closest('tr').children().eq(1).text();
+    $("#editQualificationName").val(qualificationName);
+    $('#editQualificationModal').modal('show');
 });
 
 $(document).on('submit', '#editQualificationForm', function (e) {
@@ -515,6 +549,9 @@ $(document).on('submit', '#editQualificationForm', function (e) {
 $(document).on('click', '.skill-list-btn', function () {
     let skillListId = $(this).data('skilllist-id'); // Changed from lang-id
     $("#editSkillListId").val(skillListId);
+    let skillListName = $(this).closest('tr').children().eq(1).text();
+    $("#editSkillListName").val(skillListName);
+    $('#editSkillListModal').modal('show');
 });
 
 $(document).on('submit', '#editSkillListForm', function (e) {
@@ -544,6 +581,9 @@ $(document).on('submit', '#editSkillListForm', function (e) {
 $(document).on('click', '.programming-skill-btn', function () {
     let programmingSkillId = $(this).data('programmingskill-id'); // Changed from lang-id
     $("#editProgrammingSkillId").val(programmingSkillId);
+    let programmingSkillName = $(this).closest('tr').children().eq(1).text();
+    $("#editProgrammingSkillName").val(programmingSkillName);
+    $('#editProgrammingSkillListModal').modal('show');
 });
 
 $(document).on('submit', '#editProgrammingSkillForm', function (e) {
@@ -573,6 +613,9 @@ $(document).on('submit', '#editProgrammingSkillForm', function (e) {
 $(document).on('click', '.edit-designation-btn', function () {
     let designationId = $(this).data('designation-id'); // Changed from lang-id
     $("#editDesignationId").val(designationId);
+    let designationName = $(this).closest('tr').children().eq(1).text();
+    $("#editDesignationName").val(designationName);
+    $('#editDesignationModal').modal('show');
 });
 
 $(document).on('submit', '#editDesignationForm', function (e) {
