@@ -23,7 +23,7 @@ $id = 1;
                             <h5 class="mb-0">Update Profile</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-reg" method="POST">
+                            <form id="profile-reg" method="POST" enctype="multipart/form-data">
                                 <div class="row g-3">
 
                                     <div class="col-4">
@@ -444,10 +444,8 @@ $id = 1;
                             <h5 class="card-title mb-0">Programming Skill</h5>
                         </div>
                         <div class="card-body">
-                            <form id="select-form" action="skill_viewer.php" method="POST">
-                                <?php
+                            <form id="profile-prog"  method="POST">
 
-                                ?>
                                 <div class="row mb-5">
                                     <!-- <div class="col-md-3">
                                         <label for="skill-type" class="form-label">Skill Type</label>
@@ -460,27 +458,31 @@ $id = 1;
 
                                     <div class="col-md-3">
                                         <label for="skill-name" class="form-label">Skill Name</label>
-                                        <select id="programming-skill-name" class="form-select" aria-label="Skill Type Selection">
+                                        <select id="programming-skill-name" class="form-select"
+                                            aria-label="Skill Type Selection">
                                             <option value="" selected disabled>-- Select Skill Name --</option>
                                             <?php $select = "SELECT * FROM `programming_skill_types`";
                                             $result = mysqli_query($conn, $select);
                                             if ($result && $result->num_rows > 0) {
                                                 while ($row = $result->fetch_assoc()) {
                                                     ?>
-                                                    <option id="<?=  $row['id'] ?>" value="<?=  $row['name'] ?>"><?= $row['name'] ?></option>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+
+                                                    </option>
                                                     <?php
                                                 }
                                             }
 
                                             ?>
                                         </select>
+                                        <input type="hidden" id="programming-skill-id" name="programming-skill-id">
                                     </div>
 
                                     <div class="col-md-3">
                                         <label class=" form-label" for="programming-skill-measure">Efficiency</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="programming-skill-measure" min="0"
-                                                max="100" placeholder="Percentage">
+                                            <input type="number" class="form-control" id="programming-skill-measure"
+                                                min="0" max="100" placeholder="Percentage">
                                             <div class="input-group-text">%</div>
                                         </div>
                                     </div>
@@ -510,7 +512,6 @@ $id = 1;
                                                     <td scope="row">100</td>
                                                 </tr>
                                                -->
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -522,7 +523,7 @@ $id = 1;
                                         id="invisibleButton">Submit</button>
                                 </div> -->
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -535,7 +536,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Language</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-lang" method="POST">
+                            <form id="profile-lang" method="POST" >
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -554,55 +555,53 @@ $id = 1;
                                         <label for="language-name" class="form-label">Language Id</label>
                                         <select class="form-select" id="language-name" name="language-name" required>
                                             <option value="" selected disabled>-- Select Language --</option>
-                                            <?php 
-                                                $select = "SELECT * FROM `language_types`";
-                                                $result = mysqli_query($conn, $select);
-                                                if ($result && $result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                            ?>
-                                                    <option id="<?= $row['id'] ?>" value="<?=  $row['name'] ?>"><?= $row['name'] ?></option>
+                                            <?php
+                                            $select = "SELECT * FROM `language_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php
                                                 }
                                             }
                                             ?>
-                                           
+
                                         </select>
+                                        <input type="hidden" id="language-id" name="language-id">
                                     </div>
 
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
                                         <label class="visually-hidden form-label" for="skill-measure">Efficiency</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="language-measure" name="language-measure" min="0"
-                                                max="100" placeholder="Percentage">
+                                            <input type="number" class="form-control" id="language-measure"
+                                                name="language-measure" min="0" max="100" placeholder="Percentage">
                                             <div class="input-group-text">%</div>
                                         </div>
                                     </div>
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" onclick="addRowLanguage()" class="btn btn-success">Add</button>
+                                        <button type="button" onclick="addRowLanguage()"
+                                            class="btn btn-success">Add</button>
                                     </div>
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="post-table">
+                                    <table class="table mb-0" id="lang-table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Language ID</th>
+                                                <th scope="col">Language Name</th>
                                                 <th scope="col">Efficiency</th>
 
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>English</td>
-                                                <td>95</td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="lang-sub" name="lang-sub" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -685,7 +684,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Project</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-proj"  method="POST" enctype="multipart/form-data">
+                            <form id="profile-proj" method="POST" enctype="multipart/form-data" action="crud/profile/projects.php">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -694,23 +693,37 @@ $id = 1;
                                     placeholder="Enter User ID" required>
                             </div> -->
                                     <div class="col-md-2 mb-3">
-                                        <label for="" class="form-label">Category</label>
-                                        <select class="form-select" id="" name="" required>
+                                        <label for="project-category" class="form-label">Category</label>
+                                        <select class="form-select" id="project-category" name="project-category"
+                                            required>
                                             <option value="" selected disabled>-- Select Category --</option>
-                                            <option value="">Web Development</option>
+                                            <!-- <option value="">Web Development</option> -->
+                                            <?php
+                                            $select = "SELECT * FROM `categories`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
                                         </select>
+                                        <input type="hidden" id="project-id" name="project-id">
+
                                     </div>
 
 
                                     <div class="col-md-2">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title"
+                                        <label for="project-title" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="project-title" name="roject-title"
                                             placeholder="Enter Title" required>
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="desc" class="form-label">Description</label>
-                                        <input type="text" class="form-control" id="desc" name="desc"
+                                        <label for="project-desc" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="project-desc" name="project-desc"
                                             placeholder="Enter Description" required>
                                     </div>
                                     <!-- 
@@ -732,7 +745,8 @@ $id = 1;
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>   -->
                                     <div class="col-3" style="margin-top: 3rem;">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="button" class="btn btn-success"
+                                            onclick="addRowProject()">Add</button>
                                     </div>
 
                                 </div>
@@ -742,7 +756,7 @@ $id = 1;
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">category ID</th>
+                                                <th scope="col">Category Name</th>
 
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Description</th>
@@ -750,20 +764,14 @@ $id = 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Web Development</td>
-                                                <td>Sample Title</td>
-                                                <td>This is a description</td>
-                                                <td>file.png</td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -776,7 +784,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Extra Skill</h5>
                         </div>
                         <div class="card-body">
-                            <form id="extra-skill-form" action="extra_skill_viewer.php" method="POST">
+                            <form id="profile-extra-skill" action="extra_skill_viewer.php" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-4">
@@ -791,17 +799,29 @@ $id = 1;
                                             name="extra_skill_id" placeholder="Enter Extra Skill ID" required>
                                     </div> -->
                                     <div class="col-md-3">
-                                        <label for="" class="form-label">Extra Skill ID</label>
-                                        <select class="form-select" id="l" name="" required>
+                                        <label for="extra-skill" class="form-label">Extra Skill ID</label>
+                                        <select class="form-select" id="extra-skill" name="extra-skill" required>
                                             <option value="" selected disabled>-- Select Extra Skill --</option>
                                             <option value="">Git</option>
-
+                                            <?php
+                                            $select = "SELECT * FROM `extra_skill_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
                                         </select>
+                                        <input type="hidden" id="extra-skill-id" name="extra_skill_id">
                                     </div>
 
 
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="button" class="btn btn-success"
+                                            onclick="addRowExtraSkill()">Add</button>
                                     </div>
 
                                 </div>
@@ -811,20 +831,17 @@ $id = 1;
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Extra Skill ID</th>
+                                                <th scope="col">Extra Skill Name</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Git</td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -918,9 +935,18 @@ $id = 1;
                                         <label for="plan-type" class="form-label">Plan Type ID</label>
                                         <select id="plan-type" class="form-select" aria-label="Plan Type Selection">
                                             <option value="" selected disabled>-- Select Plan Type --</option>
-                                            <option value="1">Free</option>
-                                            <option value="2">Hourly</option>
-                                            <option value="3">Monthly</option>
+                                            <?php $select = "SELECT * FROM `plan_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+
+                                                    </option>
+                                                    <?php
+                                                }
+                                            }    
+                                            ?>
                                         </select>
                                     </div>
 
@@ -961,7 +987,7 @@ $id = 1;
                                         <table class="table mb-0" id="plan-table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">ID</th>
+                                                    <th scope="col">#</th>
                                                     <th scope="col">Plan Type</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Skill Types</th>
@@ -983,7 +1009,7 @@ $id = 1;
 
                                 <div class="alert-container col-md-12"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1010,8 +1036,18 @@ $id = 1;
                                         <label for="" class="form-label">Qualification ID</label>
                                         <select class="form-select" id="l" name="" required>
                                             <option value="" selected disabled>-- Select Qualification --</option>
-                                            <option value="">Mca</option>
+                                        <?php $select = "SELECT * FROM `qualification_types`";
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
 
+                                                  
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
                                         </select>
                                     </div>
 
@@ -1082,7 +1118,7 @@ $id = 1;
 
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1214,7 +1250,7 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1253,8 +1289,8 @@ $id = 1;
                                                     ?>
                                                     <option value=""><?= $row['name'] ?></option>
                                                     <?php
-                                                    }
                                                 }
+                                            }
 
                                             ?>
                                         </select>
@@ -1284,7 +1320,7 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>

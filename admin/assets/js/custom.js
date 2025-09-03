@@ -1,5 +1,6 @@
 
 
+
 $(document).on('submit', '#categoryForm', function (e) {
     e.preventDefault();
     let name = $('#categoryName').val();
@@ -214,6 +215,40 @@ $(document).ready(function () {
     $('#datatable').DataTable();
     // $('#datatable1').DataTable();
     // $('#contact-table1').DataTable();
+    $(document).on('submit', '#index-page-form', function (e) {
+        e.preventDefault();
+
+        let user_email = $('#user-email').val()
+        let user_password = $('#user-password').val()
+
+        if (user_email !== "" && user_password !== "") {
+            $.ajax({
+                url: "crud/auth/login.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    email: user_email,
+                    password: user_password
+                },
+                success: function (response) {
+                    if (response.status) {
+                        alert("Login successful!");
+                        window.location.href = "dashboard.php";
+                    } else {
+                        alert("Login failed: " + response.error);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    alert("Something went wrong");
+                }
+            });
+        } else {
+            alert("Please enter both email and password.");
+        }
+    });
+
+
     $(document).on('submit', '#qualificationForm', function (e) {
         e.preventDefault();
 
@@ -674,37 +709,17 @@ $(document).on('submit', '#profile-reg', function (e) {
     });
 });
 
-// function addRowProgrammingSkill() {
 
-//     let skillNameSelect = document.getElementById('programming-skill-name');
-//     let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
-//     let skillName = selectedOption.text;
-//     let skillMeasure = document.getElementById('programming-skill-measure').value;
 
-//     // if (!skillName || !skillMeasure) {
-//     //     alert("Please select a Programming Skill and enter efficiency.");
-//     //     return;
-//     // }
-//     let tableBody = document.querySelector('#profile-prog tbody');
-//     let rowCount = tableBody.rows.length + 1;
-//     let tr = tableBody.insertRow();
-//     tr.innerHTML = `
-//         <td scope="row">${rowCount}</td>
-//         <td>${skillName}</td>
-//         <td>${skillMeasure}</td>
-//     `;
-//     skillNameSelect.value = '';
-//     document.getElementById('programming-skill-measure').value = '';
-// }
+
 function addRowProgrammingSkill() {
-
     let skillNameSelect = document.getElementById('programming-skill-name');
     let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
-    let skillName = selectedOption.text;      
-    let optionId = selectedOption.id;         
+    let skillName = selectedOption.text;
+    let optionId = selectedOption.value; // better than using .id
     let skillMeasure = document.getElementById('programming-skill-measure').value;
 
-    if (!selectedOption.value || !skillMeasure) {
+    if (!optionId || !skillMeasure) {
         alert("Please select a Programming Skill and enter efficiency.");
         return;
     }
@@ -712,34 +727,288 @@ function addRowProgrammingSkill() {
     let tableBody = document.querySelector('#profile-prog tbody');
     let rowCount = tableBody.rows.length + 1;
     let tr = tableBody.insertRow();
+
     tr.innerHTML = `
         <td scope="row">${rowCount}</td>
-        <td data-id="${optionId}">${skillName}</td>
-        <td>${skillMeasure}</td>
+        <td>
+            ${skillName}
+            <input type="hidden" name="ps-ids[]" value="${optionId}">
+        </td>
+        <td>
+            <input type="number" name="ps-measures[]" value="${skillMeasure}" class="form-control">
+        </td>
+          
     `;
     skillNameSelect.value = '';
     document.getElementById('programming-skill-measure').value = '';
 }
 
-function addRowLanguage() {
+$(document).on('submit', '#profile-prog', function (e) {
+    e.preventDefault();
 
+    let skillIds = [];
+    $('input[name="ps-ids[]"]').each(function () { // no idea 
+        skillIds.push(this.value);
+    });
+
+    let skillMeasures = [];
+    $('input[name="ps-measures[]"]').each(function () { // no idea
+        skillMeasures.push(this.value);
+    });
+
+    $.ajax({
+        url: 'crud/profile/programming_skills.php',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({ ids: skillIds, measures: skillMeasures }),
+        success: function (response) {
+            if (response.success) {
+                alert('Skill submitted successfully!');
+            }
+            else {
+                alert('Error: ' + response.message);
+            }
+        },
+        error: function (err) {
+            alert(err.value);
+        }
+    });
+
+});
+
+
+
+function addRowLanguage() {
     let skillNameSelect = document.getElementById('language-name');
     let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
-    let skillName = selectedOption.text;      
-    let optionId = selectedOption.id;         
+    let skillName = selectedOption.text;
+    let optionId = selectedOption.value;
     let skillMeasure = document.getElementById('language-measure').value;
-    // if (!skillName || !skillMeasure) {
-    //     alert("Please select a Programming Skill and enter efficiency.");
-    //     return;
-    // }
+
+    if (!optionId || !skillMeasure) {
+        alert("Please select a language and enter efficiency.");
+        return;
+    }
+
     let tableBody = document.querySelector('#profile-lang tbody');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+
+    tr.innerHTML = `
+        <td scope="row">${rowCount}</td>
+        <td>
+            ${skillName}
+            <input type="hidden" name="lang-ids[]" value="${optionId}">
+        </td>
+        <td>
+            <input type="number" name="lang-measures[]" value="${skillMeasure}" class="form-control" style="width:80px;">
+        </td>
+    `;
+
+    // Reset the input fields
+    skillNameSelect.value = '';
+    document.getElementById('language-measure').value = '';
+}
+
+$(document).on('submit', '#profile-lang', function (e) {
+    e.preventDefault();
+
+    let skillIds = [];
+    $('input[name="lang-ids[]"]').each(function () { // no idea 
+        skillIds.push(this.value);
+    });
+
+    let skillMeasures = [];
+    $('input[name="lang-measures[]"]').each(function () { // no idea
+        skillMeasures.push(this.value);
+    });
+
+    $.ajax({
+        url: 'crud/profile/languages.php',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({ ids: skillIds, measures: skillMeasures }),
+        success: function (response) {
+            if (response.success) {
+                alert('Language submitted successfully!');
+            }
+            else {
+                alert('Error: ' + response.message);
+            }
+        },
+        error: function (err) {
+            alert(err.value);
+        }
+    });
+});
+
+// $(document).on('submit', '#profile-lang', function (e) {
+//     e.preventDefault();
+
+//     let skillIds = $('input[name="lang-ids[]"]').map(function () { return $(this).val(); }).get();
+//     let skillMeasures = $('input[name="lang-measures[]"]').map(function () { return $(this).val(); }).get();
+
+//     $.ajax({
+//         url: 'crud/profile/languages.php',
+//         type: 'POST',
+//         data: { 'lang-ids': skillIds, 'lang-measures': skillMeasures },
+//         success: function (response) {
+//             alert('Language submitted successfully!');
+//         },
+//         error: function (err) {
+//             console.log(err);
+//         }
+//     });
+// })
+
+
+
+// function addRowLanguage() {
+//     let skillNameSelect = document.getElementById('language-name');
+//     let selectedOption = skillNameSelect.options[skillNameSelect.selectedIndex];
+//     let skillName = selectedOption.text;
+//     let optionId = selectedOption.value;
+//     let skillMeasure = document.getElementById('language-measure').value;
+//     document.getElementById('language-id').value = optionId;
+
+//     if (!optionId || !skillMeasure) {
+//         alert("Please select a Language and enter efficiency.");
+//         return;
+//     }
+
+//     let tableBody = document.querySelector('#profile-lang tbody');
+//     let rowCount = tableBody.rows.length + 1;
+//     let tr = tableBody.insertRow();
+
+//     tr.innerHTML = `
+//         <td scope="row">${rowCount}</td>
+//         <td>
+//             ${skillName}
+//             <input type="hidden" name="lang-ids[]" value="${optionId}">
+//         </td>
+//         <td>
+//             <input type="number" name="lang-measures[]" value="${skillMeasure}" class="form-control"  style="width:20px;>
+//         </td>
+//     `;
+
+//     skillNameSelect.value = '';
+//     document.getElementById('language-measure').value = '';
+// }
+
+
+
+
+function addRowProject() {
+
+    let projectTypeSelect = document.getElementById('project-category')
+    let selectedProject = projectTypeSelect.options[projectTypeSelect.selectedIndex];
+    let projectName = selectedProject.text;
+    let projectId = selectedProject.value;
+
+    let projectTitle = document.getElementById('project-title');
+    let projectDescription = document.getElementById('project-desc');
+    let fileName = document.getElementById('file_name').files[0].name;
+    document.getElementById('project-id').value = projectId;
+    let tableBody = document.querySelector('#profile-proj tbody');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+    tr.innerHTML = `
+    <td scope="row">${rowCount}</td>
+    <td>
+        ${projectName}
+    </td>
+    <td>
+        <input type="text" name="proj-titles[]" value="${projectTitle.value}" class="form-control">
+    </td>
+    <td>
+        <input type="text" name="proj-descriptions[]" value="${projectDescription.value}" class="form-control">
+    </td>
+    
+        <td>${fileName}</td>
+        <input type="hidden" name="proj-ids[]" value="${projectId}">
+        <input type="hidden" name="file-names[]" value="${fileName}">
+    `;
+    projectTypeSelect.value = '';
+    projectTitle.value = '';
+    projectDescription.value = '';
+    fileName.value = '';
+}
+
+
+$(document).on('submit', '#profile-proj', function (e) {
+    e.preventDefault(); // Make sure to prevent default form submission
+
+    let formData = new FormData(this); // Collect all form inputs automatically
+
+    $.ajax({
+        url: 'crud/profile/projects.php',
+        type: 'POST',
+        data: formData,
+        processData: false, // Needed for FormData
+        contentType: false, // Needed for FormData
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                alert('Project submitted successfully!');
+            } else {
+                alert('Error: ' + response.message);
+            }
+        },
+        error: function (err) {
+            alert(err.value);
+        }
+    });
+});
+
+function addRowExtraSkill() {
+    let extraSkillTypeSelect = document.getElementById('extra-skill')
+    let selectedExtraSkill = extraSkillTypeSelect.options[extraSkillTypeSelect.selectedIndex];
+    let extraSkillName = selectedExtraSkill.text;
+    let extraSkillId = selectedExtraSkill.value;
+
+    let tableBody = document.querySelector('#profile-extra-skill tbody');
     let rowCount = tableBody.rows.length + 1;
     let tr = tableBody.insertRow();
     tr.innerHTML = `
         <td scope="row">${rowCount}</td>
-        <td data-id="${optionId}">${skillName}</td>
-        <td>${skillMeasure}</td>
+        <td>${extraSkillName}</td>
+        <input type="hidden" name="extra-skill-ids[]" value="${extraSkillId}">
     `;
-    skillNameSelect.value = '';
-    document.getElementById('language-measure').value = '';
+    extraSkillTypeSelect.value = ''
 }
+
+function addRowQualification() {
+    let qualificationTypeSelect = document.getElementById('qualification');
+    let selectedQualification = qualificationTypeSelect.options[qualificationTypeSelect.selectedIndex];
+    let qualificationName = selectedQualification.text;
+    let qualificationId = selectedQualification.value;
+    let startDate = document.getElementById('start-date').value;
+    let endDate = document.getElementById('end-date').value;
+    let description = document.getElementById('qualification-description').value;
+    let certifcation = document.getElementById('certification').value;
+    let fileName = document.getElementById('qfile-name').value;
+
+    let tableBody = document.querySelector('#profile-qual tbody');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+    tr.innerHTML = `
+        <td scope="row">?${rowCount}</td>
+        <td>${qualificationName}</td>
+        <td>${startDate}</td>
+        <td>${endDate}</td>
+        <td>${description}</td>
+        <td>${certifcation}</td>
+        <td>${fileName}</td>
+        <input type="hidden" name="qualification-ids[]" value="${extraSkillId}">
+
+    `;
+    qualificationTypeSelect.value = '';
+    document.getElementById('start-date').value = '';
+    document.getElementById('end-date').value = '';
+    document.getElementById('qualification-description').value = '';
+    document.getElementById('certification').value = '';
+    document.getElementById('qfile-name').value = '';
+}
+

@@ -77,17 +77,17 @@
                                             <!-- <div class="saprator my-4"><span>or continue with email</span></div> -->
 
                                             <div class="pt-0">
-                                                <form action="dashboard.php" class="my-4">
+                                                <form id="index-page-form" class="my-4">
                                                     <div class="form-group mb-3">
-                                                        <label for="username" class="form-label">User Name</label>
-                                                        <input class="form-control" type="text" id="username" required
+                                                        <label for="user-email" class="form-label">Email</label>
+                                                        <input class="form-control" type="text" id="user-email" name="user-email" required
                                                             placeholder="Enter your username">
                                                     </div>
 
                                                     <div class="form-group mb-3">
                                                         <label for="password" class="form-label">Password</label>
                                                         <input class="form-control" type="password" required=""
-                                                            id="password" placeholder="Enter your password">
+                                                            id="user-password" name="user-password" placeholder="Enter your password">
                                                     </div>
 
                                                     <div class="form-group d-flex mb-3">
