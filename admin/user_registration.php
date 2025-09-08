@@ -111,14 +111,14 @@
                                                     <div class="form-group mb-3">
                                                         <label for="password" class="form-label">Password</label>
                                                         <input class="form-control" type="password" id="password"
-                                                            name="password" placeholder="Enter your password" required>
+                                                            name="password" placeholder="Enter your password" maxlength="32" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="confirm-password" class="form-label">Confirm
                                                             Password</label>
                                                         <input class="form-control" type="password"
                                                             id="confirm-password" name="confirm-password"
-                                                            placeholder="Enter your password" required>
+                                                            placeholder="Enter your password" maxlength="32"required>
                                                     </div>
                                                     <!-- <div class="form-group mb-3">
                                                             <label for="country" class="form-label">Country</label>

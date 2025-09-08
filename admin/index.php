@@ -1,10 +1,17 @@
+<?php
+    session_start();
+
+    if(isset($_SESSION['user_email'])){
+        header("Location: dashboard.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8" />
-    <title>Log In | Hando - Responsive Admin Dashboard Template</title>
+    <title>Dashboard | Hando - Responsive Admin Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc." />
     <meta name="author" content="Zoyothemes" />
@@ -15,8 +22,18 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <!-- Icons -->
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" /> -->
+    <link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/head.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link href="assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet"
+        type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Sweet Alert Notification-->
+    <!-- Toastr JS -->
 </head>
+<?php //include 'header.php'; ?>
 
 <body>
     <!-- Begin page -->
@@ -77,17 +94,19 @@
                                             <!-- <div class="saprator my-4"><span>or continue with email</span></div> -->
 
                                             <div class="pt-0">
-                                                <form id="index-page-form" class="my-4">
+                                                <form id="index-page-form" class="my-4" method="POST">
                                                     <div class="form-group mb-3">
                                                         <label for="user-email" class="form-label">Email</label>
-                                                        <input class="form-control" type="text" id="user-email" name="user-email" required
+                                                        <input class="form-control" type="text" id="user-email"
+                                                            name="user-email" required
                                                             placeholder="Enter your username">
                                                     </div>
 
                                                     <div class="form-group mb-3">
                                                         <label for="password" class="form-label">Password</label>
                                                         <input class="form-control" type="password" required=""
-                                                            id="user-password" name="user-password" placeholder="Enter your password">
+                                                            id="user-password" name="user-password"
+                                                            placeholder="Enter your password">
                                                     </div>
 
                                                     <div class="form-group d-flex mb-3">
@@ -109,7 +128,7 @@
                                                         <div class="col-12">
                                                             <div class="d-grid">
                                                                 <button class="btn btn-primary fw-semibold"
-                                                                    type="submit"> Log In </button>
+                                                                    type="button" onclick="mysubmit()"> Log In </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -203,16 +222,18 @@
     <!-- END wrapper -->
 
     <!-- Vendor -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <!-- <script src="assets/libs/jquery/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/waypoints/lib/jquery.waypoints.min.js"></script>
     <script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script>
-    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script> -->
 
     <!-- App js-->
-    <script src="assets/js/app.js"></script>
+    <!-- <script src="assets/js/app.js"></script>
+    <script src="assets/js/custom.js"></script>  -->
+    <?php include 'footer.php'; ?>
 
 </body>
 

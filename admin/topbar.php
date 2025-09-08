@@ -1,3 +1,4 @@
+<?php //session_start(); ?>
 <div class="topbar-custom">
     <div class="container-fluid">
         <div class="d-flex justify-content-between">
@@ -8,7 +9,7 @@
                     </button>
                 </li>
                 <li class="d-none d-lg-block">
-                    <h5 class="mb-0">Good Morning, Alex</h5>
+                    <h5 class="mb-0">Good Morning, <?=  $_SESSION['first_name'] ?></h5>
                 </li>
             </ul>
 
@@ -186,7 +187,7 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a href="index.php" class="dropdown-item notify-item">
+                        <a onclick="myLogout()" class="dropdown-item notify-item">
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                             <span>Logout</span>
                         </a>

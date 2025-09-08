@@ -1,4 +1,15 @@
-<?php require_once 'header.php'; ?>
+<?php require_once 'header.php'; 
+      require_once 'dbconfig.php';
+    
+    //   $select = "SELECT * FROM `user_registrations` WHERE `id` ='{$_SESSION['user_id']}'";
+    // //   $result = mysqli_query($conn,$select);
+      
+    // //   if ($result && mysqli_num_rows($result) > 0) {
+    // //        $row = mysqli_fetch_assoc($result);
+    // //         $_SESSION['user_name'] = $row['first_name'];
+    // //   }
+
+?>
     <!-- body start -->
     <body data-menu-color="light" data-sidebar="default">
         <!-- Begin page -->
@@ -510,7 +521,8 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col fs-13 text-muted text-center">
-                                &copy; <script>document.write(new Date().getFullYear())</script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a href="#!" class="text-reset fw-semibold">Zoyothemes</a> 
+                                <!-- &copy; <script>document.write(new Date().getFullYear())</script> - Made By <span class="mdi mdi-heart text-danger"></span> by <a href="#!" class="text-reset fw-semibold">TechieSquad</a>  -->
+                                 <script>document.write(new Date().getFullYear())</script> - Made By   <a href="#!" class="text-reset fw-semibold">TechieSquad</a>
                             </div>
                         </div>
                     </div>

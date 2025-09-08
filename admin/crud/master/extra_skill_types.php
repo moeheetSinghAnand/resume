@@ -35,7 +35,7 @@
 //     echo json_encode(['status' => 'error', 'error' => 'Invalid request']);
 //}
 
-require_once('dbconfig.php');
+require_once '../../dbconfig.php';
 
 if (isset($_POST['id']) && isset($_POST['name'])) {
     // EDIT

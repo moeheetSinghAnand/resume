@@ -27,15 +27,15 @@ $id = 1;
                                 <div class="row g-3">
 
                                     <div class="col-4">
-                                        <label for="first-name" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="first-name" name="firstname"
-                                            placeholder="Enter your first name" required>
+                                        <label for="first_name" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name"
+                                            value="<?php echo $_SESSION['first_name'] ?>" >
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="last-name" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="last-name" name="last-name"
-                                            placeholder="Enter your last name" required>
+                                        <label for="last_name" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name"
+                                            value="<?php echo $_SESSION['last_name'] ?>" >
                                     </div>
 
                                     <!-- <div class="col-4">
@@ -49,7 +49,7 @@ $id = 1;
                                         <div class="input-group">
                                             <span class="input-group-text">@</span>
                                             <input type="text" class="form-control" id="user-name" name="user-name"
-                                                placeholder="Enter your username" required>
+                                                placeholder="" >
                                         </div>
                                     </div>
 
@@ -57,95 +57,92 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password1" name="password1"
-                                            placeholder="Enter your password" required>
+                                            placeholder="" >
                                     </div>
 
                                     <div class="col-4">
                                         <label for="designation" class="form-label">Designation</label>
                                         <input type="text" class="form-control" id="designation" name="designation"
-                                            placeholder="Enter your designation" required>
+                                            placeholder="" >
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="e-mail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="e-mail" name="e-mail"
-                                            placeholder="Enter your email" required>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            value="<?= $_SESSION['email'] ?>" >
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="contact_no" class="form-label">Personal No</label>
+                                        <label for="personal_no" class="form-label">Personal No</label>
                                         <input type="number" class="form-control" id="personal_no" name="personal_no"
-                                            placeholder="Enter your Personal Number" required>
+                                            value="<?= $_SESSION['personal_no'] ?>" >
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="contact_no" class="form-label">Support No</label>
+                                        <label for="support_no" class="form-label">Support No</label>
                                         <input type="number" class="form-control" id="support_no" name="support_no"
-                                            placeholder="Enter your Support Number" required>
+                                            value="<?= $_SESSION['support_no'] ?>" r>
                                     </div>
 
                                     <div class="col-4">
-                                        <label for="contact_no" class="form-label">Office No</label>
+                                        <label for="office_no" class="form-label">Office No</label>
                                         <input type="number" class="form-control" id="office_no" name="office_no"
-                                            placeholder="Enter your Office Numer" required>
+                                            value="<?= $_SESSION['office_no'] ?>" >
                                     </div>
 
                                     <div class="col-4">
                                         <label for="residence" class="form-label">Residence</label>
                                         <input type="text" class="form-control" id="residence" name="residence"
-                                            placeholder="Enter Residence">
+                                            placeholder="">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="street" class="form-label">Street</label>
                                         <input type="text" class="form-control" id="street" name="street"
-                                            placeholder="Enter your street">
+                                            placeholder="<?= $_SESSION['street'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="city" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="city" name="city"
-                                            placeholder="Enter City">
+                                        <input type="text" class="form-control" id="city" name="city" value="">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="state" class="form-label">State</label>
-                                        <input type="text" class="form-control" id="state" name="state"
-                                            placeholder="Enter State">
+                                        <input type="text" class="form-control" id="state" name="state" placeholder="">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="pincode" class="form-label">Pincode</label>
                                         <input type="number" class="form-control" id="pincode" name="pincode"
-                                            placeholder="Enter your pincode" required>
+                                            value="<?= $_SESSION['pincode'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="country" class="form-label">Country</label>
-                                        <select class="form-select" id="country" name="country" required>
-                                            <option value="" selected disabled>-- Select Country --</option>
-                                            <option>India</option>
-                                            <option>USA</option>
-                                            <option>China</option>
+                                        <select class="form-select" id="country" name="country">
+                                            <option value="">-- Select Country --</option>
+                                            <option value="India" <?= (isset($_SESSION['country']) && $_SESSION['country'] == 'India') ? 'selected' : '' ?>>India</option>
+                                            <option value="USA" <?= (isset($_SESSION['country']) && $_SESSION['country'] == 'USA') ? 'selected' : '' ?>>USA</option>
+                                            <option value="China" <?= (isset($_SESSION['country']) && $_SESSION['country'] == 'China') ? 'selected' : '' ?>>China</option>
                                         </select>
                                     </div>
 
                                     <div class="col-4">
                                         <label for="telegram_id" class="form-label">Telegram</label>
                                         <input type="text" class="form-control" id="telegram_id" name="telegram_id"
-                                            placeholder="Enter your Telegram ID" required>
+                                            value="<?= $_SESSION['telegram'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="skype_id" class="form-label">Skype </label>
                                         <input type="text" class="form-control" id="skype_id" name="skype_id"
-                                            placeholder="Enter your Skype ID" required>
+                                            value="<?= $_SESSION['skype'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="age" class="form-label">Dob</label>
-                                        <input type="date" class="form-control" id="age" name="age"
-                                            placeholder="Enter Dob">
+                                        <input type="date" class="form-control" id="age" name="age" placeholder="">
                                     </div>
                                     <!-- <div class="col-4">
                                         <label for="punchline" class="form-label">Punchline</label>
@@ -442,9 +439,9 @@ $id = 1;
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Programming Skill</h5>
-                        </div>
+                        </div>  
                         <div class="card-body">
-                            <form id="profile-prog"  method="POST">
+                            <form id="profile-prog" method="POST">
 
                                 <div class="row mb-5">
                                     <!-- <div class="col-md-3">
@@ -495,7 +492,7 @@ $id = 1;
 
                                 <div class="row">
                                     <div class="table-responsive col-md-6">
-                                        <table class="table mb-0" id="profile-prog">
+                                        <table class="table mb-0" id="profile-prog-tab">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
@@ -536,7 +533,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Language</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-lang" method="POST" >
+                            <form id="profile-lang" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -601,7 +598,8 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="lang-sub" name="lang-sub" class="btn btn-primary">Update</button>
+                                    <button type="submit" id="lang-sub" name="lang-sub"
+                                        class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -684,7 +682,8 @@ $id = 1;
                             <h5 class="card-title mb-0">Project</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-proj" method="POST" enctype="multipart/form-data" action="crud/profile/projects.php">
+                            <form id="profile-proj" method="POST" enctype="multipart/form-data"
+                                action="crud/profile/projects.php">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-3">
@@ -945,7 +944,7 @@ $id = 1;
                                                     </option>
                                                     <?php
                                                 }
-                                            }    
+                                            }
                                             ?>
                                         </select>
                                     </div>
@@ -1036,18 +1035,18 @@ $id = 1;
                                         <label for="" class="form-label">Qualification ID</label>
                                         <select class="form-select" id="l" name="" required>
                                             <option value="" selected disabled>-- Select Qualification --</option>
-                                        <?php $select = "SELECT * FROM `qualification_types`";
+                                            <?php $select = "SELECT * FROM `qualification_types`";
                                             $result = mysqli_query($conn, $select);
                                             if ($result && $result->num_rows > 0) {
                                                 while ($row = $result->fetch_assoc()) {
                                                     ?>
                                                     <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
 
-                                                  
+
                                                     <?php
                                                 }
                                             }
-                                        ?>
+                                            ?>
                                         </select>
                                     </div>
 
@@ -1206,7 +1205,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Icon</h5>
                         </div>
                         <div class="card-body">
-                            <form id="user-file-form" action="user_file_viewer.php" method="POST">
+                            <form id="profile-icon" enctype="multipart/form-data" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-4">
@@ -1221,8 +1220,8 @@ $id = 1;
                                             placeholder="Enter File Name" required>
                                     </div> -->
                                     <div class="col-md-3">
-                                        <label for="file_name" class="form-label">Upload Image</label>
-                                        <input type="file" class="form-control" id="file_name" name="file_name"
+                                        <label for="file_icon" class="form-label">Upload Image</label>
+                                        <input type="file" class="form-control" id="file_icon" name="file_icon"
                                             accept="image/*" required>
                                     </div>
 
@@ -1250,7 +1249,7 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
+                                    <button type="submit" onclick="" id="" name="" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>

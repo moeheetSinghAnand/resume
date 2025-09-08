@@ -88,7 +88,7 @@
                         </ul>
                     </div>
 
-                    <a href="index.php" >
+                    <a  onclick="myLogout()">
                         <i data-feather="home"></i>
                         <span>Logout</span>
                         <!-- <span class="menu-arrow"></span> -->

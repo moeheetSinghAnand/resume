@@ -61,7 +61,7 @@
                                             <td>9876543210</td>
                                             <td>Hello, I want to know more.</td> -->
                                         </tr> <?php
-                                        $select = "SELECT * FROM `user_contacts`";
+                                       $select = "SELECT * FROM `user_contacts` WHERE `user_id` = '{$_SESSION['user_id']}'";     // WHERE `id` = '{$user_id}'
                                         $result = mysqli_query($conn, $select);
                                         if ($result && $result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {

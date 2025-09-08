@@ -22,10 +22,9 @@
     //     }
 
     
-    require_once 'dbconfig.php';
+require_once '../../dbconfig.php';
 
     header('Content-Type: application/json');
-    $us_id = 1;
     $data = json_decode(file_get_contents('php://input'), true);
 
     if (!empty($data['ids']) && !empty($data['measures']) && count($data['ids']) === count($data['measures'])) {
@@ -35,7 +34,7 @@
             $measure = $measures[$i];
 
             $insert = "INSERT INTO `user_languages` (`user_id`, `language_id`, `user_efficiency`, `created_at`) VALUES(
-            '$us_id', '$id', '$measure', NOW())";
+            '{$_SESSION['user_id']}', '$id', '$measure', NOW())";
             if (!mysqli_query($conn, $insert)) {
                 echo "Error: " . mysqli_error($conn);
             }

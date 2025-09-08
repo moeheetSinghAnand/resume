@@ -210,43 +210,134 @@ $(document).on('submit', '#serviceForm', function (e) {
     }
 });
 
+function mysubmit() {
+    console.log("hello");
+    let user_email = $('#user-email').val()
+    let user_password = $('#user-password').val()
+    console.log(user_email);
+    console.log(user_password);
+    if (user_email !== "" && user_password !== "") {
+        $.ajax({
+            url: "crud/auth/login.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                email: user_email,
+                password: user_password
+            },
+            success: function (response) {
+                if (response.status) {
+                    //alert("Login successful!");
+                    window.location.href = "dashboard.php";
+                } else {
+                    alert("Login failed: " + response.error);
+                }
+            },
+            // error: function (xhr, status, errorThrown) {
+            //     console.error(error);
+            //     alert("Something went wrong");
+            // }
+        });
+    } else {
+        alert("Please enter both email and password.");
+    }
+
+}
+
+function myLogout() {
+    $.ajax({
+        url: "logout.php",
+        type: "POST",
+        dataType: "json",
+        // data: {
+        //     email: user_email,
+        //     password: password
+        // },
+        success: function (response) {
+            if (response.status) {
+                window.location.href = "index.php";
+            }
+            else {
+                alert("Request failed");
+            }
+        },
+        error: function () {
+            alert("Logout failed, please try again");
+        }
+
+    });
+}
 
 $(document).ready(function () {
     $('#datatable').DataTable();
-    // $('#datatable1').DataTable();
+
+
+    //  datatable1').DataTable();
     // $('#contact-table1').DataTable();
-    $(document).on('submit', '#index-page-form', function (e) {
-        e.preventDefault();
+    // $('#index-page-form').on('submit',function(e){
+    //     e.preventDefault();
+    //     console.log("hello");
+    //     let user_email = $('#user-email').val()
+    //     let user_password = $('#user-password').val()
 
-        let user_email = $('#user-email').val()
-        let user_password = $('#user-password').val()
+    //     // if (user_email !== "" && user_password !== "") {
+    //     //     $.ajax({
+    //     //         url: "crud/auth/login.php",
+    //     //         type: "POST",
+    //     //         dataType: "json",
+    //     //         data: {
+    //     //             email: user_email,
+    //     //             password: user_password
+    //     //         },
+    //     //         success: function (response) {
+    //     //             if (response.status) {
+    //     //                 alert("Login successful!");
+    //     //                 window.location.href = "dashboard.php";
+    //     //             } else {
+    //     //                 alert("Login failed: " + response.error);
+    //     //             }
+    //     //         },
+    //     //         error: function (xhr, status, error) {
+    //     //             console.error(error);
+    //     //             alert("Something went wrong");
+    //     //         }
+    //     //     });
+    //     // } else {
+    //     //     alert("Please enter both email and password.");
+    //     // }
+    // });
+    //     $(document).on('submit', '#index-page-form', function (e) {
+    //         e.preventDefault();
+    // console.log("hello");
+    //         let user_email = $('#user-email').val()
+    //         let user_password = $('#user-password').val()
 
-        if (user_email !== "" && user_password !== "") {
-            $.ajax({
-                url: "crud/auth/login.php",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    email: user_email,
-                    password: user_password
-                },
-                success: function (response) {
-                    if (response.status) {
-                        alert("Login successful!");
-                        window.location.href = "dashboard.php";
-                    } else {
-                        alert("Login failed: " + response.error);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    alert("Something went wrong");
-                }
-            });
-        } else {
-            alert("Please enter both email and password.");
-        }
-    });
+    //         if (user_email !== "" && user_password !== "") {
+    //             $.ajax({
+    //                 url: "crud/auth/login.php",
+    //                 type: "POST",
+    //                 dataType: "json",
+    //                 data: {
+    //                     email: user_email,
+    //                     password: user_password
+    //                 },
+    //                 success: function (response) {
+    //                     if (response.status) {
+    //                         alert("Login successful!");
+    //                         window.location.href = "dashboard.php";
+    //                     } else {
+    //                         alert("Login failed: " + response.error);
+    //                     }
+    //                 },
+    //                 error: function (xhr, status, error) {
+    //                     console.error(error);
+    //                     alert("Something went wrong");
+    //                 }
+    //             });
+    //         } else {
+    //             alert("Please enter both email and password.");
+    //         }
+    //     });
 
 
     $(document).on('submit', '#qualificationForm', function (e) {
@@ -314,44 +405,46 @@ $(document).ready(function () {
         let password = $('#password').val();
         let confirmation = $('#confirm-password').val();
 
-        if (first_name !== "" && last_name !== "" && email !== "" && password !== "" && confirmation !== "") {
-            if (password === confirmation) {
-                if (password.length < 8 || password.length > 32) {
-                    alert("Password must be between 8 and 32 characters.");
-
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'crud/auth/registration.php',
-                    dataType: "json",
-                    data: {
-                        first_name: first_name,
-                        last_name: last_name,
-                        email: email,
-                        password: password
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status == 'success') {
-                            alert("Registration successful");
-                            console.log('check');
-                        }
-                        else {
-                            alert("Error" + response.error);
-                        }
-                    },
-
-                });
-            }
-            else {
-                alert("Passwords don't match");
-            }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            alert("Invalid email");
         }
-        else {
+
+        else if (password.length < 8 || password.length > 32) {
+            alert("Password must be between 8 and 32 characters.");
+        }
+
+        else if (first_name === "" || last_name === "" || email === "" || password === "" || confirmation === "") {
             alert("Please Fill in all the fields");
         }
 
+        else if (password != confirmation) {
+            alert("Passwords do not match");
+        }
+
+        else {
+            $.ajax({
+                type: 'POST',
+                url: 'crud/auth/registration.php',
+                dataType: "json",
+                data: {
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.status == 'success') {
+                        alert("Registration successful");
+                        document.getElementById('user-registration').reset();
+                    }
+                    else {
+                        alert("Error: " + response.error);
+                    }
+                },
+
+            });
+        }
     });
 
 });
@@ -571,7 +664,6 @@ $(document).on('submit', '#editQualificationForm', function (e) {
         data: {
             id: id,
             name: name,
-
         },
         success: function (response) {
             if (response.status === "success") {
@@ -686,6 +778,7 @@ $(document).on('submit', '#profile-reg', function (e) {
     e.preventDefault();
     let form = $(this)[0];
     let formData = new FormData(form);
+    if (!$(form).find('input, select, textarea').filter((_, el) => $(el).val()).length) return alert("At least one field should be updated.");
     $.ajax({
         url: 'crud/profile/registration.php',
         type: 'POST',
@@ -696,21 +789,15 @@ $(document).on('submit', '#profile-reg', function (e) {
         success: function (response) {
             console.log(response);
             if (response.status === 'success') {
-                alert("Registration successful!");
+                alert("Updation successful!");
                 form.reset();
             } else {
-                alert("Error: " + error);
+                alert("Error: " + response.error);
             }
         },
-        // error: function (xhr, status, error) {
-        //     // console.error("AJAX error:", error);
-        //     alert("Error: " + response.error);
-        // }
+
     });
 });
-
-
-
 
 function addRowProgrammingSkill() {
     let skillNameSelect = document.getElementById('programming-skill-name');
@@ -724,7 +811,7 @@ function addRowProgrammingSkill() {
         return;
     }
 
-    let tableBody = document.querySelector('#profile-prog tbody');
+    let tableBody = document.querySelector('#profile-prog-tab tbody');
     let rowCount = tableBody.rows.length + 1;
     let tr = tableBody.insertRow();
 
@@ -743,16 +830,17 @@ function addRowProgrammingSkill() {
     document.getElementById('programming-skill-measure').value = '';
 }
 
+
 $(document).on('submit', '#profile-prog', function (e) {
     e.preventDefault();
 
     let skillIds = [];
-    $('input[name="ps-ids[]"]').each(function () { // no idea 
+    $('input[name="ps-ids[]"]').each(function () {
         skillIds.push(this.value);
     });
 
     let skillMeasures = [];
-    $('input[name="ps-measures[]"]').each(function () { // no idea
+    $('input[name="ps-measures[]"]').each(function () {   // dont know what it does 
         skillMeasures.push(this.value);
     });
 
@@ -763,20 +851,21 @@ $(document).on('submit', '#profile-prog', function (e) {
         dataType: 'json',
         data: JSON.stringify({ ids: skillIds, measures: skillMeasures }),
         success: function (response) {
-            if (response.success) {
+            if (response.success == 'success') {
                 alert('Skill submitted successfully!');
             }
             else {
-                alert('Error: ' + response.message);
+                alert('Error: ' + response.error);
             }
         },
-        error: function (err) {
-            alert(err.value);
+        error: function (xhr, status, error) {
+            console.log("AJAX failed:", status, error);
+            console.log(xhr.responseText);
+            alert("AJAX failed: " + error);
         }
     });
 
 });
-
 
 
 function addRowLanguage() {
@@ -844,6 +933,34 @@ $(document).on('submit', '#profile-lang', function (e) {
     });
 });
 
+$(document).on('submit', '#profile-icon', function (e) {
+    e.preventDefault(); // prevent default form submission
+
+    let formData = new FormData(this); // automatically grabs all input fields, including files
+
+    $.ajax({
+        url: 'profile/icons.php', // replace with your PHP script
+        type: 'POST',
+        data: formData,
+        contentType: false, // important for file upload
+        processData: false, // important for file upload
+        success: function (response) {
+            // handle success
+            if (response.status) {
+                alert('Icon updated successfully!');
+            }
+            else {
+                alert(response.error);
+            }
+        },
+        error: function (xhr, status, error) {
+            // handle error
+            alert('Upload failed.');
+        }
+    });
+});
+//$(document).on('submit')
+
 // $(document).on('submit', '#profile-lang', function (e) {
 //     e.preventDefault();
 
@@ -898,8 +1015,6 @@ $(document).on('submit', '#profile-lang', function (e) {
 // }
 
 
-
-
 function addRowProject() {
 
     let projectTypeSelect = document.getElementById('project-category')
@@ -935,13 +1050,24 @@ function addRowProject() {
     projectDescription.value = '';
     fileName.value = '';
 }
-
+function addRowIcon() {
+    let icon = document.getElementById('file_icon').files[0].name;
+    let tableBody = document.querySelector('#profile-icon');
+    let rowCount = tableBody.rows.length + 1;
+    let tr = tableBody.insertRow();
+    tr.innerHTML = `
+        <td scope="row">${rowCount}</td>
+        <td>
+            ${icon}
+            <input type="hidden" name="icon-ids[]" value="${iconId}">
+        </td>
+    `;
+    document.getElementById('file_icon')
+}
 
 $(document).on('submit', '#profile-proj', function (e) {
     e.preventDefault(); // Make sure to prevent default form submission
-
     let formData = new FormData(this); // Collect all form inputs automatically
-
     $.ajax({
         url: 'crud/profile/projects.php',
         type: 'POST',
@@ -967,7 +1093,6 @@ function addRowExtraSkill() {
     let selectedExtraSkill = extraSkillTypeSelect.options[extraSkillTypeSelect.selectedIndex];
     let extraSkillName = selectedExtraSkill.text;
     let extraSkillId = selectedExtraSkill.value;
-
     let tableBody = document.querySelector('#profile-extra-skill tbody');
     let rowCount = tableBody.rows.length + 1;
     let tr = tableBody.insertRow();
@@ -977,6 +1102,29 @@ function addRowExtraSkill() {
         <input type="hidden" name="extra-skill-ids[]" value="${extraSkillId}">
     `;
     extraSkillTypeSelect.value = ''
+}
+
+function addExtraSkillTable() {
+    let extraSkillIds = [];
+    document.querySelectorAll('#profile-extra-skill input[type="hidden"]').forEach(input => {
+        extraSkillIds.push(input.value);
+    });
+
+    $.ajax({
+        url: "crud/profile/extra_skills.php",
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({ ids: extraSkillIds }),
+        success: function (response) {
+            if (response.success === 'success') {
+                alert("Extra Skills submitted");
+            }
+            else {
+                alert("Errors: " + response.error);
+            }
+        },
+    });
 }
 
 function addRowQualification() {
