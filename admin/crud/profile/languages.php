@@ -1,47 +1,38 @@
 <?php
-    // include 'dbconfig.php';
-    //     if (isset($_POST['lang-ids'])) {
-    //         $lang_ids = $_POST['lang-ids'];
-    //         //$names = $_POST['ps-names'];
-    //         $lang_measures = $_POST['lang-measures'];
-    //         $us_id = 1;
+    session_start();
+    require_once '../../dbconfig.php';
+    // $data = json_decode(file_get_contents('php://input'), true);
+    // if (!empty($data['ids']) && !empty($data['measures']) && count($data['ids']) === count($data['measures'])) {
+    //     $ids = $data['ids'];
+    //     $measures = $data['measures'];
+    //     foreach ($ids as $i => $id) {
+    //         $measure = $measures[$i];
 
-    //         foreach ($lang_ids as $i => $id) {
-    //             $measure = $lang_measures[$i];
-
-    //             $insert = "INSERT INTO `language` (`user_id`, `programming_language_id`, `user_efficiency`, `created_at`) VALUES(
-    //             '$us_id', '$id', '$measure', NOW())";
-
-    //             if (!mysqli_query($conn, $insert)) {
-    //                 echo "Error: " . mysqli_error($conn);
-    //             }
+    //         $insert = "INSERT INTO `user_languages` (`user_id`, `language_id`, `user_efficiency`, `created_at`) VALUES(
+    //         '{$_SESSION['user_id']}', '$id', '$measure', NOW())";
+    //         if (!mysqli_query($conn, $insert)) {
+    //             echo "Error: " . mysqli_error($conn);
     //         }
-    //         echo "<script>alert('Skills inserted successfully!'); window.history.back();</script>";
-    //     } else {
-    //        echo "<script>alert('Failed to insert!');</script>";
     //     }
+    //     echo json_encode(value: ['success' => true]);
+    // } else {
+    //     echo json_encode(['success' => false]);
+    // }
 
-    
-require_once '../../dbconfig.php';
+    if (!empty($_POST['ids'])){
+        $ids = $_POST['ids'];
+        $measures = $_POST['measures'];
 
-    header('Content-Type: application/json');
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    if (!empty($data['ids']) && !empty($data['measures']) && count($data['ids']) === count($data['measures'])) {
-        $ids = $data['ids'];
-        $measures = $data['measures'];
-        foreach ($ids as $i => $id) {
+        foreach ($ids as $i => $id){
             $measure = $measures[$i];
+            $insert = "INSERT INTO `user_languages`  (`user_id`, `language_id`, `user_efficiency`, `created_at`)
+                VALUES (".$_SESSION['user_id']." , '$id', '$measure', NOW())";
 
-            $insert = "INSERT INTO `user_languages` (`user_id`, `language_id`, `user_efficiency`, `created_at`) VALUES(
-            '{$_SESSION['user_id']}', '$id', '$measure', NOW())";
-            if (!mysqli_query($conn, $insert)) {
-                echo "Error: " . mysqli_error($conn);
+            if(!mysqli_query($conn,$insert)){
+                echo json_encode (['status' => 'error', 'message' => mysqli_error($conn)]);
             }
         }
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false]);
+        echo json_encode (value: ['status' => 'success']);
     }
 
 ?>

@@ -99,6 +99,7 @@ if (isset($_POST['first_name'])) {
         ";
 
         if (!mysqli_query($conn, $insert)) {
+            $response['status'] = 'success';
             $response['error'] = mysqli_error($conn);
             echo json_encode($response);
             exit;
@@ -122,5 +123,6 @@ if (isset($_POST['first_name'])) {
         }
     }
     echo json_encode($response);
+
 }
 ?>

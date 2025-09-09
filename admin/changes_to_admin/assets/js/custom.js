@@ -840,33 +840,31 @@ $(document).on('submit', '#profile-prog', function (e) {
     });
 
     let skillMeasures = [];
-    $('input[name="ps-measures[]"]').each(function () {
+    $('input[name="ps-measures[]"]').each(function () {   // dont know what it does 
         skillMeasures.push(this.value);
     });
-
-    if (skillIds.length === 0 || skillMeasures.length === 0) {
-        alert("Add at least one field is empty");
-        return;
-    }
 
     $.ajax({
         url: 'crud/profile/programming_skills.php',
         type: 'POST',
+        contentType: 'application/json',
         dataType: 'json',
-        data: { ids: skillIds, measures: skillMeasures },
+        data: JSON.stringify({ ids: skillIds, measures: skillMeasures }),
         success: function (response) {
-            if (response.status === 'success') {
+            if (response.success == 'success') {
                 alert('Skill submitted successfully!');
-            } else {
-                alert('Error: ' + response.message);
+            }
+            else {
+                alert('Error: ' + response.error);
             }
         },
         error: function (xhr, status, error) {
             console.log("AJAX failed:", status, error);
-            console.log("Response text:", xhr.responseText);
+            console.log(xhr.responseText);
             alert("AJAX failed: " + error);
         }
     });
+
 });
 
 
@@ -897,6 +895,7 @@ function addRowLanguage() {
         </td>
     `;
 
+    // Reset the input fields
     skillNameSelect.value = '';
     document.getElementById('language-measure').value = '';
 }
@@ -905,31 +904,31 @@ $(document).on('submit', '#profile-lang', function (e) {
     e.preventDefault();
 
     let skillIds = [];
-    $('input[name="lang-ids[]"]').each(function () {
+    $('input[name="lang-ids[]"]').each(function () { // no idea 
         skillIds.push(this.value);
     });
+
     let skillMeasures = [];
-    $('input[name="lang-measures[]"]').each(function () {
+    $('input[name="lang-measures[]"]').each(function () { // no idea
         skillMeasures.push(this.value);
     });
 
     $.ajax({
         url: 'crud/profile/languages.php',
         type: 'POST',
+        contentType: 'application/json',
         dataType: 'json',
-        data: { ids: skillIds, measures: skillMeasures },
+        data: JSON.stringify({ ids: skillIds, measures: skillMeasures }),
         success: function (response) {
-            if (response.status == "success") {
+            if (response.success) {
                 alert('Language submitted successfully!');
             }
             else {
                 alert('Error: ' + response.message);
             }
         },
-        error: function (xhr, status, error) {
-            console.log("AJAX failed:", status, error);
-            console.log("Response text:", xhr.responseText);
-            alert("AJAX failed: " + error);
+        error: function (err) {
+            alert(err.value);
         }
     });
 });
@@ -960,8 +959,6 @@ $(document).on('submit', '#profile-icon', function (e) {
         }
     });
 });
-
-
 //$(document).on('submit')
 
 // $(document).on('submit', '#profile-lang', function (e) {
@@ -1016,104 +1013,6 @@ $(document).on('submit', '#profile-icon', function (e) {
 //     skillNameSelect.value = '';
 //     document.getElementById('language-measure').value = '';
 // }
-
-function addRowPlan() {
-    let planTypeSelect = document.getElementById('plan-type');
-    let selectedPlan = planTypeSelect.options[planTypeSelect.selectedIndex];
-    let planName = selectedPlan.text;
-    let planId = selectedPlan.value;
-
-    let price = document.getElementById('plan-price').value;
-    let skillTypeSelect = document.getElementById('skill-types');
-    let selectedSkill = skillTypeSelect.options[skillTypeSelect.selectedIndex];
-    let skillName = selectedSkill.text;
-    let skillID = selectedSkill.value;
-
-    let PopularityTypeSelect = document.getElementById('popularity-type');
-    let selectedPopularity = PopularityTypeSelect.options[PopularityTypeSelect.selectedIndex];
-    let popularityValue = selectedPopularity.text;
-
-    if (!planId || !price || !skillID || !popularityValue) {
-        alert("Please fill in all fields before adding the plan.");
-        return; // stop execution
-    }
-
-    let tableBody = document.querySelector('#plan-table tbody');
-    let rowCount = tableBody.rows.length + 1;
-    let tr = tableBody.insertRow();
-    tr.innerHTML = `
-                <td scope="row">${rowCount}</td>
-                <td>
-                    ${planName}
-                    <input type="hidden" name="plan-ids[]" value="${planId}">
-                </td>
-                <td>
-                    ${price}
-                    <input type="hidden" name="prices[]" value="${price}">
-                </td>
-                <td>
-                    ${skillName}
-                    <input type="hidden" name="skill-ids[]" value="${skillID}">    
-                </td>
-                <td>   
-                    ${popularityValue} 
-                    <input type="hidden" name="pops[]" value="${popularityValue}">
-                </td>
-            `;
-    planTypeSelect.value = '';
-    document.getElementById('plan-price').value = '';
-    skillTypeSelect.value = '';
-    PopularityTypeSelect.value = '';
-}
-
-function submitPlan() {
-    let planIds = [];
-    $('input[name="plan-ids[]"]').each(function () {
-        planIds.push(this.value);
-    });
-
-    let prices = [];
-    $('input[name="prices[]"]').each(function () {
-        prices.push(this.value);
-    });
-
-    let skillIds = [];
-    $('input[name="skill-ids[]"]').each(function () {
-        skillIds.push(this.value);
-    });
-
-    let pops = [];
-    $('input[name="pops[]"]').each(function () {
-        pops.push(this.value);
-    });
-    
-    $.ajax({
-        url: 'crud/profile/plans.php',
-        type: 'POST',
-        data: {
-            plan_ids: planIds,
-            prices: prices,
-            skill_ids: skillIds,
-            pops: pops 
-        },
-        success: function(response){
-            if(response.status == 'success'){
-                alert('Plan Submitted Successfully');
-                return;
-            }
-            else{
-            
-                alert("Error: "+ response.message);
-            }
-        },
-
-        error: function (xhr, status, error) {
-            console.log("AJAX failed:", status, error);
-            console.log("Response text:", xhr.responseText);
-            alert("AJAX failed: " + error);
-        }
-    });
-}
 
 
 function addRowProject() {
@@ -1205,7 +1104,7 @@ function addRowExtraSkill() {
     extraSkillTypeSelect.value = ''
 }
 
-function addExtraSkill() {
+function addExtraSkillTable() {
     let extraSkillIds = [];
     document.querySelectorAll('#profile-extra-skill input[type="hidden"]').forEach(input => {
         extraSkillIds.push(input.value);
@@ -1235,104 +1134,29 @@ function addRowQualification() {
     let qualificationId = selectedQualification.value;
     let startDate = document.getElementById('start-date').value;
     let endDate = document.getElementById('end-date').value;
-    let description = document.getElementById('description').value;
-    let certification = document.getElementById('cert').value;
-    let fileName = document.getElementById('file-name').files[0].name;
+    let description = document.getElementById('qualification-description').value;
+    let certifcation = document.getElementById('certification').value;
+    let fileName = document.getElementById('qfile-name').value;
 
     let tableBody = document.querySelector('#profile-qual tbody');
     let rowCount = tableBody.rows.length + 1;
     let tr = tableBody.insertRow();
     tr.innerHTML = `
-        <td scope="row">${rowCount}</td>
-        <td>${qualificationName}
-            <input type="hidden" name="qualification-ids[]" value="${qualificationId}">
-        </td>
-        <td>${startDate}
+        <td scope="row">?${rowCount}</td>
+        <td>${qualificationName}</td>
+        <td>${startDate}</td>
+        <td>${endDate}</td>
+        <td>${description}</td>
+        <td>${certifcation}</td>
+        <td>${fileName}</td>
+        <input type="hidden" name="qualification-ids[]" value="${extraSkillId}">
 
-            <input type="hidden" name="start-dates[]" value="${startDate}">
-        </td>
-        <td>
-            ${endDate}
-            <input type="hidden" name="end-dates[]" value="${endDate}">
-        </td>
-        <td>${description}
-            <input type="hidden" name="description[]" value="${description}">
-        </td>
-        <td>${certification}
-            <input type="hidden" name="certifications[]" value="${certification}">
-        </td>
-        <td>${fileName}
-            <input type="hidden" name="files[]" value="${fileName}">
-        </td>
     `;
     qualificationTypeSelect.value = '';
     document.getElementById('start-date').value = '';
     document.getElementById('end-date').value = '';
     document.getElementById('qualification-description').value = '';
     document.getElementById('certification').value = '';
-    document.getElementById('file-name').value = '';
+    document.getElementById('qfile-name').value = '';
 }
 
-function submitQualification() {
-    let form = document.getElementById('profile-qual');
-    let formData = new FormData(form);
-    if (fileInput.files[0]) {
-        formData.append('file', fileInput.files[0]);
-    }
-
-    $.ajax({
-        url: 'crud/profile/qualifications.php',
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            // console.log(response);
-        },
-        error: function (xhr, status, error) {
-            console.log("AJAX failed:", status, error);
-            console.log("Response text:", xhr.responseText);
-            alert("AJAX failed: " + error);
-        }
-    });
-
-}
-
-function addRowSkillList() {
-    let skillListSelect = document.getElementById('skill-list');
-    let selectedSkillList = skillListSelect.options[skillListSelect.selectedIndex];
-    let skillListName = selectedSkillList.text;
-    let skillListId = selectedSkillList.value;
-
-    let tableBody = document.querySelector('#skill-list-table tbody');
-    let rowCount = tableBody.rows.length + 1;
-    let tr = tableBody.insertRow();
-    tr.innerHTML = `
-        <td scope="row">${rowCount}</td>
-        <td>            
-            ${skillListName}
-            <input type="hidden" name="skill-list-ids[]" value="${skillListId}"> 
-        </td>
-    `;
-    skillListSelect.value = '';
-}
-
-function submitSkillList() {
-    let skillListIds = [];
-    $('input[name="lang-ids[]"]').each(function () {
-        skillListIds.push(this.value);
-    });
-
-    $ajax({
-        url: 'crud/profile/skillLists.php',
-        type: 'POST',
-        success: function (response) {
-            if (response.status == 'success') {
-                alert('Skill List added Successfully');
-            }
-            else {
-                alert('Error ' + response.message);
-            }
-        }
-    });
-}

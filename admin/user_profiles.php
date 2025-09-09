@@ -29,13 +29,13 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="first_name" class="form-label">First Name</label>
                                         <input type="text" class="form-control" id="first_name" name="first_name"
-                                            value="<?php echo $_SESSION['first_name'] ?>" >
+                                            value="<?php echo $_SESSION['first_name'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="last_name" class="form-label">Last Name</label>
                                         <input type="text" class="form-control" id="last_name" name="last_name"
-                                            value="<?php echo $_SESSION['last_name'] ?>" >
+                                            value="<?php echo $_SESSION['last_name'] ?>">
                                     </div>
 
                                     <!-- <div class="col-4">
@@ -49,7 +49,7 @@ $id = 1;
                                         <div class="input-group">
                                             <span class="input-group-text">@</span>
                                             <input type="text" class="form-control" id="user-name" name="user-name"
-                                                placeholder="" >
+                                                placeholder="">
                                         </div>
                                     </div>
 
@@ -57,25 +57,25 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" id="password1" name="password1"
-                                            placeholder="" >
+                                            placeholder="">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="designation" class="form-label">Designation</label>
                                         <input type="text" class="form-control" id="designation" name="designation"
-                                            placeholder="" >
+                                            placeholder="">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="email" name="email"
-                                            value="<?= $_SESSION['email'] ?>" >
+                                            value="<?= $_SESSION['email'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="personal_no" class="form-label">Personal No</label>
                                         <input type="number" class="form-control" id="personal_no" name="personal_no"
-                                            value="<?= $_SESSION['personal_no'] ?>" >
+                                            value="<?= $_SESSION['personal_no'] ?>">
                                     </div>
 
                                     <div class="col-4">
@@ -87,7 +87,7 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="office_no" class="form-label">Office No</label>
                                         <input type="number" class="form-control" id="office_no" name="office_no"
-                                            value="<?= $_SESSION['office_no'] ?>" >
+                                            value="<?= $_SESSION['office_no'] ?>">
                                     </div>
 
                                     <div class="col-4">
@@ -439,7 +439,7 @@ $id = 1;
                     <div class="card mt-3 skill-card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Programming Skill</h5>
-                        </div>  
+                        </div>
                         <div class="card-body">
                             <form id="profile-prog" method="POST">
 
@@ -927,7 +927,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Plan</h5>
                         </div>
                         <div class="card-body">
-                            <form id="plan-form" action="plan_viewer.php" method="POST">
+                            <form id="profile-plan"  method="POST">
 
                                 <div class="row mb-5">
                                     <div class="col-md-3">
@@ -951,7 +951,7 @@ $id = 1;
 
                                     <div class="col-md-3">
                                         <label for="plan-price" class="form-label">Price</label>
-                                        <input type="number" class="form-control" id="plan-price" name="plan_price"
+                                        <input type="number" class="form-control" id="plan-price" name="plan-price"
                                             min="0" step="1" placeholder="Enter Price">
                                     </div>
 
@@ -959,9 +959,18 @@ $id = 1;
                                         <label for="skill-types" class="form-label">Skill Type</label>
                                         <select id="skill-types" class="form-select" aria-label="Skill Type Selection">
                                             <option value="" selected disabled>-- Select Skill type --</option>
-                                            <option value="design">Design</option>
-                                            <option value="development">Development</option>
-                                            <option value="marketing">Marketing</option>
+                                            <?php $select = "SELECT * FROM `skill_list_types`";
+                                                $result = mysqli_query($conn, $select);
+                                                if ($result && $result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        ?>
+                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+
+                                                        </option>
+                                                        <?php
+                                                    }
+                                                }
+                                            ?>
                                         </select>
                                     </div>
 
@@ -970,14 +979,18 @@ $id = 1;
                                         <select id="popularity-type" class="form-select"
                                             aria-label="Popularity Selection">
                                             <option value="" selected disabled>-- Select Popularity --</option>
-
-                                            <option value="low">0</option>
+                                            <?php
+                                                    for($i = 0; $i <= 10; $i++){
+                                            ?>
+                                                        <option value=""><?= $i ?></option>       
+                                            
+                                            <?php } ?>
                                         </select>
                                     </div>
 
                                     <div class="col-md-3 mt-4">
                                         <button type="button" class="btn btn-success" id="addPlanButton"
-                                            onclick="addPlanRow()">Add</button>
+                                            onclick="addRowPlan()">Add</button>
                                     </div>
                                 </div>
 
@@ -994,13 +1007,7 @@ $id = 1;
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td scope="row">1</td>
-                                                    <td scope="row">Hourly</td>
-                                                    <td scope="row">0</td>
-                                                    <td scope="row">Development</td>
-                                                    <td scope="row">1</td>
-                                                </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -1008,7 +1015,7 @@ $id = 1;
 
                                 <div class="alert-container col-md-12"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
+                                    <button type="button" onclick="submitPlan()" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1022,7 +1029,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Qualification</h5>
                         </div>
                         <div class="card-body">
-                            <form id="qualification-form" action="qualification_viewer.php" method="POST">
+                            <form id="profile-qual" enctype="multipart/sform-data" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-4">
@@ -1032,8 +1039,8 @@ $id = 1;
                                     </div> -->
 
                                     <div class="col-md-3">
-                                        <label for="" class="form-label">Qualification ID</label>
-                                        <select class="form-select" id="l" name="" required>
+                                        <label for="qualification" class="form-label">Qualification ID</label>
+                                        <select class="form-select" id="qualification" name="qualification" required>
                                             <option value="" selected disabled>-- Select Qualification --</option>
                                             <?php $select = "SELECT * FROM `qualification_types`";
                                             $result = mysqli_query($conn, $select);
@@ -1041,8 +1048,6 @@ $id = 1;
                                                 while ($row = $result->fetch_assoc()) {
                                                     ?>
                                                     <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
-
-
                                                     <?php
                                                 }
                                             }
@@ -1051,14 +1056,14 @@ $id = 1;
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="start_date" class="form-label">Start Date</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date"
+                                        <label for="start-date" class="form-label">Start Date</label>
+                                        <input type="date" class="form-control" id="start-date" name="start-date"
                                             required>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="end_date" class="form-label">End Date</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                        <label for="end-date" class="form-label">End Date</label>
+                                        <input type="date" class="form-control" id="end-date" name="end-date" required>
                                     </div>
 
                                     <div class="col-md-6">
@@ -1068,8 +1073,8 @@ $id = 1;
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label for="certification" class="form-label">Certification</label>
-                                        <input type="text" class="form-control" id="certification" name="certification"
+                                        <label for="cert" class="form-label">Certification</label>
+                                        <input type="text" class="form-control" id="cert" name="cert"
                                             placeholder="Enter Certification" required>
                                     </div>
 
@@ -1079,12 +1084,13 @@ $id = 1;
                                             placeholder="Enter File Name" required>
                                     </div> -->
                                     <div class="col-md-3">
-                                        <label for="file_name" class="form-label">Upload Image</label>
-                                        <input type="file" class="form-control" id="file_name" name="file_name"
+                                        <label for="file-name" class="form-label">Upload Image</label>
+                                        <input type="file" class="form-control" id="file-name" name="file-name"
                                             accept="image/*" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="button" onclick="addRowQualification()"
+                                            class="btn btn-success">Add</button>
                                     </div>
                                 </div>
 
@@ -1102,22 +1108,15 @@ $id = 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>SDE3</td>
-                                                <td>2021-01-01</td>
-                                                <td>2022-01-01</td>
-                                                <td>Java Fullstack Development</td>
-                                                <td>Certified</td>
-                                                <td>java_fullstack.png</td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
+                                    <button type="button" onclick="submitQualifications()"
+                                        class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1232,7 +1231,7 @@ $id = 1;
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="user-file-table">
+                                    <table class="table mb-0">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -1249,7 +1248,8 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" onclick="" id="" name="" class="btn btn-primary">Update</button>
+                                    <button type="submit" onclick="" id="" name=""
+                                        class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
@@ -1262,7 +1262,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Skill List</h5>
                         </div>
                         <div class="card-body">
-                            <form id="user-file-form" action="" method="POST">
+                            <form id="profile-list" method="POST">
                                 <div class="row g-3 mb-5">
 
                                     <!-- <div class="col-md-4">
@@ -1278,31 +1278,30 @@ $id = 1;
                                     </div>
                                      -->
                                     <div class=" col-3 mb-3">
-                                        <label for="" class="form-label">Skill List</label>
-                                        <select class="form-select" id="" name="" required>
+                                        <label for="skill-list" class="form-label">Skill List</label>
+                                        <select class="form-select" id="skill-list" name="skill-list" required>
                                             <option value="" selected disabled>-- Select Skill List --</option>
                                             <?php $select = "SELECT * FROM `skill_list_types`";
                                             $result = mysqli_query($conn, $select);
                                             if ($result && $result->num_rows > 0) {
                                                 while ($row = $result->fetch_assoc()) {
                                                     ?>
-                                                    <option value=""><?= $row['name'] ?></option>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
                                                     <?php
                                                 }
                                             }
-
                                             ?>
                                         </select>
                                     </div>
 
-
                                     <div class="col-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" class="btn btn-success" onlick="">Add</button>
+                                        <button type="button" class="btn btn-success"
+                                            onclick="addRowSkillList()">Add</button>
                                     </div>
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="user-file-table">
+                                    <table class="table mb-0" id="skill-list-table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -1310,10 +1309,6 @@ $id = 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Seo Optimization</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
