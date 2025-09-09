@@ -1102,7 +1102,7 @@ function submitPlan() {
                 return;
             }
             else{
-            
+                
                 alert("Error: "+ response.message);
             }
         },
