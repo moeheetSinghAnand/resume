@@ -30,9 +30,9 @@
                     </div>
 
                     <div class="card mt-3 skill-card">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <h5 class="card-title mb-0">Contacts</h5>
-                        </div>
+                        </div> -->
                         <div class="card-body">
 
                             <div class="table-responsive">

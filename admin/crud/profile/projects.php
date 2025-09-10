@@ -53,7 +53,7 @@ if (isset($_POST['proj-ids'])) {
                 break;
             }
         }
-
+        
 
         $insert = "INSERT INTO `user_projects` (`category_id`, `user_id`, `title`, `description`, `filename`, `created_at`) 
                     VALUES ('$id', '$us_id', '$title', '$desc', '$file_name', NOW())";

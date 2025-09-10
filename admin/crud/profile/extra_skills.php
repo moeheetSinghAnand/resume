@@ -5,5 +5,11 @@
     //     foreach ($data['ids'] as $i => $id) {
     //         $insert = "INSERT INTO `user_extra`"
     // }
+    // session_start();
+    // require_once '../../dbconfig.php';
+
+    // if(isset($_POST['id'])){
+    //     $check = "SELECT 1 FROM `user_extra`"
+    // }
     
 ?> -->

@@ -18,7 +18,17 @@
     // } else {
     //     echo json_encode(['success' => false]);
     // }
-
+    if (isset($_POST['id'])){
+         $check = "SELECT 1 FROM `user_languages` WHERE `user_id` = ".$_SESSION['user_id']." AND `language_id`= ".$_POST['id']." ";
+        if(mysqli_num_rows(mysqli_query($conn, $check)) > 0){
+            echo json_encode(['status' => 'already exists', 'message' => 'Language already exists']);
+            return;
+        }
+        else{
+            echo json_encode(['status' => 'success']);
+        }
+    }
+ 
     if (!empty($_POST['ids'])){
         $ids = $_POST['ids'];
         $measures = $_POST['measures'];
@@ -32,7 +42,7 @@
                 echo json_encode (['status' => 'error', 'message' => mysqli_error($conn)]);
             }
         }
-        echo json_encode (value: ['status' => 'success']);
+        echo json_encode ( ['status' => 'success']);
     }
 
 ?>

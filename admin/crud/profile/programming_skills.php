@@ -1,9 +1,7 @@
 <?php
     session_start();
     require_once '../../dbconfig.php';
-
     if (!empty($_POST['ids'])) {
-
         $ids = $_POST['ids'];
         $measures = $_POST['measures'];
  

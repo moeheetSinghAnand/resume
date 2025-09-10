@@ -493,14 +493,13 @@ $id = 1;
                                 <div class="row">
                                     <div class="table-responsive col-md-6">
                                         <table class="table mb-0" id="profile-prog-tab">
-                                            <thead>
-                                                <tr>
+                                            <!-- <thead> -->
+                                                <!-- <tr>
                                                     <th scope="col">#</th>
-                                                    <!-- <th scope="col">Skill Type</th> -->
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Skill Measure</th>
-                                                </tr>
-                                            </thead>
+                                                </tr> -->
+                                            <!-- </thead> -->
                                             <tbody>
                                                 <!-- <tr>
                                                     <td scope="row">1</td>
@@ -584,13 +583,13 @@ $id = 1;
 
                                 <div class="table-responsive">
                                     <table class="table mb-0" id="lang-table">
-                                        <thead>
+                                        <!-- <thead>
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Language Name</th>
                                                 <th scope="col">Efficiency</th>
-
-                                        </thead>
+                                            </tr>
+                                        </thead> -->
                                         <tbody>
 
                                         </tbody>
@@ -716,7 +715,7 @@ $id = 1;
 
                                     <div class="col-md-2">
                                         <label for="project-title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="project-title" name="roject-title"
+                                        <input type="text" class="form-control" id="project-title" name="project-title"
                                             placeholder="Enter Title" required>
                                     </div>
 
@@ -744,15 +743,15 @@ $id = 1;
                                         <button type="submit" class="btn btn-success">Add</button>
                                     </div>   -->
                                     <div class="col-3" style="margin-top: 3rem;">
-                                        <button type="button" class="btn btn-success"
-                                            onclick="addRowProject()">Add</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="addRowProject()">Update</button>
                                     </div>
 
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table class="table mb-0" id="user-table">
-                                        <thead>
+                                    <table class="table mb-0" id="project-table">
+                                        <!-- <thead>
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Category Name</th>
@@ -761,7 +760,7 @@ $id = 1;
                                                 <th scope="col">Description</th>
                                                 <th scope="col">File Name</th>
                                             </tr>
-                                        </thead>
+                                        </thead> -->
                                         <tbody>
 
                                         </tbody>
@@ -769,9 +768,9 @@ $id = 1;
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
-                                <div class="d-flex justify-content-end mt-4">
+                                <!-- <div class="d-flex justify-content-end mt-4">
                                     <button type="submit" id="" name="" class="btn btn-primary">Update</button>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -997,7 +996,7 @@ $id = 1;
                                 <div class="row">
                                     <div class="table-responsive col-md-12">
                                         <table class="table mb-0" id="plan-table">
-                                            <thead>
+                                            <!-- <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Plan Type</th>
@@ -1005,7 +1004,7 @@ $id = 1;
                                                     <th scope="col">Skill Types</th>
                                                     <th scope="col">Popularity</th>
                                                 </tr>
-                                            </thead>
+                                            </thead> -->
                                             <tbody>
 
                                             </tbody>
@@ -1090,7 +1089,7 @@ $id = 1;
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" onclick="addRowQualification()"
-                                            class="btn btn-success">Add</button>
+                                            class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
 
@@ -1114,10 +1113,10 @@ $id = 1;
                                 </div>
 
                                 <div class="alert-container mt-3"></div>
-                                <div class="d-flex justify-content-end mt-4">
+                                <!-- <div class="d-flex justify-content-end mt-4">
                                     <button type="button" onclick="submitQualifications()"
                                         class="btn btn-primary">Update</button>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -1226,7 +1225,7 @@ $id = 1;
 
 
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="button" class="btn btn-primary" onclick="addRowIcon()">Update</button>
                                     </div>
                                 </div>
 
@@ -1239,18 +1238,18 @@ $id = 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>1</td>
                                                 <td>twitter.png</td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
-                                <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" onclick="" id="" name=""
+                                <!-- <div class="d-flex justify-content-end mt-4">
+                                    <button type="submit" id="" name=""
                                         class="btn btn-primary">Update</button>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -1302,19 +1301,19 @@ $id = 1;
 
                                 <div class="table-responsive">
                                     <table class="table mb-0" id="skill-list-table">
-                                        <thead>
+                                        <!-- <thead>
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Skill List ID</th>
                                             </tr>
-                                        </thead>
+                                        </thead> -->
                                         <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="submit" id="" name="" class="btn btn-primary">Update</button>
+                                    <button type="button" onclick="submitSkillList()" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
