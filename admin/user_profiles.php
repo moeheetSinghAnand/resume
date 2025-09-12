@@ -494,7 +494,7 @@ $id = 1;
                                     <div class="table-responsive col-md-6">
                                         <table class="table mb-0" id="profile-prog-tab">
                                             <!-- <thead> -->
-                                                <!-- <tr>
+                                            <!-- <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Skill Measure</th>
@@ -707,10 +707,13 @@ $id = 1;
                                                 }
                                             }
                                             ?>
+                                            <option value="Other">Other</option>
                                         </select>
-                                        <input type="hidden" id="project-id" name="project-id">
-
+                                        <!-- <input type="hidden" id="project-id" name="project-id"> -->
                                     </div>
+
+                                    <input type="text" class="form-control" id="custom-category" name="custom-category"
+                                        placeholder="Enter category" style="display:none;">
 
 
                                     <div class="col-md-2">
@@ -926,7 +929,7 @@ $id = 1;
                             <h5 class="card-title mb-0">Plan</h5>
                         </div>
                         <div class="card-body">
-                            <form id="profile-plan"  method="POST">
+                            <form id="profile-plan" method="POST">
 
                                 <div class="row mb-5">
                                     <div class="col-md-3">
@@ -959,16 +962,16 @@ $id = 1;
                                         <select id="skill-types" class="form-select" aria-label="Skill Type Selection">
                                             <option value="" selected disabled>-- Select Skill type --</option>
                                             <?php $select = "SELECT * FROM `skill_list_types`";
-                                                $result = mysqli_query($conn, $select);
-                                                if ($result && $result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        ?>
-                                                        <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                                            $result = mysqli_query($conn, $select);
+                                            if ($result && $result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                    <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
 
-                                                        </option>
-                                                        <?php
-                                                    }
+                                                    </option>
+                                                    <?php
                                                 }
+                                            }
                                             ?>
                                         </select>
                                     </div>
@@ -979,10 +982,10 @@ $id = 1;
                                             aria-label="Popularity Selection">
                                             <option value="" selected disabled>-- Select Popularity --</option>
                                             <?php
-                                                    for($i = 0; $i <= 10; $i++){
-                                            ?>
-                                                        <option value=""><?= $i ?></option>       
-                                            
+                                            for ($i = 0; $i <= 10; $i++) {
+                                                ?>
+                                                <option value=""><?= $i ?></option>
+
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -1225,18 +1228,14 @@ $id = 1;
 
 
                                     <div class="col-md-3" style="margin-top: 2.9rem;">
-                                        <button type="button" class="btn btn-primary" onclick="addRowIcon()">Update</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="addRowIcon()">Update</button>
                                     </div>
                                 </div>
 
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">File Name</th>
-                                            </tr>
-                                        </thead>
+                                <div class="table-responsive" id="icon-table">
+                                    <table class="table mb-0" id="icons-table">
+                                     
                                         <tbody>
                                             <!-- <tr>
                                                 <td>1</td>
@@ -1313,7 +1312,8 @@ $id = 1;
                                 </div>
                                 <div class="alert-container mt-3"></div>
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="button" onclick="submitSkillList()" class="btn btn-primary">Update</button>
+                                    <button type="button" onclick="submitSkillList()"
+                                        class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>

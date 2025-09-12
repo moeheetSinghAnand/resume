@@ -1,4 +1,15 @@
+/* Stand AlOne */
+const selectedCategory = document.getElementById('project-category'); //  category dropdown (this might 9defineityl will cause) errors)
+const customCategory = document.getElementById('custom-category'); //text-box to insert category
 
+function insertCustomCategory() {
+    if (selectedCategory.value == 'Other') {
+        customCategory.style.display = 'inline-block' // will break alignment
+        customCategory.required = true;
+    }
+}
+selectedCategory.addEventListener('change', insertCustomCategory); // Attach the function to the dropdown
+/* Extremely dangerous code */
 
 
 $(document).on('submit', '#categoryForm', function (e) {
@@ -405,11 +416,10 @@ $(document).ready(function () {
         let password = $('#password').val();
         let confirmation = $('#confirm-password').val();
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            alert("Invalid email");
-        }
+        /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        }*/
 
-        else if (password.length < 8 || password.length > 32) {
+         if (password.length < 8 || password.length > 32) {
             alert("Password must be between 8 and 32 characters.");
         }
 
@@ -1062,19 +1072,72 @@ $(document).on('submit', '#profile-lang', function (e) {
         }
     });
 });
+// function addRowIcon() {
+//     let icon = document.getElementById('file_icon').files[0].name;
+//     let tableBody = document.querySelector('#profile-icon tbody');
+//     let rowCount = tableBody.rows.length + 1;
+//     let tr = tableBody.insertRow();
+//     tr.innerHTML = `
+//         <td scope="row">${rowCount}</td>
+//         <td>
+//             ${icon}
+//             <input type="hidden" name="file-names[]" value="${icon}">
+//         </td>
+//     `;
+//     document.getElementById('file_icon').value = '';
+// }
+
 function addRowIcon() {
-    let icon = document.getElementById('file_icon').files[0].name;
-    let tableBody = document.querySelector('#profile-icon tbody');
-    let rowCount = tableBody.rows.length + 1;
-    let tr = tableBody.insertRow();
-    tr.innerHTML = `
-        <td scope="row">${rowCount}</td>
-        <td>
-            ${icon}
-            <input type="hidden" name="file-names[]" value="${icon}">
-        </td>
-    `;
-    document.getElementById('file_icon').value = '';
+    let formData = new FormData(document.getElementById('profile-icon'));
+    $.ajax({
+        url: "crud/profile/icons.php",
+        type: "POST",
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (response) {
+            if (response.status == 'success') {
+                alert("Icon updated successfully");
+                    let table = document.getElementById('icons-table');
+                    if (!table.querySelector('thead')) { 
+                    let thead = table.createTHead();
+                    thead.innerHTML = `
+                        <tr> 
+                            <th scope="col">#</th>
+                            <th scope="col">File Name</th>           
+                        </tr>
+                    `;
+                }
+
+
+                let icon = document.getElementById('file_icon').files[0].name;
+                // let table = document.getElementById('profile-icon');
+                let tableBody = document.querySelector('#icons-table tbody');
+                let rowCount = tableBody.rows.length + 1;
+                let tr = tableBody.insertRow();
+                tr.innerHTML = `
+                    <td scope="row">${rowCount}</td>
+                    <td>
+                        ${icon}
+                        <input type="hidden" name="file-names[]" value="${icon}">
+                    </td>
+                `;
+                document.getElementById('file_icon').value = '';
+            }
+            else if (response.message = 'already exists') {
+                alert("Icon already exists");
+            }
+            else {
+                alert("Error: " + response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("AJAX failed:", status, error);
+            console.log("Response text:", xhr.responseText);
+            alert("AJAX failed: " + error);
+        }
+    });
 }
 
 // $(document).on('submit', '#profile-icon', function (e) {
@@ -1105,9 +1168,9 @@ function addRowIcon() {
 //     });
 // });
 
-function submitIcon() {
-    let
-}
+// function submitIcon() {
+//     let
+// }
 
 function addRowPlan() {
     let planTypeSelect = document.getElementById('plan-type');
@@ -1274,7 +1337,7 @@ function submitPlan() {
 }
 
 
-function addRowProject() {
+function addTableProject() {
     let projectTypeSelect = document.getElementById('project-category')
     let selectedProject = projectTypeSelect.options[projectTypeSelect.selectedIndex];
     let projectName = selectedProject.text;
@@ -1308,39 +1371,43 @@ function addRowProject() {
         <td>
             <input type="text" name="proj-descriptions[]" value="${projectDescription.value}" class="form-control">
         </td>
-        
-            <td>${fileName}</td>
-            <input type="hidden" name="proj-ids[]" value="${projectId}">
-            <input type="hidden" name="file-names[]" value="${fileName}">
+
+            <td>${fileName}
+                <input type="hidden" name="proj-ids[]" value="${projectId}">
+                <input type="hidden" name="file-names[]" value="${fileName}">
+            </td>   
     `;
     projectTypeSelect.value = '';
     projectTitle.value = '';
     projectDescription.value = '';
-    fileName.value = '';
+    //fileName.value = '';
 }
 
-$(document).on('submit', '#profile-proj', function (e) {
-    e.preventDefault(); // Make sure to prevent default form submission
-    let formData = new FormData(this); // Collect all form inputs automatically
+
+function addRowProject() {
+    let formData = new FormData(document.getElementById('profile-proj'));
     $.ajax({
-        url: 'crud/profile/projects.php',
-        type: 'POST',
+        url: "crud/profile/projects.php",
+        type: "POST",
         data: formData,
-        processData: false, // Needed for FormData
-        contentType: false, // Needed for FormData
         dataType: 'json',
+        processData: false,
+        contentType: false,
         success: function (response) {
-            if (response.success) {
-                alert('Project submitted successfully!');
-            } else {
-                alert('Error: ' + response.message);
+            if (response.status == 'success') {
+                alert("Project Updated successfully ");
+                addTableProject();
+            }
+            else {
+                alert("Error: " + response.message);
             }
         },
-        error: function (err) {
-            alert(err.value);
-        }
+        error: function (xhr, status, error) {
+            console.error("AJAX error:", xhr.responseText);
+            alert("AJAX failed: " + error);
+        },
     });
-});
+}
 
 function addRowExtraSkill() {
     let extraSkillTypeSelect = document.getElementById('extra-skill')
