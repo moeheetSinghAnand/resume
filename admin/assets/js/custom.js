@@ -282,8 +282,7 @@ function myLogout() {
 $(document).ready(function () {
     $('#datatable').DataTable();
 
-
-    //  datatable1').DataTable();
+    // $('datatable1').DataTable();
     // $('#contact-table1').DataTable();
     // $('#index-page-form').on('submit',function(e){
     //     e.preventDefault();
@@ -419,7 +418,7 @@ $(document).ready(function () {
         /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         }*/
 
-         if (password.length < 8 || password.length > 32) {
+        if (password.length < 8 || password.length > 32) {
             alert("Password must be between 8 and 32 characters.");
         }
 
@@ -557,7 +556,6 @@ $(document).on('click', '.edit-extraskill-btn', function () {
     $("#editExtraSkillName").val(extraSkillname);
     $('#editExtraSkillModal').modal('show');
 });
-
 
 $(document).on('submit', '#editExtraSkillForm', function (e) {
     e.preventDefault();
@@ -1099,8 +1097,8 @@ function addRowIcon() {
         success: function (response) {
             if (response.status == 'success') {
                 alert("Icon updated successfully");
-                    let table = document.getElementById('icons-table');
-                    if (!table.querySelector('thead')) { 
+                let table = document.getElementById('icons-table');
+                if (!table.querySelector('thead')) {
                     let thead = table.createTHead();
                     thead.innerHTML = `
                         <tr> 
