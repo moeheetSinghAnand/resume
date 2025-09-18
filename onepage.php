@@ -1,5 +1,6 @@
 <?php //session_start(); 
 require_once('admin/dbconfig.php');
+
 $user_global;
 if (isset($_GET['token'])) {
   $select = "SELECT * FROM `user_registrations` WHERE `token` = '" . $_GET['token'] . "'";
@@ -8,19 +9,22 @@ if (isset($_GET['token'])) {
   $GLOBALS['id'] = $user_global['id'];
 }
 
-function itExists($tableName, $conn){
-    //echo $user_global['id'];
-    $select = "SELECT * FROM  `$tableName` WHERE `user_id` = ".$GLOBALS['id']."  ";
-    $result = mysqli_query($conn, $select);
-    if(mysqli_num_rows( $result) > 0){
-        echo "hit";
-        return true;
-    }
-    else{
-      return false;
-    }
-}
+$select_pic = "SELECT `file_name`  FROM `user_profiles` WHERE `user_id` = " . $GLOBALS['id'] . " ";
+$user_pic = mysqli_fetch_assoc(mysqli_query($conn, $select_pic));
+//var_dump($user_pic['file_name']); 
 
+function itExists($tableName, $conn)
+{
+  $select = "SELECT COUNT(1) AS count FROM  `$tableName` WHERE `user_id` = " . $GLOBALS['id'] . "  ";
+  $result = mysqli_query($conn, $select);
+  $row = mysqli_fetch_assoc($result);
+
+  if ($row['count'] > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 ?>
 
 <!doctype html>
@@ -84,8 +88,9 @@ function itExists($tableName, $conn){
             <div class="art-header">
               <!-- avatar -->
               <div class="art-avatar">
-                <a data-fancybox="avatar" href="assets/img/face-1.jpg" class="art-avatar-curtain">
-                  <img src="assets/img/face-1.jpg" alt="avatar">
+                <a data-fancybox="avatar" href="admin/assets/images/profile_pics/<?php echo $user_pic['file_name']; ?>"
+                  class="art-avatar-curtain">
+                  <img src="admin/assets/images/profile_pics/<?php echo $user_pic['file_name']; ?>" alt="avatar">
                   <i class="fas fa-expand"></i>
                 </a>
                 <!-- available -->
@@ -145,23 +150,26 @@ function itExists($tableName, $conn){
 
                 <?php
 
-                $check = "SELECT * FROM `user_languages` WHERE `user_id` = 1";
-                $result = mysqli_query($conn, $check);
-                if (mysqli_num_rows($result) > 0) {
-                  while ($row1 = mysqli_fetch_assoc($result)) {
-                    $select2 = "SELECT `name` FROM `language_types` WHERE `id` = '" . $row1['language_id'] . "'";
-                    $row2 = mysqli_fetch_assoc(mysqli_query($conn, $select2));
+                // $check = "SELECT * FROM `user_languages` WHERE `user_id` = ".$GLOBALS['id']." ";
+                if (itExists('user_languages', $conn)) {
+                  $select_lang = "SELECT `language_id`, `user_efficiency` FROM `user_languages` WHERE `user_id` = '" . $GLOBALS['id'] . "' ";
+                  $result_lang = mysqli_query($conn, $select_lang);
+
+                  while ($row_lang = mysqli_fetch_assoc($result_lang)) {
+                    $select_lang_name = "SELECT `name` FROM `language_types` WHERE `id` = '" . $row_lang['language_id'] . "'";
+                    $row_lang_name = mysqli_fetch_assoc(mysqli_query($conn, query: $select_lang_name));
 
                     ?>
 
                     <div class="art-lang-skills-item">
-                      <div id="circleprog1" class="art-cirkle-progress"></div>
-                      title
-                      <h6><?php echo $row2['name']; ?></h6>
+                      <div id="circleprog1" class="art-cirkle-progress" style="position: relative;"></div>
+                      <h6><?php echo $row_lang_name['name']; ?></h6>
                     </div>
+
                     <?php
                   }
                 }
+  
 
                 ?>
 
@@ -271,23 +279,20 @@ function itExists($tableName, $conn){
             <!-- scroll frame end -->
 
             <!-- sidebar social -->
-            <div class="art-ls-social">
-                <?php
-                    $select_icon = "SELECT * FROM `user_social_icons` WHERE `id` = 62 ";
-                    $result_icon = mysqli_query($conn, $select_icon);
-                    if(mysqli_num_rows($result_icon) > 0){
-                      while($row_icon = mysqli_fetch_assoc($result_icon)){
-                ?>
-              <a href="#." target="_blank"><img src="<?php echo "admin/assets/images/sm_icons/". $row_icon['filename']; ?>"   alt="nothing" ></a>
-
+            <!-- <div class="art-ls-social"> -->
               <?php
-                      }
-                      
-                    }
-                  
+                // $select_icon = "SELECT * FROM `user_social_icons` WHERE `user_id` = ".$GLOBALS['id']." ";
+                // $result_icon = mysqli_query($conn, $select_icon);
+                // if (mysqli_num_rows($result_icon) > 0) {
+                //   while ($row_icon = mysqli_fetch_assoc($result_icon)) {
               ?>
-
-            </div>
+                  <!-- <a href="#." target="_blank"><img
+                      src="<?php //echo "admin/assets/images/sm_icons/" . $row_icon['filename']; ?>" alt="nothing"></a> -->
+                  <?php
+              //   }
+              // }
+              ?>
+            <!-- </div> -->
             <!-- sidebar social end -->
 
           </div>
@@ -324,17 +329,17 @@ function itExists($tableName, $conn){
                   <!-- col -->
                   <div class="col-lg-12">
                     <?php
-                    $select_prof = "SELECT * FROM `user_profiles` WHERE `user_id` = " . $user_global['id'] . " ";
-                    $result = mysqli_query($conn, $select_prof);
-                    $user_profile = mysqli_fetch_assoc($result);
-                    $user_services = [];
-                    $check_service = "SELECT `name` FROM `user_services` WHERE `user_id` =  " . $user_global['id'] . " ";
-                    $result_service = mysqli_query($conn, $check_service);
-                    if (mysqli_num_rows($result_service) > 0) {
-                      while ($row_service = mysqli_fetch_assoc($result_service)) {
-                        array_push($user_services, ($row_service['name']));
+                      $select_prof = "SELECT * FROM `user_profiles` WHERE `user_id` = " . $user_global['id'] . " ";
+                      $result = mysqli_query($conn, $select_prof);
+                      $user_profile = mysqli_fetch_assoc($result);
+                      $user_services = [];
+                      $check_service = "SELECT `name` FROM `user_services` WHERE `user_id` =  " . $user_global['id'] . " ";
+                      $result_service = mysqli_query($conn, $check_service);
+                      if (mysqli_num_rows($result_service) > 0) {
+                        while ($row_service = mysqli_fetch_assoc($result_service)) {
+                          array_push($user_services, ($row_service['name']));
+                        }
                       }
-                    }
                     // $row = $result->fetch_assoc();
                     // echo $row['experience'];
                     // echo $row['projects_completed'];
@@ -495,28 +500,15 @@ function itExists($tableName, $conn){
                   </div>
                   <!-- col end -->
 
-                  <!-- col -->
-                  <div class="col-lg-4 col-md-6">
+                  <?php
+                        if (itExists('user_services', $conn)){
+                          $select_service = "SELECT `name`, `description` FROM `user_services` WHERE `user_id` = ".$GLOBALS['id']." ";
+                          $result_service =  mysqli_query($conn, $select_service);
 
-                    <!-- service -->
-                    <div class="art-a art-service-icon-box">
-                      <!-- service content -->
-                      <div class="art-service-ib-content">
-                        <!-- title -->
-                        <h5 class="mb-15">Web Development</h5>
-                        <!-- text -->
-                        <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse
-                          commodi deserunt vitae, vero quasi! Veniam quaerat tenetur pariatur doloribus.</div>
-                        <!-- button -->
-                        <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
-                            now</a></div>
-                      </div>
-                      <!-- service content end -->
-                    </div>
-                    <!-- service end -->
+                          while($row_user_service = mysqli_fetch_assoc($result_service)){ 
+                          
+                  ?>
 
-                  </div>
-                  <!-- col end -->
 
                   <!-- col -->
                   <div class="col-lg-4 col-md-6">
@@ -526,10 +518,9 @@ function itExists($tableName, $conn){
                       <!-- service content -->
                       <div class="art-service-ib-content">
                         <!-- title -->
-                        <h5 class="mb-15">UI/UX Design</h5>
+                        <h5 class="mb-15"><?php echo  $row_user_service['name']; ?></h5>
                         <!-- text -->
-                        <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse
-                          commodi deserunt vitae, vero quasi! Veniam quaerat tenetur pariatur doloribus.</div>
+                        <div class="mb-15"><?php echo $row_user_service['description']; ?></div>
                         <!-- button -->
                         <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
                             now</a></div>
@@ -539,76 +530,25 @@ function itExists($tableName, $conn){
                     <!-- service end -->
 
                   </div>
+                <?php
+                          }}
+                ?>
                   <!-- col end -->
 
                   <!-- col -->
-                  <div class="col-lg-4 col-md-6">
-
-                    <!-- service -->
-                    <div class="art-a art-service-icon-box">
-                      <!-- service content -->
-                      <div class="art-service-ib-content">
-                        <!-- title -->
-                        <h5 class="mb-15">Sound Design</h5>
-                        <!-- text -->
-                        <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse
-                          commodi deserunt vitae, vero quasi! Veniam quaerat tenetur pariatur doloribus.</div>
-                        <!-- button -->
-                        <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
-                            now</a></div>
-                      </div>
-                      <!-- service content end -->
-                    </div>
-                    <!-- service end -->
-
-                  </div>
+                 
                   <!-- col end -->
 
                   <!-- col -->
-                  <div class="col-lg-4 col-md-6">
-
-                    <!-- service -->
-                    <div class="art-a art-service-icon-box">
-                      <!-- service content -->
-                      <div class="art-service-ib-content">
-                        <!-- title -->
-                        <h5 class="mb-15">Game Design</h5>
-                        <!-- text -->
-                        <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse
-                          commodi deserunt vitae, vero quasi! Veniam quaerat tenetur pariatur doloribus.</div>
-                        <!-- button -->
-                        <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
-                            now</a></div>
-                      </div>
-                      <!-- service content end -->
-                    </div>
-                    <!-- service end -->
-
-                  </div>
+             
                   <!-- col end -->
 
                   <!-- col -->
-                  <div class="col-lg-4 col-md-6">
-
-                    <!-- service -->
-                    <div class="art-a art-service-icon-box">
-                      <!-- service content -->
-                      <div class="art-service-ib-content">
-                        <!-- title -->
-                        <h5 class="mb-15">Advertising</h5>
-                        <!-- text -->
-                        <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus esse
-                          commodi deserunt vitae, vero quasi! Veniam quaerat tenetur pariatur doloribus.</div>
-                        <!-- button -->
-                        <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
-                            now</a></div>
-                      </div>
-                      <!-- service content end -->
-                    </div>
-                    <!-- service end -->
-
-                  </div>
+          
                   <!-- col end -->
+
+                  <!-- col -->
+      
 
                 </div>
                 <!-- row end -->
@@ -668,71 +608,71 @@ function itExists($tableName, $conn){
 
                   <!-- col -->
                   <?php
-                      if (itExists('user_plan_prices', $conn)){
-                        //echo $user_global['id'];
-                        $select_plan = "SELECT * FROM `user_plan_prices` WHERE `user_id` = 62 ";
-                        $result_plan = mysqli_query($conn, $select_plan);
-                      
-                        while($row_plan = mysqli_fetch_assoc($result_plan)){
-                          $select_plan_type = "SELECT `name` FROM `plan_types` WHERE `id` = '" . $row_plan['plan_type_id'] . "'";
-                          $row_plan_type = mysqli_fetch_assoc(mysqli_query($conn, $select_plan_type));
+                  if (itExists('user_plan_prices', $conn)) {
+                    //echo $user_global['id'];
+                    $select_plan = "SELECT * FROM `user_plan_prices` WHERE `user_id` = 62 ";
+                    $result_plan = mysqli_query($conn, $select_plan);
 
-                          $select_skill_type = "SELECT `name` FROM `programming_skill_types` WHERE `id`= '".$row_plan['skill_types']."' ";
-                          $row_skill_type = mysqli_fetch_assoc(mysqli_query($conn, $select_skill_type));
-                          
-                          $planTypeName = $row_plan_type['name'];
-                          $skillTypeName = $row_skill_type['name'];
-                  ?>
-          
-                  <div class="col-lg-4">
-            
-                    <!-- price -->
-                    <div class="art-a art-price">
-                      <!-- price body -->
-                      <div class="art-price-body">
-                        <h5 class="mb-30"><?php echo $planTypeName;?></h5>
-                        <!-- price cost -->
-                        <div class="art-price-cost">
-                          <div class="art-number"><?php echo $row_plan['price']; ?><sup>*</sup></div>
+                    while ($row_plan = mysqli_fetch_assoc($result_plan)) {
+                      $select_plan_type = "SELECT `name` FROM `plan_types` WHERE `id` = '" . $row_plan['plan_type_id'] . "'";
+                      $row_plan_type = mysqli_fetch_assoc(mysqli_query($conn, $select_plan_type));
+
+                      $select_skill_type = "SELECT `name` FROM `programming_skill_types` WHERE `id`= '" . $row_plan['skill_types'] . "' ";
+                      $row_skill_type = mysqli_fetch_assoc(mysqli_query($conn, $select_skill_type));
+
+                      $planTypeName = $row_plan_type['name'];
+                      $skillTypeName = $row_skill_type['name'];
+                      ?>
+
+                      <div class="col-lg-4">
+
+                        <!-- price -->
+                        <div class="art-a art-price">
+                          <!-- price body -->
+                          <div class="art-price-body">
+                            <h5 class="mb-30"><?php echo $planTypeName; ?></h5>
+                            <!-- price cost -->
+                            <div class="art-price-cost">
+                              <div class="art-number"><?php echo $row_plan['price']; ?><sup>*</sup></div>
+                            </div>
+                            <!-- price cost end -->
+                            <!-- price list -->
+                            <ul class="art-price-list">
+                              <!-- list item -->
+                              <li>Ui Design</li>
+                              <!-- list item -->
+                              <li>Web Development</li>
+                              <!-- list item -->
+                              <li class="art-empty-item">Logo design</li>
+                              <!-- list item -->
+                              <li class="art-empty-item">SEO optimization</li>
+                              <!-- list item -->
+                              <li class="art-empty-item">Wordpress integration</li>
+                            </ul>
+                            <!-- price list end -->
+                            <!-- button -->
+                            <a href="#." class="art-link art-color-link art-w-chevron">Order now</a>
+                            <div class="art-asterisk"><sup>*</sup>Free only when ordering paid services</div>
+                          </div>
+                          <!-- price body end -->
                         </div>
-                        <!-- price cost end -->
-                        <!-- price list -->
-                        <ul class="art-price-list">
-                          <!-- list item -->
-                          <li>Ui Design</li>
-                          <!-- list item -->
-                          <li>Web Development</li>
-                          <!-- list item -->
-                          <li class="art-empty-item">Logo design</li>
-                          <!-- list item -->
-                          <li class="art-empty-item">SEO optimization</li>
-                          <!-- list item -->
-                          <li class="art-empty-item">Wordpress integration</li>
-                        </ul>
-                        <!-- price list end -->
-                        <!-- button -->
-                        <a href="#." class="art-link art-color-link art-w-chevron">Order now</a>
-                        <div class="art-asterisk"><sup>*</sup>Free only when ordering paid services</div>
-                      </div>
-                      <!-- price body end -->
-                    </div>
-                    <!-- price end -->
+                        <!-- price end -->
 
-                  </div>
-                  <?php
-                          }
-                        }
-                      
+                      </div>
+                      <?php
+                    }
+                  }
+
                   ?>
 
                   <!-- grid -->
 
                   <!-- col -->
-              
+
                   <!-- col end -->
 
                   <!-- col -->
-               
+
                   <!-- col end -->
 
                 </div>
@@ -748,244 +688,24 @@ function itExists($tableName, $conn){
                 <div class="row">
 
                   <!-- col -->
-                  <div class="col-lg-12">
+                  <!-- <div class="col-lg-12">
 
-                    <!-- section title -->
                     <div class="art-section-title">
-                      <!-- title frame -->
                       <div class="art-title-frame">
-                        <!-- title -->
                         <h4>Recommendations</h4>
                       </div>
-                      <!-- title frame end -->
                     </div>
-                    <!-- section title end -->
 
-                  </div>
+                  </div> -->
                   <!-- col end -->
 
                   <!--  Review col -->
 
-                  <!-- <div class="col-lg-12"> -->
 
-                    <!-- slider container -->
-                    <!-- <div class="swiper-container art-testimonial-slider" style="overflow: visible"> -->
-                      <!-- slider wrapper -->
-                      <!-- <div class="swiper-wrapper"> -->
-                        <!-- slide -->
-                        <!-- <div class="swiper-slide"> -->
-
-                          <!-- testimonial -->
-                          <!-- <div class="art-a art-testimonial"> -->
-                            <!-- testimonial body -->
-                            <!-- <div class="testimonial-body"> -->
-                              <!-- photo -->
-                              <!-- <img class="art-testimonial-face" src="assets/img/testimonials/face-1.jpg" alt="face"> -->
-                              <!-- name -->
-                              <!-- <h5>Paul Trueman</h5> -->
-                              <!-- <div class="art-el-suptitle mb-15">Template author</div> -->
-                              <!-- text -->
-                              <!-- <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div> -->
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <!-- <div class="art-testimonial-footer">
-                              <div class="art-left-side"> -->
-                                <!-- star rate -->
-                                <!-- <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                </ul> -->
-                                <!-- star rate end -->
-                              <!-- </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div> -->
-                            <!-- testimonial footer end -->
-                          <!-- </div> -->
-                          <!-- testimonial end -->
-
-                        <!-- </div> -->
-                        <!-- slide end -->
-
-                        <!-- slide -->
-                        <!-- <div class="swiper-slide"> -->
-
-                          <!-- testimonial -->
-                          <!-- <div class="art-a art-testimonial"> -->
-                            <!-- testimonial body -->
-                            <!-- <div class="testimonial-body"> -->
-                              <!-- photo -->
-                              <!-- <img class="art-testimonial-face" src="assets/img/testimonials/face-2.jpg" alt="face"> -->
-                              <!-- name -->
-                              <!-- <h5>Paul Trueman</h5> -->
-                              <!-- <div class="art-el-suptitle mb-15">Template author</div> -->
-                              <!-- text -->
-                              <!-- <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div> -->
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <!-- <div class="art-testimonial-footer">
-                              <div class="art-left-side"> -->
-                                <!-- star rate -->
-                                <!-- <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li class="art-empty-item"><i class="fas fa-star"></i></li>
-                                </ul> -->
-                                <!-- star rate end -->
-                              <!-- </div>
-                              <div class="art-right-side"> -->
-
-                              <!-- </div>
-                            </div> -->
-                            <!-- testimonial footer end -->
-                          <!-- </div> -->
-                          <!-- testimonial end -->
-
-                        <!-- </div> -->
-                        <!-- slide end -->
-
-                        <!-- slide -->
-                        <!-- <div class="swiper-slide"> -->
-
-                          <!-- testimonial -->
-                          <!-- <div class="art-a art-testimonial"> -->
-                            <!-- testimonial body -->
-                            <!-- <div class="testimonial-body"> -->
-                              <!-- photo -->
-                              <!-- <img class="art-testimonial-face" src="assets/img/testimonials/face-3.jpg" alt="face"> -->
-                              <!-- name -->
-                              <!-- <h5>Paul Trueman</h5> -->
-                              <!-- <div class="art-el-suptitle mb-15">Template author</div> -->
-                              <!-- text -->
-                              <!-- <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div> -->
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <!-- <div class="art-testimonial-footer">
-                              <div class="art-left-side"> -->
-                                <!-- star rate -->
-                                <!-- <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                </ul> -->
-                                <!-- star rate end -->
-                              <!-- </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div> -->
-                            <!-- testimonial footer end -->
-                          <!-- </div> -->
-                          <!-- testimonial end -->
-
-                        <!-- </div> -->
-                        <!-- slide end -->
-
-                        <!-- slide -->
-                        <!-- <div class="swiper-slide"> -->
-
-                          <!-- testimonial -->
-                          <!-- <div class="art-a art-testimonial"> -->
-                            <!-- testimonial body -->
-                            <!-- <div class="testimonial-body"> -->
-                              <!-- photo -->
-                              <!-- <img class="art-testimonial-face" src="assets/img/testimonials/face-4.jpg" alt="face"> -->
-                              <!-- name -->
-                              <h5>Paul Trueman</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                              <!-- text -->
-                              <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div>
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <div class="art-testimonial-footer">
-                              <div class="art-left-side">
-                                <!-- star rate -->
-                                <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                </ul>
-                                <!-- star rate end -->
-                              </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div>
-                            <!-- testimonial footer end -->
-                          </div>
-                          <!-- testimonial end -->
-
-                        </div>
-                        <!-- slide end -->
-
-                      </div>
-                      <!-- slider wrapper end -->
-                    </div>
-                    <!-- slider container end -->
-
-                  </div>
-                  <!-- col end -->
+                  <!-- Review col end -->
 
                   <!-- col -->
-                  <div class="col-lg-12">
-
-                    <!-- slider navigation -->
-                    <div class="art-slider-navigation">
-
-                      <!-- left side -->
-                      <div class="art-sn-left">
-
-                        <!-- slider pagination -->
-                        <div class="swiper-pagination"></div>
-
-                      </div>
-                      <!-- left side end -->
-
-                      <!-- right side -->
-                      <div class="art-sn-right">
-
-                        <!-- slider navigation -->
-                        <div class="art-slider-nav-frame">
-                          <!-- prev -->
-                          <div class="art-slider-nav art-testi-swiper-prev"><i class="fas fa-chevron-left"></i></div>
-                          <!-- next -->
-                          <div class="art-slider-nav art-testi-swiper-next"><i class="fas fa-chevron-right"></i></div>
-                        </div>
-                        <!-- slider navigation -->
-
-                      </div>
-                      <!-- right side end -->
-
-                    </div>
-                    <!-- slider navigation end -->
-
-                  </div>
+               
                   <!-- col end -->
 
                 </div>
@@ -997,9 +717,8 @@ function itExists($tableName, $conn){
               <!-- container -->
               <div class="container-fluid">
 
-                <!-- row -->
+                <!-- Project row -->
                 <div class="row p-30-0">
-
                   <!-- col -->
                   <div class="col-lg-12">
 
@@ -1015,16 +734,16 @@ function itExists($tableName, $conn){
                       <div class="art-right-frame">
                         <!-- filter -->
                         <div class="art-filter"> <!-- Categories -->
-                          <a href="#" data-filter="*" class="art-link art-current">All Categories</a>
+                          <!-- <a href="#" data-filter="*" class="art-link art-current">All Categories</a> -->
                           <?php
-                          $check = "SELECT * FROM `user_projects` WHERE `user_id` = 1";
+                          $check = "SELECT * FROM `user_projects` WHERE `user_id` = 62 ";
                           $result = mysqli_query($conn, $check);
                           if (mysqli_num_rows($result) > 0) {
                             while ($row1 = mysqli_fetch_assoc($result)) {
                               $select = "SELECT * FROM `categories` WHERE `id` = " . $row1['category_id'] . "  ";
                               $row2 = mysqli_fetch_assoc(mysqli_query($conn, $select));
                               ?>
-                              <a href="#" data-filter="" class="art-link"><?php echo $row2['name']; ?></a>
+                              <!-- <a href="#" data-filter="" class="art-link"><?php // echo $row2['name']; ?></a> -->
 
                               <!-- <a href="#" data-filter=".webTemplates" class="art-link">Web Templates</a>
                           <a href="#" data-filter=".logos" class="art-link">Logos</a>
@@ -1058,7 +777,6 @@ function itExists($tableName, $conn){
                       // if (!copy($source, $dest)){
                       //     echo "Failed to render";
                       // }
-                    
                       $select_catgeory = "SELECT * FROM `categories` WHERE `id` = " . $row_project['category_id'] . "";
                       $row_category = mysqli_fetch_assoc(mysqli_query($conn, $select_catgeory));
                       ?>
@@ -1092,7 +810,7 @@ function itExists($tableName, $conn){
                   </div>
 
                 </div>
-                <!-- row end -->
+                <!-- Project row end -->
 
               </div>
               <!-- container end -->
@@ -1129,8 +847,7 @@ function itExists($tableName, $conn){
                           // echo $row2['description'];
                           // echo $row2['certification'];
                     
-
-                          ?>
+                        ?>
 
                           <!-- Education timeline -->
                           <div class="art-timeline art-gallery" id="history">
@@ -1165,68 +882,7 @@ function itExists($tableName, $conn){
 
                     ?>
 
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
-                            </div>
-                          </div>
-                          <div>Consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat
-                            iure tempora laudantium ipsa ad debitis unde?</div>
-                        </div>
-                      </div>
-
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
-                            </div>
-                          </div>
-                          <p>Dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?
-                            Iste voluptatibus minus veritatis qui ut.</p>
-                          <a data-fancybox="diplome" href="files/certificate.jpg"
-                            class="art-link art-color-link art-w-chevron">Licence</a>
-                        </div>
-
-                      </div>
-
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
-                            </div>
-                          </div>
-                          <p>Ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.
-                          </p>
-                          <a data-fancybox="diplome" href="files/certificate.jpg"
-                            class="art-link art-color-link art-w-chevron">Certificate</a>
-                        </div>
-
-                      </div>
+             
 
                     </div>
                     <!-- timeline end -->
@@ -1244,6 +900,19 @@ function itExists($tableName, $conn){
                       <!-- title frame end -->
                     </div>
                     <!-- section title end -->
+                     <?php
+                        if (itExists('user_qualification_details', $conn)){
+                          //$select_work = "SELECT `us` FROM `user_qualification_details` WHERE `user_id` = ".$GLOBALS['id']."";
+                          $select_work = "SELECT `qualification_id`, `type`, `start_date`, `end_date`, `description`, `certification`
+                          FROM `user_qualification_details` 
+                          WHERE `user_id` = ".$GLOBALS['id']."";
+                          $result_work = mysqli_query($conn, $select_work);
+
+                          while($row_work = mysqli_fetch_assoc($result_work)){
+                              if($row_work['type'] == 'job'){
+                                $select_qual_name = "SELECT `name` FROM `qualification_types` WHERE `id` = ".$row_work['qualification_id']." ";
+                                $row_qual_name = mysqli_fetch_assoc(mysqli_query($conn,$select_qual_name));
+                      ?>
 
                     <!-- timeline -->
                     <div class="art-timeline">
@@ -1256,219 +925,21 @@ function itExists($tableName, $conn){
                         <div class="art-a art-timeline-content">
                           <div class="art-card-header">
                             <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
+                              <h5><?php echo $row_qual_name['name'];  ?></h5>
+                              <div class="art-el-suptitle mb-15"><?php echo $user_global['first_name'] .' ', $user_global['last_name'];  ?></div>
                             </div>
                             <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
+                              <span class="art-date"><?php echo $row_work['start_date']. ' ' . $row_work['end_date'];    ?></span>
                             </div>
                           </div>
-                          <p>Placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui
-                            ut.</p>
+                          <p><?php echo $row_work['description']; ?></p>
                         </div>
                       </div>
+                      <?php 
+                          }}}
+                      ?>
 
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
-                            </div>
-                          </div>
-                          <p>Adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora
-                            laudantium ipsa ad debitis unde?</p>
-                          <a data-fancybox="recommendation" href="#art-recomendation-popup-1"
-                            class="art-link art-color-link art-w-chevron">Recommendation</a>
-                        </div>
-
-                        <!-- popup -->
-                        <div class="art-recomendation-popup" style="display: none;" id="art-recomendation-popup-1">
-
-                          <!-- testimonial -->
-                          <div class="art-a art-testimonial">
-                            <!-- testimonial body -->
-                            <div class="testimonial-body">
-                              <!-- photo -->
-                              <img class="art-testimonial-face" src="assets/img/testimonials/face-3.jpg" alt="face">
-                              <!-- name -->
-                              <h5>Paul Trueman</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                              <!-- text -->
-                              <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div>
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <div class="art-testimonial-footer">
-                              <div class="art-left-side">
-                                <!-- star rate -->
-                                <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                </ul>
-                                <!-- star rate end -->
-                              </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div>
-                            <!-- testimonial footer end -->
-                          </div>
-                          <!-- testimonial end -->
-
-                        </div>
-                        <!-- popup end -->
-
-                      </div>
-
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - may 2020</span>
-                            </div>
-                          </div>
-                          <p>Consectetur adipisicing elit. Excepturi, obcaecati, quisquam id molestias eaque asperiores
-                            voluptatibus cupiditate error assumenda delectus odit similique earum voluptatem doloremque
-                            dolorem
-                            ipsam quae rerum quis. Odit, itaque, deserunt corporis vero ipsum nisi eius odio natus ullam
-                            provident pariatur temporibus quia eos repellat consequuntur perferendis enim amet quae
-                            quasi repudiandae sed quod veniam
-                            dolore
-                            possimus rem voluptatum eveniet eligendi quis fugiat aliquam sunt similique aut adipisci.
-                          </p>
-                          <a data-fancybox="recommendation" href="#art-recomendation-popup-2"
-                            class="art-link art-color-link art-w-chevron">Recommendation</a>
-                        </div>
-
-                        <!-- popup -->
-                        <div class="art-recomendation-popup" style="display: none;" id="art-recomendation-popup-2">
-
-                          <!-- testimonial -->
-                          <div class="art-a art-testimonial">
-                            <!-- testimonial body -->
-                            <div class="testimonial-body">
-                              <!-- photo -->
-                              <img class="art-testimonial-face" src="assets/img/testimonials/face-4.jpg" alt="face">
-                              <!-- name -->
-                              <h5>Paul Trueman</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                              <!-- text -->
-                              <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div>
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <div class="art-testimonial-footer">
-                              <div class="art-left-side">
-                                <!-- star rate -->
-                                <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                </ul>
-                                <!-- star rate end -->
-                              </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div>
-                            <!-- testimonial footer end -->
-                          </div>
-                          <!-- testimonial end -->
-
-                        </div>
-                        <!-- popup end -->
-
-                      </div>
-
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
-
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5>Title of section 1</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                            </div>
-                            <div class="art-right-side">
-                              <span class="art-date">jan 2018 - tonight</span>
-                            </div>
-                          </div>
-                          <p>Dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
-                          <a data-fancybox="recommendation" href="#art-recomendation-popup-3"
-                            class="art-link art-color-link art-w-chevron">Recommendation</a>
-                        </div>
-
-                        <!-- popup -->
-                        <div class="art-recomendation-popup" style="display: none;" id="art-recomendation-popup-3">
-
-                          <!-- testimonial -->
-                          <div class="art-a art-testimonial">
-                            <!-- testimonial body -->
-                            <div class="testimonial-body">
-                              <!-- photo -->
-                              <img class="art-testimonial-face" src="assets/img/testimonials/face-2.jpg" alt="face">
-                              <!-- name -->
-                              <h5>Paul Trueman</h5>
-                              <div class="art-el-suptitle mb-15">Template author</div>
-                              <!-- text -->
-                              <div class="mb-15">Working with Artur has been a pleasure. Better yet - I alerted them of
-                                a minor issue before going to sleep. The issue was fixed the next morning. I couldn't
-                                ask for better support. Thank you Artur!
-                                This is easily a 5 star freelancer.</div>
-                            </div>
-                            <!-- testimonial body end -->
-                            <!-- testimonial footer -->
-                            <div class="art-testimonial-footer">
-                              <div class="art-left-side">
-                                <!-- star rate -->
-                                <ul class="art-star-rate">
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li><i class="fas fa-star"></i></li>
-                                  <li class="art-empty-item"><i class="fas fa-star"></i></li>
-                                </ul>
-                                <!-- star rate end -->
-                              </div>
-                              <div class="art-right-side">
-
-                              </div>
-                            </div>
-                            <!-- testimonial footer end -->
-                          </div>
-                          <!-- testimonial end -->
-
-                        </div>
-                        <!-- popup end -->
-
-                      </div>
+                    
 
                     </div>
                     <!-- timeline end -->
@@ -1482,225 +953,9 @@ function itExists($tableName, $conn){
               </div>
               <!-- container end -->
 
-              <!-- container -->
-              <div class="container-fluid">
-
-                <!-- row -->
-                <div class="row">
-
-                  <!-- col -->
-                  <div class="col-lg-12">
-
-                    <!-- section title -->
-                    <div class="art-section-title">
-                      <!-- title frame -->
-                      <div class="art-title-frame">
-                        <!-- title -->
-                        <h4>Newsletter</h4>
-                      </div>
-                      <!-- title frame end -->
-                    </div>
-                    <!-- section title end -->
-
-                  </div>
-                  <!-- col end -->
-
-                  <!-- col -->
-                  <div class="col-lg-12">
-
-                    <!-- slider container -->
-                    <div class="swiper-container art-blog-slider" style="overflow: visible">
-                      <!-- slider wrapper -->
-                      <div class="swiper-wrapper">
-                        <!-- slide -->
-                        <div class="swiper-slide">
-
-                          <!-- blog post card -->
-                          <div class="art-a art-blog-card">
-                            <!-- post cover -->
-                            <a href="#." class="art-port-cover">
-                              <!-- img -->
-                              <img src="assets/img/blog/1.jpg" alt="blog post">
-                            </a>
-                            <!-- post cover end -->
-                            <!-- post description -->
-                            <div class="art-post-description">
-                              <!-- title -->
-                              <a href="#.">
-                                <h5 class="mb-15">Blog post title</h5>
-                              </a>
-                              <!-- text -->
-                              <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet!</div>
-                              <!-- link -->
-                              <a href="#." class="art-link art-color-link art-w-chevron">Read more</a>
-                            </div>
-                            <!-- post description end -->
-                          </div>
-                          <!-- blog post card end -->
-
-                        </div>
-                        <!-- slide end -->
-                        <!-- slide -->
-                        <div class="swiper-slide">
-
-                          <!-- blog post card -->
-                          <div class="art-a art-blog-card">
-                            <!-- post cover -->
-                            <a href="#." class="art-port-cover">
-                              <!-- img -->
-                              <img src="assets/img/blog/2.jpg" alt="blog post">
-                            </a>
-                            <!-- post cover end -->
-                            <!-- post description -->
-                            <div class="art-post-description">
-                              <!-- title -->
-                              <a href="#.">
-                                <h5 class="mb-15">Blog post title</h5>
-                              </a>
-                              <!-- text -->
-                              <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet!</div>
-                              <!-- link -->
-                              <a href="#." class="art-link art-color-link art-w-chevron">Read more</a>
-                            </div>
-                            <!-- post description end -->
-                          </div>
-                          <!-- blog post card end -->
-
-                        </div>
-                        <!-- slide end -->
-                        <!-- slide -->
-                        <div class="swiper-slide">
-
-                          <!-- blog post card -->
-                          <div class="art-a art-blog-card">
-                            <!-- post cover -->
-                            <a href="#." class="art-port-cover">
-                              <!-- img -->
-                              <img src="assets/img/blog/3.jpg" alt="blog post">
-                            </a>
-                            <!-- post cover end -->
-                            <!-- post description -->
-                            <div class="art-post-description">
-                              <!-- title -->
-                              <a href="#.">
-                                <h5 class="mb-15">Blog post title</h5>
-                              </a>
-                              <!-- text -->
-                              <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet!</div>
-                              <!-- link -->
-                              <a href="#." class="art-link art-color-link art-w-chevron">Read more</a>
-                            </div>
-                            <!-- post description end -->
-                          </div>
-                          <!-- blog post card end -->
-
-                        </div>
-                        <!-- slide end -->
-                        <!-- slide -->
-                        <div class="swiper-slide">
-
-                          <!-- blog post card -->
-                          <div class="art-a art-blog-card">
-                            <!-- post cover -->
-                            <a href="#." class="art-port-cover">
-                              <!-- img -->
-                              <img src="assets/img/blog/4.jpg" alt="blog post">
-                            </a>
-                            <!-- post cover end -->
-                            <!-- post description -->
-                            <div class="art-post-description">
-                              <!-- title -->
-                              <a href="#.">
-                                <h5 class="mb-15">Blog post title</h5>
-                              </a>
-                              <!-- text -->
-                              <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet!</div>
-                              <!-- link -->
-                              <a href="#." class="art-link art-color-link art-w-chevron">Read more</a>
-                            </div>
-                            <!-- post description end -->
-                          </div>
-                          <!-- blog post card end -->
-
-                        </div>
-                        <!-- slide end -->
-                        <!-- slide -->
-                        <div class="swiper-slide">
-
-                          <!-- blog post card -->
-                          <div class="art-a art-blog-card">
-                            <!-- post cover -->
-                            <a href="#." class="art-port-cover">
-                              <!-- img -->
-                              <img src="assets/img/blog/5.jpg" alt="blog post">
-                            </a>
-                            <!-- post cover end -->
-                            <!-- post description -->
-                            <div class="art-post-description">
-                              <!-- title -->
-                              <a href="#.">
-                                <h5 class="mb-15">Blog post title</h5>
-                              </a>
-                              <!-- text -->
-                              <div class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet!</div>
-                              <!-- link -->
-                              <a href="#." class="art-link art-color-link art-w-chevron">Read more</a>
-                            </div>
-                            <!-- post description end -->
-                          </div>
-                          <!-- blog post card end -->
-
-                        </div>
-                        <!-- slide end -->
-                      </div>
-                      <!-- slider wrapper end -->
-                    </div>
-                    <!-- slider container end -->
-
-                  </div>
-                  <!-- col end -->
-
-                  <!-- col -->
-                  <div class="col-lg-12">
-
-                    <!-- slider navigation -->
-                    <div class="art-slider-navigation">
-
-                      <!-- left side -->
-                      <div class="art-sn-left">
-
-                        <!-- slider pagination -->
-                        <div class="swiper-pagination"></div>
-
-                      </div>
-                      <!-- left side end -->
-
-                      <!-- right side -->
-                      <div class="art-sn-right">
-
-                        <!-- slider navigation -->
-                        <div class="art-slider-nav-frame">
-                          <!-- prev -->
-                          <div class="art-slider-nav art-blog-swiper-prev"><i class="fas fa-chevron-left"></i></div>
-                          <!-- next -->
-                          <div class="art-slider-nav art-blog-swiper-next"><i class="fas fa-chevron-right"></i></div>
-                        </div>
-                        <!-- slider navigation -->
-
-                      </div>
-                      <!-- right side end -->
-
-                    </div>
-                    <!-- slider navigation end -->
-
-                  </div>
-                  <!-- col end -->
-
-                </div>
-                <!-- row end -->
-
-              </div>
-              <!-- container end -->
+              <!-- (Blog Post) container -->
+           
+              <!-- (Blog Post) container end -->
 
               <!-- container -->
               <div class="container-fluid">
@@ -1846,7 +1101,7 @@ function itExists($tableName, $conn){
                           <label for="customer_email"><i class="fas fa-at"></i></label>
                         </div>
                         <div class="art-form-field">
-                          <input id="customer_no" name="customer_no" class="art-input" type="number" 
+                          <input id="customer_no" name="customer_no" class="art-input" type="number"
                             placeholder="Number">
                           <label for="customer_no"><i class="fas fa-user"></i></label>
                         </div>
@@ -1928,7 +1183,8 @@ function itExists($tableName, $conn){
                 <!-- footer -->
                 <footer>
                   <!-- copyright -->
-                  <div>© 2020 Artur Carter</div>
+                  <div>© <?php echo date('Y') . ' ' . $user_global['first_name'] . ' ' . $user_global['last_name']; ?>
+                  </div>
                   <!-- author ( Please! Do not delete it. You are awesome! :) -->
                   <div>Template author:&#160; <a href="https://themeforest.net/user/millerdigitaldesign"
                       target="_blank">Nazar Miller</a></div>

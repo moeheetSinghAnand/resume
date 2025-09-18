@@ -23,9 +23,14 @@ function submitContactForm() {
                 alert("Message sent already");
             }
             else {
-                alert("Failed to sent");
+                alert("Failed to sent: " + response.failed);
             }
         },
+       error: function (xhr, status, error) {
+            console.log("AJAX failed:", status, error);
+            console.log("Response text:", xhr.responseText);
+            alert("AJAX failed: " + error);
+        }
     }); 
 }
 

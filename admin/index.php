@@ -231,8 +231,8 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script> -->
 
     <!-- App js-->
-    <!-- <script src="assets/js/app.js"></script>
-    <script src="assets/js/custom.js"></script>  -->
+    <!-- <script src="assets/js/app.js"></script> -->
+    <script src="assets/js/custom.js"></script> 
     <?php include 'footer.php'; ?>
 
 </body>

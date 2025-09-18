@@ -1,12 +1,16 @@
 <?php
     require_once('admin/dbconfig.php');
-    if(!empty(isset($_POST['name']))){
+    require_once('assets/mail/PHPMailer.php');
+    require_once('assets/mail/SMTP.php');
+
+  
+    if(isset($_POST['name'])){
         $id = $_POST['id'];
         $name = $_POST['name'];
         $email = $_POST['email'];
         $message = $_POST['message'];
         $number = $_POST['number'];
-        $check = "SELECT * FROM `user_contacts` WHERE `name` ='$name' AND `email` = '$email' AND `number` = '$number' ";
+        $check = "SELECT * FROM `user_contacts` WHERE `name` ='$name' AND `email` = '$email' AND `phone_no` = '$number' ";
         if(mysqli_num_rows(mysqli_query($conn, $check)) > 0){
             echo json_encode(['existsAlready' => true]);
             exit;
