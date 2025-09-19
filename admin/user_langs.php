@@ -73,11 +73,10 @@ $id = 1;
                             </td>
                           </tr> -->
                           <?php
-                          $select = "SELECT * FROM `language_types`";
-                          $result = mysqli_query($conn, $select);
-                          if ($result && $result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-
+                            $select = "SELECT * FROM `language_types`";
+                            $result = mysqli_query($conn, $select);
+                            if ($result && $result->num_rows > 0) {
+                              while ($row = $result->fetch_assoc()) {
                               ?>
                               <tr>
                                 <th scope="row"><?php echo $id; ?></th>

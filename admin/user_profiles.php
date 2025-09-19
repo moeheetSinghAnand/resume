@@ -1,7 +1,20 @@
-<?php require_once 'header.php';
+<?php 
+require_once 'header.php';
 require_once 'dbconfig.php';
-$id = 1;
 
+    $check_prof = "SELECT 1 FROM `user_profiles`  WHERE `user_id` = ".$_SESSION['user_id']." ";
+    $result_prof = mysqli_query($conn,$check_prof);
+    $user_profile;
+
+    if($result_prof){
+        $select_profile = "SELECT `residence` ,`city`, `state`, `experience`, `projects_completed`, `customer_count`, `award_count` FROM `user_profiles` WHERE 
+        `user_id` = ".$_SESSION['user_id']."  ";
+        $result_prof = mysqli_query($conn, $select_profile);
+        $user_profile = mysqli_fetch_assoc($result_prof);   
+    }
+    else{   
+        echo "<script>alert('User hasn't created a profile');</script>";
+    }
 ?>
 
 <body data-menu-color="light" data-sidebar="default">
@@ -93,23 +106,23 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="residence" class="form-label">Residence</label>
                                         <input type="text" class="form-control" id="residence" name="residence"
-                                            placeholder="">
+                                            placeholder="" value="<?php echo $user_profile['residence'];  ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="street" class="form-label">Street</label>
                                         <input type="text" class="form-control" id="street" name="street"
-                                            placeholder="<?= $_SESSION['street'] ?>">
+                                            value="<?= $_SESSION['street'] ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="city" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="city" name="city" value="">
+                                        <input type="text" class="form-control" id="city" name="city" value="<?= $user_profile['city']; ?>">
                                     </div>
 
                                     <div class="col-4">
                                         <label for="state" class="form-label">State</label>
-                                        <input type="text" class="form-control" id="state" name="state" placeholder="">
+                                        <input type="text" class="form-control" id="state" name="state" placeholder="" value="<?= $user_profile['state'] ?>">
                                     </div>
 
                                     <div class="col-4">
@@ -152,21 +165,21 @@ $id = 1;
                                     <div class="col-4">
                                         <label for="experience" class="form-label">Experience</label>
                                         <input type="text" class="form-control" id="experience" name="experience"
-                                            placeholder="Enter Experience">
+                                            placeholder="Enter Experience" value="<?= $user_profile['experience'];?>">
                                     </div>
                                     <div class="col-4">
                                         <label for="projects_completed" class="form-label">Projects Completed</label>
                                         <input type="number" class="form-control" id="projects_completed"
-                                            name="projects_completed" placeholder="Enter Projects Completed">
+                                            name="projects_completed" placeholder="Enter Projects Completed" value="<?=  $user_profile['experience']; ?>">
                                     </div>
                                     <div class="col-4">
                                         <label for="customer_count" class="form-label">Customer Count</label>
                                         <input type="number" class="form-control" id="customer_count"
-                                            name="customer_count" placeholder="Enter Customer Count">
+                                            name="customer_count" placeholder="Enter Customer Count" value="<?= $user_profile['customer_count']; ?>">
                                     </div>
                                     <div class="col-4">
                                         <label for="award_count" class="form-label">Award Count</label>
-                                        <input type="number" class="form-control" id="award_count" name="award_count"
+                                        <input type="number" class="form-control" id="award_count" name="award_count" value="<?= $user_profile['award_count']; ?>"
                                             placeholder="Enter Award Count">
                                     </div>
 

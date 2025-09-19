@@ -73,6 +73,7 @@
                                                     <td><?= $row['phone_no'] ?></td>
                                                     <td><?= $row['message'] ?></td>
                                             </tr> <?php
+                                            $id++;
                                             }
                                         }
                                         ?> </tbody>

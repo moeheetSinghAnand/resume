@@ -1,14 +1,41 @@
-/* Stand AlOne */
-const selectedCategory = document.getElementById('project-category'); //  category dropdown (this might 9defineityl will cause) errors)
-const customCategory = document.getElementById('custom-category'); //text-box to insert category
+//
+//                       _oo0oo_
+//                      o8888888o
+//                      88" . "88
+//                      (| -_- |)
+//                      0\  =  /0
+//                    ___/`---'\___
+//                  .' \\|     |// '.
+//                 / \\|||  :  |||// \
+//                / _||||| -:- |||||- \
+//               |   | \\\  -  /// |   |
+//               | \_|  ''\---/''  |_/ |
+//               \  .-\__  '-'  ___/-. /
+//             ___'. .'  /--.--\  `. .'___
+//          ."" '<  `.___\_<|>_/___.' >' "".
+//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+//         \  \ `_.   \_ __\ /__ _/   .-` /  /
+//     =====`-.____`.___ \_____/___.-`___.-'=====
+//                       `=---='
+//
+//
+//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//      Buddha Protect  from bugs
+//               
+//
 
-function insertCustomCategory() {
-    if (selectedCategory.value == 'Other') {
-        customCategory.style.display = 'inline-block' // will break alignment
-        customCategory.required = true;
-    }
-}
-selectedCategory.addEventListener('change', insertCustomCategory); // Attach the function to the dropdown
+
+/* Stand AlOne */
+//var selectedCategory = document.getElementById('project-category'); //  category dropdown (this might 9defineityl will cause) errors)
+//var customCategory = document.getElementById('custom-category'); //text-box to insert category
+
+// function insertCustomCategory() {
+//     if (selectedCategory.value == 'Other') {
+//         customCategory.style.display = 'inline-block';             // will break alignment
+//         customCategory.required = true;
+//     }
+// }
+//selectedCategory.addEventListener('change', insertCustomCategory); // Attach the function to the dropdown
 /* Extremely dangerous code */
 
 
@@ -197,7 +224,6 @@ $(document).on('submit', '#addonForm', function (e) {
 
 $(document).on('submit', '#serviceForm', function (e) {
     e.preventDefault();
-
     let name = $('#serviceName').val();
 
     if (name !== "") {
@@ -280,7 +306,8 @@ function myLogout() {
 }
 
 $(document).ready(function () {
-    $('#datatable').DataTable();
+    console.log("check");
+    if ($('#datatable').DataTable()) console.log("checkagain");
 
     // $('datatable1').DataTable();
     // $('#contact-table1').DataTable();
@@ -350,112 +377,113 @@ $(document).ready(function () {
     //     });
 
 
-    $(document).on('submit', '#qualificationForm', function (e) {
-        e.preventDefault();
 
-        let name = $('#qualificationName').val();
 
-        if (name !== "") {
-            $.ajax({
-                url: "crud/master/qualification_types.php",
-                type: "POST",
-                dataType: "json",
-                data: { name: name },
-                success: function (response) {
-                    if (response.status === "success") {
-                        alert("Qualification added!");
-                        location.reload();
-                        // $('#categoryModal').modal('hide'); 
-                        // $('#categoryModal')[0].reset();
-                    }
-                    else {
-                        alert("Error: " + response.error);
-                    }
-                }
-            });
-        }
-    });
-
-    $(document).on('submit', '#editqualificationModal', function (e) {
-        e.preventDefault();
-
-        let name = $('#editQualificationName')
-
-        if (name !== "") {
-            $.ajax({
-                url: "crud/master/qualification_types.php",
-                type: "POST",
-                dataType: "json",
-                data: { name: name },
-                success: function (response) {
-                    if (response.status === "success") {
-                        //alert("Qualification edited!");
-                        //  <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        //                     A simple primary alert—check it out!
-                        //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">  
-                        //                     </button>
-                        //                 </div>
-                        location.reload();
-                    }
-                    else {
-                        alert("Error: " + response.error);
-                    }
-                }
-            })
-        }
-    });
 
     // registration 
-    $(document).on('submit', '#user-registration', function (e) {
-        e.preventDefault();
 
-        let first_name = $('#firstname').val();
-        let last_name = $('#lastname').val();
-        let email = $('#email').val();
-        let password = $('#password').val();
-        let confirmation = $('#confirm-password').val();
+});
 
-        /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        }*/
+$(document).on('submit', '#user-registration', function (e) {
+    e.preventDefault();
 
-        if (password.length < 8 || password.length > 32) {
-            alert("Password must be between 8 and 32 characters.");
-        }
+    let first_name = $('#firstname').val();
+    let last_name = $('#lastname').val();
+    let email = $('#email').val();
+    let password = $('#password').val();
+    let confirmation = $('#confirm-password').val();
 
-        else if (first_name === "" || last_name === "" || email === "" || password === "" || confirmation === "") {
-            alert("Please Fill in all the fields");
-        }
+    if (password.length < 8 || password.length > 32) {
+        alert("Password must be between 8 and 32 characters.");
+    }
 
-        else if (password != confirmation) {
-            alert("Passwords do not match");
-        }
+    else if (first_name === "" || last_name === "" || email === "" || password === "" || confirmation === "") {
+        alert("Please Fill in all the fields");
+    }
 
-        else {
-            $.ajax({
-                type: 'POST',
-                url: 'crud/auth/registration.php',
-                dataType: "json",
-                data: {
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    password: password
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response.status == 'success') {
-                        alert("Registration successful");
-                        document.getElementById('user-registration').reset();
-                    }
-                    else {
-                        alert("Error: " + response.error);
-                    }
-                },
+    else if (password != confirmation) {
+        alert("Passwords do not match");
+    }
 
-            });
-        }
-    });
+    else {
+        $.ajax({
+            type: 'POST',
+            url: 'crud/auth/registration.php',
+            dataType: "json",
+            data: {
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                password: password
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.status == 'success') {
+                    alert("Registration successful");
+                    document.getElementById('user-registration').reset();
+                }
+                else {
+                    alert("Error: " + response.error);
+                }
+            },
 
+        });
+    }
+});
+
+
+$(document).on('submit', '#qualificationForm', function (e) {
+    e.preventDefault();
+
+    let name = $('#qualificationName').val();
+
+    if (name !== "") {
+        $.ajax({
+            url: "crud/master/qualification_types.php",
+            type: "POST",
+            dataType: "json",
+            data: { name: name },
+            success: function (response) {
+                if (response.status === "success") {
+                    alert("Qualification added!");
+                    location.reload();
+                    // $('#categoryModal').modal('hide'); 
+                    // $('#categoryModal')[0].reset();
+                }
+                else {
+                    alert("Error: " + response.error);
+                }
+            }
+        });
+    }
+});
+
+$(document).on('submit', '#editqualificationModal', function (e) {
+    e.preventDefault();
+    let name = $('#editQualificationName')
+
+    if (name !== "") {
+        $.ajax({
+            url: "crud/master/qualification_types.php",
+            type: "POST",
+            dataType: "json",
+            data: { name: name },
+            success: function (response) {
+                if (response.status === "success") {
+                    //alert("Qualification edited!");
+                    //  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    //                     A simple primary alert—check it out!
+                    //                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">  
+                    //                     </button>
+                    //                 </div>
+                    location.reload();
+                }
+                else {
+                    alert("Error: " + response.error);
+                }
+            }
+        })
+    }
 });
 
 // function deleteButton() {
@@ -786,7 +814,7 @@ $(document).on('submit', '#profile-reg', function (e) {
     e.preventDefault();
     let form = $(this)[0];
     let formData = new FormData(form);
-    if (!$(form).find('input, select, textarea').filter((_, el) => $(el).val()).length) return alert("At least one field should be updated.");
+    if (!$(form).find('input, select, textarea').filter((_, el) => $(el).val()).length) return alert("At least one field should be updated.");  //भगवान जानता है 
     $.ajax({
         url: 'crud/profile/registration.php',
         type: 'POST',

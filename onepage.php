@@ -1,12 +1,17 @@
-<?php //session_start(); 
-require_once('admin/dbconfig.php');
+<?php
+session_start();
 
+require_once('admin/dbconfig.php');
 $user_global;
 if (isset($_GET['token'])) {
   $select = "SELECT * FROM `user_registrations` WHERE `token` = '" . $_GET['token'] . "'";
   $user_global = mysqli_fetch_assoc(mysqli_query($conn, $select));
   // echo $user_global['id'];
   $GLOBALS['id'] = $user_global['id'];
+  $GLOBALS['fname'] = $user_global['first_name'];
+  $GLOBALS['lname'] = $user_global['last_name'];
+  $select = "SELECT `residence`, `city`, `dob` FROM `user_profiles` WHERE `user_id` = "" ";
+
 }
 
 $select_pic = "SELECT `file_name`  FROM `user_profiles` WHERE `user_id` = " . $GLOBALS['id'] . " ";
@@ -25,6 +30,8 @@ function itExists($tableName, $conn)
     return false;
   }
 }
+
+
 ?>
 
 <!doctype html>
@@ -50,7 +57,7 @@ function itExists($tableName, $conn)
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/custom.css">
 
-  <title>Arter onepage</title>
+  <title><?php echo $GLOBALS['fname']; ?> onepage</title>
 </head>
 
 <body>
@@ -110,11 +117,31 @@ function itExists($tableName, $conn)
               ?>
               <!-- name -->
 
-
               <h5 class="art-name mb-10"><?php echo $user_global['first_name'] . ' ' . $user_global['last_name']; ?>
               </h5>
               <!-- post -->
-              <div class="art-sm-text">Front-end Developer <br>Ui/UX Designer, </div>
+              <?php
+              $select_designation_types = "SELECT `designation_id` FROM `user_profiles` WHERE `user_id` = " . $GLOBALS['id'] . " ";
+              $result_designation = mysqli_query($conn, $select_designation_types);
+
+              if (mysqli_num_rows($result_designation) > 0) {
+                $row_designation = mysqli_fetch_assoc($result_designation);
+                $designations = explode(',', str_replace("'", "", $row_designation['designation_id']));
+                //$desg_arr = [];
+
+                for ($i = 0; $i < count($designations); $i++) {
+                  $select_designation_name = "SELECT `name` FROM `designation_types` WHERE `id` = " . $designations[$i] . " ";
+                  $row_desgn_name = mysqli_fetch_assoc(mysqli_query($conn, $select_designation_name));
+
+                  //array_push($desg_arr, $row_desgn_name['name']);
+              
+              ?>
+              <div class="art-sm-text"><?php echo $row_desgn_name['name'].' ,'.'<br>'; ?></div>
+              <!-- <div class="art-sm-text">Front-end Developer <br>Ui/UX Designer, </div> -->
+            <?php
+                }
+              }
+            ?>
             </div>
             <!-- info bar header end -->
 
@@ -127,15 +154,15 @@ function itExists($tableName, $conn)
                 <ul>
                   <!-- country -->
                   <li>
-                    <h6>Residence:</h6><span>Canada</span>
+                    <h6>Residence:</h6><span><?php echo $user_profile['residence'] ?></span>
                   </li>
                   <!-- city -->
                   <li>
-                    <h6>City:</h6><span>Toronto</span>
+                    <h6>City:</h6><span><?php echo $user_profile['city']; ?></span>
                   </li>
                   <!-- age -->
                   <li>
-                    <h6>Age:</h6><span>26</span>
+                    <h6>Age:</h6><span><?php echo $user_profile['dob']; ?></span>
                   </li>
                 </ul>
               </div>
@@ -158,7 +185,6 @@ function itExists($tableName, $conn)
                   while ($row_lang = mysqli_fetch_assoc($result_lang)) {
                     $select_lang_name = "SELECT `name` FROM `language_types` WHERE `id` = '" . $row_lang['language_id'] . "'";
                     $row_lang_name = mysqli_fetch_assoc(mysqli_query($conn, query: $select_lang_name));
-
                     ?>
 
                     <div class="art-lang-skills-item">
@@ -169,7 +195,7 @@ function itExists($tableName, $conn)
                     <?php
                   }
                 }
-  
+
 
                 ?>
 
@@ -251,15 +277,26 @@ function itExists($tableName, $conn)
               <div class="art-ls-divider"></div>
 
               <!-- knowledge list -->
+             
               <ul class="art-knowledge-list p-15-0">
                 <!-- list item -->
-                <li>Bootstrap, Materialize</li>
-                <!-- list item -->
-                <li>Stylus, Sass, Less</li>
-                <!-- list item -->
-                <li>Gulp, Webpack, Grunt</li>
-                <!-- list item -->
-                <li>GIT knowledge</li>
+                 <?php
+                  $select_sk = "SELECT 1 FROM `user_skills_to_show` WHERE `user_id` = ".$GLOBALS['id']." ";
+                  $result_sk = mysqli_query($conn, $select_sk);
+                  if(mysqli_num_rows($result_sk) > 0){
+                    $select_skills = "SELECT  `skill_list_id` FROM `user_skills_to_show` WHERE `user_id` = ".$GLOBALS['id']." ";
+                    $result_skills = mysqli_query($conn, $select_skills);
+
+                    while($row_skills = mysqli_fetch_assoc($result_skills)){
+                      $select_skill_type = "SELECT `name` FROM  `extra_skill_types` WHERE `id` = ".$row_skills['skill_list_id']." ";
+                      $row_skill_type = mysqli_fetch_assoc(mysqli_query($conn, $select_skill_type));
+
+                 ?>
+                  <li> <?php echo $row_skill_type['name'];  ?></li>
+              <?php
+                    }
+                  }
+              ?>
               </ul>
               <!-- knowledge list end -->
 
@@ -279,20 +316,23 @@ function itExists($tableName, $conn)
             <!-- scroll frame end -->
 
             <!-- sidebar social -->
-            <!-- <div class="art-ls-social"> -->
+            <div class="art-ls-social">
               <?php
-                // $select_icon = "SELECT * FROM `user_social_icons` WHERE `user_id` = ".$GLOBALS['id']." ";
-                // $result_icon = mysqli_query($conn, $select_icon);
-                // if (mysqli_num_rows($result_icon) > 0) {
-                //   while ($row_icon = mysqli_fetch_assoc($result_icon)) {
-              ?>
-                  <!-- <a href="#." target="_blank"><img
-                      src="<?php //echo "admin/assets/images/sm_icons/" . $row_icon['filename']; ?>" alt="nothing"></a> -->
+              $select_icon = "SELECT * FROM `user_social_icons` WHERE `user_id` = " . $GLOBALS['id'] . " ";
+              $result_icon = mysqli_query($conn, $select_icon);
+              if (mysqli_num_rows($result_icon) > 0) {
+                //echo $GLOBALS['id'];
+                while ($row_icon = mysqli_fetch_assoc($result_icon)) {
+                  ?>
+                  <a href="<?php echo $row_icon['url']; ?>" target="_blank">
+                    <img src="<?php echo "admin/assets/images/sm_icons/" . $row_icon['filename']; ?>" alt="nothing"
+                      width="15" height="15">
+                  </a>
                   <?php
-              //   }
-              // }
+                }
+              }
               ?>
-            <!-- </div> -->
+            </div>
             <!-- sidebar social end -->
 
           </div>
@@ -329,17 +369,17 @@ function itExists($tableName, $conn)
                   <!-- col -->
                   <div class="col-lg-12">
                     <?php
-                      $select_prof = "SELECT * FROM `user_profiles` WHERE `user_id` = " . $user_global['id'] . " ";
-                      $result = mysqli_query($conn, $select_prof);
-                      $user_profile = mysqli_fetch_assoc($result);
-                      $user_services = [];
-                      $check_service = "SELECT `name` FROM `user_services` WHERE `user_id` =  " . $user_global['id'] . " ";
-                      $result_service = mysqli_query($conn, $check_service);
-                      if (mysqli_num_rows($result_service) > 0) {
-                        while ($row_service = mysqli_fetch_assoc($result_service)) {
-                          array_push($user_services, ($row_service['name']));
-                        }
+                    $select_prof = "SELECT * FROM `user_profiles` WHERE `user_id` = " . $user_global['id'] . " ";
+                    $result = mysqli_query($conn, $select_prof);
+                    $user_profile = mysqli_fetch_assoc($result);
+                    $user_services = [];
+                    $check_service = "SELECT `name` FROM `user_services` WHERE `user_id` =  " . $user_global['id'] . " ";
+                    $result_service = mysqli_query($conn, $check_service);
+                    if (mysqli_num_rows($result_service) > 0) {
+                      while ($row_service = mysqli_fetch_assoc($result_service)) {
+                        array_push($user_services, ($row_service['name']));
                       }
+                    }
                     // $row = $result->fetch_assoc();
                     // echo $row['experience'];
                     // echo $row['projects_completed'];
@@ -501,54 +541,56 @@ function itExists($tableName, $conn)
                   <!-- col end -->
 
                   <?php
-                        if (itExists('user_services', $conn)){
-                          $select_service = "SELECT `name`, `description` FROM `user_services` WHERE `user_id` = ".$GLOBALS['id']." ";
-                          $result_service =  mysqli_query($conn, $select_service);
+                  if (itExists('user_services', $conn)) {
+                    $select_service = "SELECT `name`, `description` FROM `user_services` WHERE `user_id` = " . $GLOBALS['id'] . " ";
+                    $result_service = mysqli_query($conn, $select_service);
 
-                          while($row_user_service = mysqli_fetch_assoc($result_service)){ 
-                          
-                  ?>
+                    while ($row_user_service = mysqli_fetch_assoc($result_service)) {
+                        
+
+                   ?>
 
 
-                  <!-- col -->
-                  <div class="col-lg-4 col-md-6">
+                      <!-- col -->
+                      <div class="col-lg-4 col-md-6">
 
-                    <!-- service -->
-                    <div class="art-a art-service-icon-box">
-                      <!-- service content -->
-                      <div class="art-service-ib-content">
-                        <!-- title -->
-                        <h5 class="mb-15"><?php echo  $row_user_service['name']; ?></h5>
-                        <!-- text -->
-                        <div class="mb-15"><?php echo $row_user_service['description']; ?></div>
-                        <!-- button -->
-                        <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
-                            now</a></div>
+                        <!-- service -->
+                        <div class="art-a art-service-icon-box">
+                          <!-- service content -->
+                          <div class="art-service-ib-content">
+                            <!-- title -->
+                            <h5 class="mb-15"><?php echo $row_user_service['name']; ?></h5>
+                            <!-- text -->
+                            <div class="mb-15"><?php echo $row_user_service['description']; ?></div>
+                            <!-- button -->
+                            <div class="art-buttons-frame"><a href="#." class="art-link art-color-link art-w-chevron">Order
+                                now</a></div>
+                          </div>
+                          <!-- service content end -->
+                        </div>
+                        <!-- service end -->
+
                       </div>
-                      <!-- service content end -->
-                    </div>
-                    <!-- service end -->
-
-                  </div>
-                <?php
-                          }}
-                ?>
+                      <?php
+                    }
+                  }
+                  ?>
                   <!-- col end -->
 
                   <!-- col -->
-                 
+
                   <!-- col end -->
 
                   <!-- col -->
-             
+
                   <!-- col end -->
 
                   <!-- col -->
-          
+
                   <!-- col end -->
 
                   <!-- col -->
-      
+
 
                 </div>
                 <!-- row end -->
@@ -695,17 +737,11 @@ function itExists($tableName, $conn)
                         <h4>Recommendations</h4>
                       </div>
                     </div>
-
                   </div> -->
                   <!-- col end -->
-
                   <!--  Review col -->
-
-
                   <!-- Review col end -->
-
                   <!-- col -->
-               
                   <!-- col end -->
 
                 </div>
@@ -736,7 +772,7 @@ function itExists($tableName, $conn)
                         <div class="art-filter"> <!-- Categories -->
                           <!-- <a href="#" data-filter="*" class="art-link art-current">All Categories</a> -->
                           <?php
-                          $check = "SELECT * FROM `user_projects` WHERE `user_id` = 62 ";
+                          $check = "SELECT * FROM `user_projects` WHERE `user_id` = ".$GLOBALS['id']." ";
                           $result = mysqli_query($conn, $check);
                           if (mysqli_num_rows($result) > 0) {
                             while ($row1 = mysqli_fetch_assoc($result)) {
@@ -847,7 +883,7 @@ function itExists($tableName, $conn)
                           // echo $row2['description'];
                           // echo $row2['certification'];
                     
-                        ?>
+                          ?>
 
                           <!-- Education timeline -->
                           <div class="art-timeline art-gallery" id="history">
@@ -882,7 +918,7 @@ function itExists($tableName, $conn)
 
                     ?>
 
-             
+
 
                     </div>
                     <!-- timeline end -->
@@ -900,46 +936,49 @@ function itExists($tableName, $conn)
                       <!-- title frame end -->
                     </div>
                     <!-- section title end -->
-                     <?php
-                        if (itExists('user_qualification_details', $conn)){
-                          //$select_work = "SELECT `us` FROM `user_qualification_details` WHERE `user_id` = ".$GLOBALS['id']."";
-                          $select_work = "SELECT `qualification_id`, `type`, `start_date`, `end_date`, `description`, `certification`
+                    <?php
+                    if (itExists('user_qualification_details', $conn)) {
+                      //$select_work = "SELECT `us` FROM `user_qualification_details` WHERE `user_id` = ".$GLOBALS['id']."";
+                      $select_work = "SELECT `qualification_id`, `type`, `start_date`, `end_date`, `description`, `certification`
                           FROM `user_qualification_details` 
-                          WHERE `user_id` = ".$GLOBALS['id']."";
-                          $result_work = mysqli_query($conn, $select_work);
+                          WHERE `user_id` = " . $GLOBALS['id'] . "";
+                      $result_work = mysqli_query($conn, $select_work);
 
-                          while($row_work = mysqli_fetch_assoc($result_work)){
-                              if($row_work['type'] == 'job'){
-                                $select_qual_name = "SELECT `name` FROM `qualification_types` WHERE `id` = ".$row_work['qualification_id']." ";
-                                $row_qual_name = mysqli_fetch_assoc(mysqli_query($conn,$select_qual_name));
-                      ?>
+                      while ($row_work = mysqli_fetch_assoc($result_work)) {
+                        if ($row_work['type'] == 'job') {
+                          $select_qual_name = "SELECT `name` FROM `qualification_types` WHERE `id` = " . $row_work['qualification_id'] . " ";
+                          $row_qual_name = mysqli_fetch_assoc(mysqli_query($conn, $select_qual_name));
+                          ?>
 
-                    <!-- timeline -->
-                    <div class="art-timeline">
+                          <!-- timeline -->
+                          <div class="art-timeline">
 
-                      <div class="art-timeline-item">
-                        <div class="art-timeline-mark-light"></div>
-                        <div class="art-timeline-mark"></div>
+                            <div class="art-timeline-item">
+                              <div class="art-timeline-mark-light"></div>
+                              <div class="art-timeline-mark"></div>
 
 
-                        <div class="art-a art-timeline-content">
-                          <div class="art-card-header">
-                            <div class="art-left-side">
-                              <h5><?php echo $row_qual_name['name'];  ?></h5>
-                              <div class="art-el-suptitle mb-15"><?php echo $user_global['first_name'] .' ', $user_global['last_name'];  ?></div>
+                              <div class="art-a art-timeline-content">
+                                <div class="art-card-header">
+                                  <div class="art-left-side">
+                                    <h5><?php echo $row_qual_name['name']; ?></h5>
+                                    <div class="art-el-suptitle mb-15">
+                                      <?php echo $user_global['first_name'] . ' ', $user_global['last_name']; ?>
+                                    </div>
+                                  </div>
+                                  <div class="art-right-side">
+                                    <span
+                                      class="art-date"><?php echo $row_work['start_date'] . ' ' . $row_work['end_date']; ?></span>
+                                  </div>
+                                </div>
+                                <p><?php echo $row_work['description']; ?></p>
+                              </div>
                             </div>
-                            <div class="art-right-side">
-                              <span class="art-date"><?php echo $row_work['start_date']. ' ' . $row_work['end_date'];    ?></span>
-                            </div>
-                          </div>
-                          <p><?php echo $row_work['description']; ?></p>
-                        </div>
-                      </div>
-                      <?php 
-                          }}}
-                      ?>
-
-                    
+                            <?php
+                        }
+                      }
+                    }
+                    ?>
 
                     </div>
                     <!-- timeline end -->
@@ -954,7 +993,7 @@ function itExists($tableName, $conn)
               <!-- container end -->
 
               <!-- (Blog Post) container -->
-           
+
               <!-- (Blog Post) container end -->
 
               <!-- container -->

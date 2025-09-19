@@ -10,8 +10,8 @@
     $result = mysqli_query($conn,$select);
     if($result && mysqli_num_rows($result) > 0){
         $row = mysqli_fetch_assoc($result); 
-        $_SESSION['user_id']    = $row['id'];
-         $_SESSION['first_name']  = $row['first_name'];
+        $_SESSION['user_id']  = $row['id'];
+          $_SESSION['first_name']  = $row['first_name'];
          $_SESSION['last_name']   = $row['last_name'];
         $_SESSION['email']       = $row['email'];
         $_SESSION['country']     = $row['country'];
